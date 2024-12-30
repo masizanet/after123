@@ -13,7 +13,7 @@ export default async function Home() {
 
   return (
     <main className={styles.main}>
-      <h1>12.3 내란 관련 주요 법안</h1>
+      <h1>12.3 내란 관련 주요 의안</h1>
       <BillList bills={sortedBills} />
     </main>
   );
