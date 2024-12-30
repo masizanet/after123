@@ -1,25 +1,20 @@
+// src/app/bills/[id]/page.tsx
 import { fetchBillDetail, fetchVoteResult, fetchTrackedBills } from '@/lib/api/bills';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
-import { Suspense } from 'react';
-import { BillDetailContent } from './BillDetail';
+import { BillDetail as BillDetailComponent } from './BillDetail';
+import { IMPORTANT_BILL_IDS, TRACKED_BILL_NUMBERS } from '@/constants/bills';
 import type { BillDetail, VoteResult } from '@/types/bill';
 
-type Params = {
-  id: string;
-};
-
-type SearchParams = { [key: string]: string | string[] | undefined };
-
 interface PageProps {
-  params: Promise<Params>;
-  searchParams: Promise<SearchParams>;
+  params: Promise<{
+    id: string;
+  }>;
 }
 
 export async function generateMetadata(props: PageProps): Promise<Metadata> {
   const { id } = await props.params;
-  await props.searchParams;
-
+  
   const billDetail = await fetchBillDetail(id);
   
   if (!billDetail) {
@@ -36,34 +31,34 @@ export async function generateMetadata(props: PageProps): Promise<Metadata> {
 
 export default async function BillDetailPage(props: PageProps) {
   const { id } = await props.params;
-  await props.searchParams;
   
-  const [billDetailData, voteResultData] = await Promise.all([
+  const [billDetail, voteResult] = await Promise.all([
     fetchBillDetail(id),
     fetchVoteResult(id)
   ]) as [BillDetail | null, VoteResult | null];
 
-  if (!billDetailData || !voteResultData) {
+  if (!billDetail || !voteResult) {
     notFound();
   }
 
-  // 타입 단언으로 명확하게 타입을 지정
-  const billDetail: BillDetail = billDetailData;
-  const voteResult: VoteResult = voteResultData;
-
   return (
-    <Suspense fallback={<div>로딩중...</div>}>
-      <BillDetailContent billDetail={billDetail} voteResult={voteResult} />
-    </Suspense>
+    <BillDetailComponent 
+      billDetail={billDetail} 
+      voteResult={voteResult}
+      isImportant={IMPORTANT_BILL_IDS.includes(id)}
+    />
   );
 }
 
-export async function generateStaticParams(): Promise<Params[]> {
+export async function generateStaticParams() {
   const { bills } = await fetchTrackedBills();
   const billsWithVote = await Promise.all(
     bills.map(async (bill) => {
-      const hasVote = await fetchVoteResult(bill.BILL_ID);
-      return { id: bill.BILL_ID, hasVote };
+      const voteResult = await fetchVoteResult(bill.BILL_ID);
+      return { 
+        id: bill.BILL_ID, 
+        hasVote: voteResult !== null 
+      };
     })
   );
 

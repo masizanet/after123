@@ -80,3 +80,12 @@ export interface VoteResult {
   BLANK_TCNT: string;    // 기권
   LINK_URL: string;
 }
+
+export interface VoteMember {
+  POLY_NM: string;        // 정당명
+  ORIG_NM: string;        // 의원명
+  VOTE_DT: string;        // 표결일시
+  BILL_NO: string;        // 의안번호
+  BILL_NM: string;        // 의안명
+  PROC_RESULT: string;    // 표결결과 (찬성/반대/기권)
+}

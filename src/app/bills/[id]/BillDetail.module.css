@@ -1,0 +1,113 @@
+/* src/app/bills/[id]/BillDetail.module.css */
+.container {
+    min-height: 100vh;
+    background-color: #f5f5f5;
+    padding: 2rem;
+  }
+  
+  .content {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  .navigation {
+    margin-bottom: 2rem;
+  }
+  
+  .backLink {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #666;
+    text-decoration: none;
+    font-size: 0.925rem;
+  }
+  
+  .backLink:hover {
+    color: #333;
+  }
+  
+  .backIcon {
+    width: 20px;
+    height: 20px;
+  }
+  
+  .card {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+  }
+  
+  .header {
+    padding: 2rem;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .title {
+    font-size: 1.75rem;
+    font-weight: bold;
+    color: #1a1a1a;
+    margin-bottom: 1.5rem;
+  }
+  
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .infoGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .label {
+    font-size: 0.875rem;
+    color: #666;
+  }
+  
+  .value {
+    font-size: 1rem;
+    color: #1a1a1a;
+  }
+  
+  .date {
+    font-size: 0.875rem;
+    color: #666;
+    margin-left: 0.5rem;
+  }
+  
+  .body {
+    padding: 2rem;
+  }
+  
+  .sectionTitle {
+    font-size: 1.25rem;
+    font-weight: bold;
+    color: #1a1a1a;
+    margin-bottom: 1.5rem;
+  }
+  
+  @media (max-width: 768px) {
+    .container {
+      padding: 1rem;
+    }
+  
+    .header {
+      padding: 1.5rem;
+    }
+  
+    .title {
+      font-size: 1.5rem;
+    }
+  
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .body {
+      padding: 1.5rem;
+    }
+  }

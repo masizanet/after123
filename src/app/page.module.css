@@ -14,17 +14,11 @@
   color: #1a1a1a;
 }
 
-.billList {
-  display: grid;
-  gap: 1.5rem;
-}
-
 .billItem {
-  padding: 1.5rem;
+  padding: 24px;
   border: 1px solid #ddd;
   border-radius: 8px;
   background: #ffffff;
-  cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
 }
 
@@ -34,56 +28,93 @@
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.loading {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 200px;
-  font-size: 1.2rem;
-  color: #666;
+.billHeader {
+  margin-bottom: 16px;
 }
 
-.billItem h2 {
-  font-size: 1.25rem;
-  font-weight: bold;
-  margin-bottom: 1rem;
+.billTitle {
+  font-size: 20px;
+  font-weight: 600;
   color: #1a1a1a;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
-/* src/app/page.module.css */
+.billTitle:hover {
+  text-decoration: underline;
+}
+
+.externalIcon {
+  width: 16px;
+  height: 16px;
+  opacity: 0.6;
+}
+
+.detailButton {
+  display: inline-flex;
+  align-items: center;
+  padding: 10px 20px;
+  background: #2563eb;
+  border-radius: 6px;
+  border: none;
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.detailButton:hover {
+  background: #1d4ed8;
+}
+
+.billLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.625rem 1.25rem;
+  background: #2563eb;
+  border-radius: 6px;
+  text-decoration: none;
+  color: #ffffff;
+  font-size: 0.925rem;
+  font-weight: 500;
+  margin-top: 1rem;
+  transition: all 0.2s;
+  border: none;
+  cursor: pointer;
+}
+
+.billLink:hover {
+  background: #1d4ed8;
+  transform: translateY(-1px);
+}
+
+/* 법안 목록 그리드 스타일 */
+.billList {
+  display: grid;
+  gap: 1.5rem;
+}
+
+/* 법안 정보 스타일 */
 .billInfo {
   display: grid;
   grid-template-columns: 100px 1fr;
   gap: 0.75rem;
-  margin-bottom: 1.5rem;
-  align-items: baseline;
+  margin-bottom: 1rem;
 }
 
 .billInfo dt {
-  color: #1a1a1a;
+  color: #666;
   font-size: 0.875rem;
-  font-weight: 500;
 }
 
 .billInfo dd {
+  color: #1a1a1a;
   font-size: 0.875rem;
-  color: #333333;
-  margin: 0; /* dd의 기본 마진 제거 */
-}
-
-.billLink {
-  display: inline-block;
-  padding: 0.5rem 1rem;
-  background: #2c5282;  /* 진한 파란색 */
-  border-radius: 4px;
-  text-decoration: none;
-  color: #ffffff;
-  font-size: 0.875rem;
-  transition: background-color 0.2s;
-}
-
-.billLink:hover {
-  background: #1a365d;
+  margin: 0;
 }
 
 /* 처리결과에 따른 상태 표시 */
