@@ -1,19 +1,9 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { BillDetail, VoteResult  } from '@/types/bill';
-import { serverCache, fetchBillDetail, fetchVoteResult } from '@/lib/api/bills';
+import { BillDetail, VoteResult } from '@/types/bill';
+import { fetchBillDetail, fetchVoteResult } from '@/lib/api/bills';
 import styles from './BillDetailModal.module.css';
-
-export function clearBillDetailCache(billId?: string) {
-  if (billId) {
-    serverCache.delete(`bill_detail_${billId}`);
-    serverCache.delete(`vote_result_${billId}`);
-  } else {
-    // 모든 법안 관련 캐시 초기화
-    serverCache.clear();
-  }
-}
 
 interface BillDetailModalProps {
   billId: string;
@@ -52,12 +42,8 @@ export function BillDetailModal({ billId, onClose }: BillDetailModalProps) {
           setBillDetail(detail);
         }
   
-        // 투표 결과 안전하게 설정
-        if (vote && typeof vote === 'object' && 'BILL_ID' in vote) {
-          const voteResult = vote as VoteResult;
-          setVoteResult(voteResult);
-        } else {
-          setVoteResult(null);
+        if (vote) {
+          setVoteResult(vote);
         }
       } catch (error) {
         console.error('Failed to load data:', error);
@@ -70,7 +56,6 @@ export function BillDetailModal({ billId, onClose }: BillDetailModalProps) {
     loadData();
   }, [billId]);
    
-
   useEffect(() => {
     const handleEsc = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {

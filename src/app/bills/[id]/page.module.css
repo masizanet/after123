@@ -1,0 +1,104 @@
+.container {
+    padding: 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #f5f5f5;
+    min-height: 100vh;
+  }
+  
+  .navigation {
+    margin-bottom: 2rem;
+  }
+  
+  .backLink {
+    display: inline-flex;
+    align-items: center;
+    color: #2c5282;
+    text-decoration: none;
+    font-weight: 500;
+  }
+  
+  .backLink:hover {
+    text-decoration: underline;
+  }
+  
+  .content {
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  }
+  
+  .content h1 {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    color: #1a1a1a;
+  }
+  
+  .billInfo {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    gap: 1rem;
+    margin-bottom: 2rem;
+  }
+  
+  .billInfo dt {
+    color: #1a1a1a;
+    font-weight: 500;
+  }
+  
+  .billInfo dd {
+    margin: 0;
+    color: #333333;
+  }
+  
+  .voteResult {
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    padding: 1.25rem;
+    margin-top: 2rem;
+  }
+  
+  .voteResult h2 {
+    font-size: 1.25rem;
+    color: #1a1a1a;
+    margin-bottom: 1rem;
+  }
+  
+  .voteResultGrid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1rem;
+  }
+  
+  .voteResultItem {
+    background: white;
+    padding: 1rem;
+    border-radius: 6px;
+    text-align: center;
+  }
+  
+  .voteResultItem dt {
+    font-size: 0.875rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+  }
+  
+  .voteResultItem dd {
+    font-size: 1.25rem;
+    font-weight: bold;
+    margin: 0;
+  }
+  
+  .voteYes dd {
+    color: #2c7a2c;
+  }
+  
+  .voteNo dd {
+    color: #c53030;
+  }
+  
+  .voteBlank dd {
+    color: #718096;
+  }
