@@ -1,8 +1,8 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { BillDetail } from '@/types/bill';
-import { fetchBillDetail, fetchVoteResult } from '@/lib/api/bills';
+import { BillDetail, VoteResult  } from '@/types/bill';
+import { serverCache, fetchBillDetail, fetchVoteResult } from '@/lib/api/bills';
 import styles from './BillDetailModal.module.css';
 
 export function clearBillDetailCache(billId?: string) {
@@ -52,8 +52,13 @@ export function BillDetailModal({ billId, onClose }: BillDetailModalProps) {
           setBillDetail(detail);
         }
   
-        // vote 결과가 null이어도 괜찮음
-        setVoteResult(vote);
+        // 투표 결과 안전하게 설정
+        if (vote && typeof vote === 'object' && 'BILL_ID' in vote) {
+          const voteResult = vote as VoteResult;
+          setVoteResult(voteResult);
+        } else {
+          setVoteResult(null);
+        }
       } catch (error) {
         console.error('Failed to load data:', error);
         setError('데이터 로딩 중 오류가 발생했습니다.');
@@ -63,7 +68,8 @@ export function BillDetailModal({ billId, onClose }: BillDetailModalProps) {
     }
   
     loadData();
-  }, [billId]);  
+  }, [billId]);
+   
 
   useEffect(() => {
     const handleEsc = (event: KeyboardEvent) => {

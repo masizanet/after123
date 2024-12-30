@@ -1,5 +1,10 @@
 import { TRACKED_BILL_NUMBERS } from '@/constants/bills';
 
+// TRACKED_BILL_NUMBERS 사용 예시 추가
+export function getTrackedBillCount() {
+  return TRACKED_BILL_NUMBERS.length;
+}
+
 export interface Bill {
     BILL_ID: string;
     BILL_NO: string;
@@ -11,6 +16,7 @@ export interface Bill {
     JRCMIT_NM: string;
     RGS_CONF_RSLT: string | null;
     LINK_URL: string;
+    RGS_RSLN_DT?: string; // 선택적 속성 추가
   }
   
   interface ApiResult {
@@ -61,9 +67,16 @@ export interface BillDetail {
 }
 
 export interface VoteResult {
-  MEMBER_TCNT: string;
-  VOTE_TCNT: string;
-  YES_TCNT: string;
-  NO_TCNT: string;
-  BLANK_TCNT: string;
+  BILL_ID: string;
+  PROC_DT: string;
+  BILL_NO: string;
+  BILL_NAME: string;
+  CURR_COMMITTEE: string;
+  PROC_RESULT_CD: string;
+  MEMBER_TCNT: string;   // 재적의원
+  VOTE_TCNT: string;     // 총투표수
+  YES_TCNT: string;      // 찬성
+  NO_TCNT: string;       // 반대
+  BLANK_TCNT: string;    // 기권
+  LINK_URL: string;
 }

@@ -1,11 +1,12 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { Bill } from '@/types/bill';
 import { fetchTrackedBills } from '@/lib/api/bills';
 import styles from './page.module.css';
 import { BillDetailModal } from '@/components/BillDetailModal';
 
-function formatDate(dateString: string | null) {
+function formatDate(dateString: string | null | undefined) {
   if (!dateString) return '-';
   const date = new Date(dateString);
   return new Intl.DateTimeFormat('ko-KR', {
@@ -23,9 +24,9 @@ function getStatusClass(result: string | null): string {
 }
 
 export default function Home() {
-  const [bills, setBills] = useState([]);
+  const [bills, setBills] = useState<Bill[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedBillId, setSelectedBillId] = useState(null);
+  const [selectedBillId, setSelectedBillId] = useState<string | null>(null);
 
   useEffect(() => {
     document.title = '12.3 내란 관련 주요 법안';
@@ -34,17 +35,25 @@ export default function Home() {
   // 페이지 로드 시 데이터 가져오기
   useEffect(() => {
     async function loadBills() {
+      setLoading(true);
       try {
-        const { bills } = await fetchTrackedBills();
-        // 처리일자 기준 내림차순 정렬
-        const sortedBills = [...bills].sort((a, b) => {
-          const dateA = a.RGS_RSLN_DT ? new Date(a.RGS_RSLN_DT) : new Date(0);
-          const dateB = b.RGS_RSLN_DT ? new Date(b.RGS_RSLN_DT) : new Date(0);
-          return dateB.getTime() - dateA.getTime();
-        });
-        setBills(sortedBills);
+        const { bills: fetchedBills } = await fetchTrackedBills();
+        
+        if (fetchedBills && fetchedBills.length > 0) {
+          // 처리일자 기준 내림차순 정렬
+          const sortedBills = [...fetchedBills].sort((a, b) => {
+            const dateA = new Date(a.PPSL_DT);
+            const dateB = new Date(b.PPSL_DT);
+            return dateB.getTime() - dateA.getTime();
+          });
+    
+          setBills(sortedBills);
+        } else {
+          setBills([]);
+        }
       } catch (error) {
         console.error('Failed to load bills:', error);
+        setBills([]);
       } finally {
         setLoading(false);
       }
@@ -57,11 +66,6 @@ export default function Home() {
     return <div className={styles.loading}>로딩중...</div>;
   }
 
-  // 의안 클릭 핸들러
-  const handleBillClick = (billId) => {
-    setSelectedBillId(billId);
-  };
-
   return (
     <main className={styles.main}>
       <h1>12.3 내란 관련 주요 법안</h1>
@@ -70,7 +74,7 @@ export default function Home() {
           <article 
             key={bill.BILL_ID} 
             className={styles.billItem}
-            onClick={() => handleBillClick(bill.BILL_ID)}
+            onClick={() => setSelectedBillId(bill.BILL_ID)}
           >
             <h2>{bill.BILL_NM}</h2>
             <dl className={styles.billInfo}>

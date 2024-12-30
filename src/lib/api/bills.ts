@@ -1,4 +1,4 @@
-import { BillsResponse, Bill } from '@/types/bill';
+import { BillsResponse, Bill, VoteResult } from '@/types/bill';
 import { TRACKED_BILL_NUMBERS } from '@/constants/bills';
 
 const API_BASE = 'https://open.assembly.go.kr/portal/openapi';
@@ -6,12 +6,12 @@ const BILL_LIST_API = `${API_BASE}/ALLBILL`;
 const BILL_DETAIL_API = `${API_BASE}/BILLINFODETAIL`;
 const VOTE_RESULT_API = `${API_BASE}/ncocpgfiaoituanbr`;
 
-// 서버 측 간단한 메모리 캐시 구현
+// 제네릭 타입 사용
 class ServerMemoryCache {
-  private cache: Map<string, { data: any; timestamp: number }> = new Map();
+  private cache: Map<string, { data: unknown; timestamp: number }> = new Map();
   private CACHE_DURATION = 24 * 60 * 60 * 1000; // 24시간
 
-  set(key: string, data: any) {
+  set<T>(key: string, data: T) {
     this.cache.set(key, {
       data,
       timestamp: Date.now()
@@ -29,11 +29,19 @@ class ServerMemoryCache {
       return null;
     }
 
-    return entry.data;
+    return entry.data as T;
+  }
+
+  delete(key: string) {
+    this.cache.delete(key);
+  }
+
+  clear() {
+    this.cache.clear();
   }
 }
 
-const serverCache = new ServerMemoryCache();
+export const serverCache = new ServerMemoryCache();
 
 // 의안 번호로 조회
 async function fetchBillByNo(billNo: string) {
@@ -68,7 +76,7 @@ async function fetchBillByNo(billNo: string) {
 
 export async function fetchTrackedBills() {
   // 캐시에서 먼저 확인
-  const cachedBills = serverCache.get<ReturnType<typeof fetchTrackedBills>>('tracked_bills');
+  const cachedBills = serverCache.get<{ bills: Bill[]; totalCount: number }>('tracked_bills');
   if (cachedBills) return cachedBills;
 
   try {
@@ -153,22 +161,6 @@ export async function fetchBillDetail(billId: string) {
     console.error(`Failed to fetch detail for bill ${billId}:`, error);
     return null;
   }
-}
-
-
-interface VoteResult {
-  BILL_ID: string;
-  PROC_DT: string;
-  BILL_NO: string;
-  BILL_NAME: string;
-  CURR_COMMITTEE: string;
-  PROC_RESULT_CD: string;
-  MEMBER_TCNT: string;   // 재적의원
-  VOTE_TCNT: string;     // 총투표수
-  YES_TCNT: string;      // 찬성
-  NO_TCNT: string;       // 반대
-  BLANK_TCNT: string;    // 기권
-  LINK_URL: string;
 }
 
 // 표결 결과 조회
