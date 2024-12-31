@@ -13,17 +13,17 @@ const VOTE_MEMBERS_API = `${API_BASE}/nojepdqqaweusdfbi`;
 const BILL_2206205_ID = 'PRC_F2Y4Z1N2G0Y5Q1A4M1O0P4N2I4P3N1';
 const BILL_2206205_NAME = '대통령(윤석열) 탄핵소추안(1차)';
 const BILL_2206205_VOTE_RESULT: VoteResult = {
-  BILL_ID: "2206205",
+  BILL_ID: BILL_2206205_ID,
   PROC_DT: "20241210",
   BILL_NO: "2206205",
   BILL_NAME: BILL_2206205_NAME,
   CURR_COMMITTEE: "",
   PROC_RESULT_CD: "",
-  MEMBER_TCNT: "300",     // 전체 의원수
-  VOTE_TCNT: "195",      // 참석 의원수 (300 - 105)
-  YES_TCNT: "0",         // 찬성
-  NO_TCNT: "0",          // 반대
-  BLANK_TCNT: "195",     // 기권/무효
+  MEMBER_TCNT: "300",            // 전체 의원수
+  VOTE_TCNT: "195",             // 참석한 의원수 (300 - 105)
+  YES_TCNT: "0",                // 찬성
+  NO_TCNT: "0",                 // 반대
+  BLANK_TCNT: "195",            // 무효/기권 (참석은 했으나 투표 불성립)
   LINK_URL: ""
 };
 
