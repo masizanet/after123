@@ -10,8 +10,8 @@ const BILL_DETAIL_API = `${API_BASE}/BILLINFODETAIL`;
 const VOTE_RESULT_API = `${API_BASE}/ncocpgfiaoituanbr`;
 const VOTE_MEMBERS_API = `${API_BASE}/nojepdqqaweusdfbi`;
 
-const BILL_2206205_ID = 'PRC_F2Y4Z1N2G0Y5Q1A4M1O0P4N2I4P3N1';
-const BILL_2206205_NAME = '대통령(윤석열) 탄핵소추안(1차)';
+export const BILL_2206205_ID = 'PRC_F2Y4Z1N2G0Y5Q1A4M1O0P4N2I4P3N1';
+export const BILL_2206205_NAME = '대통령(윤석열) 탄핵소추안(1차)';
 const BILL_2206205_VOTE_RESULT: VoteResult = {
   BILL_ID: BILL_2206205_ID,
   PROC_DT: "20241210",
@@ -129,8 +129,14 @@ export async function fetchBillDetail(billId: string) {
 }
 
 export async function fetchVoteResult(billId: string): Promise<VoteResult | null> {
-  // 2206205 법안의 경우 고정된 결과 반환
-  if (billId === BILL_2206205_ID || billId.includes('2206205')) {
+  // 2206205 법안인지 확인하는 함수
+  const is2206205Bill = (id: string) => 
+    id === BILL_2206205_ID || 
+    id.includes('2206205') || 
+    id === 'PRC_V2Y4M1J2X0P9Y1S8X3P8L2H5K0C5R1';
+
+  // 2206205 법안인 경우 하드코딩된 결과 반환
+  if (is2206205Bill(billId)) {
     return {
       ...BILL_2206205_VOTE_RESULT,
       BILL_ID: billId
@@ -150,29 +156,26 @@ export async function fetchVoteResult(billId: string): Promise<VoteResult | null
     const response = await fetch(`${VOTE_RESULT_API}?${searchParams.toString()}`);
     
     if (!response.ok) {
-      return createEmptyVoteResult(billId);
+      return null;
     }
 
     const data = await response.json();
     
-    if (data?.ncocpgfiaoituanbr?.[0]?.head?.[1]?.RESULT?.CODE === "INFO-200") {
-      return createEmptyVoteResult(billId);
-    }
-
+    // INFO-200이나 다른 에러코드의 경우 null 반환
     if (data?.ncocpgfiaoituanbr?.[0]?.head?.[1]?.RESULT?.CODE !== "INFO-000") {
-      return createEmptyVoteResult(billId);
+      return null;
     }
 
     const result = data.ncocpgfiaoituanbr[1]?.row?.[0];
     if (!result) {
-      return createEmptyVoteResult(billId);
+      return null;
     }
 
     return result as VoteResult;
 
   } catch (error) {
     console.error(`Error fetching vote result for bill ${billId}:`, error);
-    return createEmptyVoteResult(billId);
+    return null;
   }
 }
 
@@ -216,21 +219,4 @@ export async function fetchVoteMembers(billId: string): Promise<VoteMember[]> {
     console.error('Error fetching vote members:', error);
     return [];
   }
-}
-
-function createEmptyVoteResult(billId: string): VoteResult {
-  return {
-    BILL_ID: billId,
-    PROC_DT: "",
-    BILL_NO: "",
-    BILL_NAME: "",
-    CURR_COMMITTEE: "",
-    PROC_RESULT_CD: "",
-    MEMBER_TCNT: "300",
-    VOTE_TCNT: "0",
-    YES_TCNT: "0",
-    NO_TCNT: "0",
-    BLANK_TCNT: "0",
-    LINK_URL: ""
-  };
 }

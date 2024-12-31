@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { Bill } from '@/types/bill';
-import { fetchVoteResult } from '@/lib/api/bills';
+import { fetchVoteResult, BILL_2206205_ID } from '@/lib/api/bills';
 import styles from '@/app/page.module.css';
 
 interface BillListProps {
@@ -38,9 +38,17 @@ export function BillList({ bills }: BillListProps) {
     async function checkVoteResults() {
       const votesChecked = await Promise.all(
         bills.map(async (bill) => {
+          // 2206205 법안 체크
+          if (bill.BILL_ID === BILL_2206205_ID || 
+              bill.BILL_ID.includes('2206205') || 
+              bill.BILL_ID === 'PRC_V2Y4M1J2X0P9Y1S8X3P8L2H5K0C5R1') {
+            return {
+              ...bill,
+              hasVoteResult: true
+            };
+          }
+
           const voteResult = await fetchVoteResult(bill.BILL_ID);
-          // null이 아닌 모든 결과를 유효한 것으로 처리
-          // 정상 표결과 불성립(INFO-200) 모두 표시
           return {
             ...bill,
             hasVoteResult: voteResult !== null
@@ -49,7 +57,7 @@ export function BillList({ bills }: BillListProps) {
       );
       setBillsWithVote(votesChecked);
     }
-  
+
     checkVoteResults();
   }, [bills]);
 
