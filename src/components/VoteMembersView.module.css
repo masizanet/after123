@@ -3,11 +3,16 @@
   margin-top: 1rem;
 }
 
+/* src/components/VoteMembersView.module.css */
 .statsGrid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 1rem;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
+}
+
+.statsRow {
+  display: contents;
 }
 
 .stats {
@@ -15,10 +20,6 @@
   padding: 1.5rem;
   border-radius: 8px;
   border: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.stats.selected {
-  outline: 2px solid #2563eb;
 }
 
 .stats.clickable {
@@ -29,6 +30,29 @@
   background-color: rgba(0, 0, 0, 0.02);
 }
 
+.stats.selected {
+  outline: 2px solid #2563eb;
+}
+
+/* 1행 스타일 */
+.stats.participation {
+  background-color: #eff6ff;
+}
+
+.stats.present {
+  background-color: #f0f9ff;
+}
+
+.stats.absent {
+  background-color: #f8f9fb;
+}
+
+.stats.absent.emphasized {
+  background-color: #fee2e2;
+  border-color: #fecaca;
+}
+
+/* 2행 스타일 */
 .stats.yes {
   background-color: #eefbf3;
 }
@@ -39,14 +63,6 @@
 
 .stats.blank {
   background-color: #f8f9fb;
-}
-
-.stats.absent {
-  background-color: #f8f9fb;
-}
-
-.stats.total {
-  background-color: #eff6ff;
 }
 
 .number {
@@ -65,6 +81,10 @@
   color: #e03131;
 }
 
+.stats.absent.emphasized .number {
+  color: #dc2626;
+}
+
 .label {
   color: #666;
   font-size: 0.925rem;
@@ -73,7 +93,7 @@
 .memberListTitle {
   font-size: 1.25rem;
   font-weight: bold;
-  margin-bottom: 1.5rem;
+  margin: 2rem 0 1.5rem;
   color: #1a1a1a;
 }
 
@@ -82,8 +102,23 @@
   font-weight: 600;
   padding-bottom: 0.75rem;
   border-bottom: 2px solid #ddd;
-  margin: 1rem 0;
+  margin-bottom: 1rem;
   color: #1a1a1a;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.partyCount {
+  font-size: 0.925rem;
+  color: #666;
+}
+
+.memberGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 2rem;
 }
 
 .member {
@@ -95,6 +130,10 @@
   color: #1a1a1a;
 }
 
+.member:hover {
+  background-color: #e9ecef;
+}
+
 .loading {
   text-align: center;
   padding: 2rem;
@@ -103,15 +142,9 @@
 
 @media (max-width: 768px) {
   .statsGrid {
-    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
   }
 
-  .memberGrid {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  }
-}
-
-@media (max-width: 480px) {
   .stats {
     padding: 1rem;
   }
@@ -119,24 +152,8 @@
   .number {
     font-size: 1.5rem;
   }
-}
 
-.stats.absent.emphasized {
-  background-color: #fee2e2;
-  border-color: #fecaca;
-}
-
-.stats.absent.emphasized .number {
-  color: #dc2626;
-}
-
-.stats.absent.emphasized.selected {
-  outline-color: #dc2626;
-}
-
-.memberGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-  gap: 0.75rem;
-  margin-bottom: 2rem;
+  .memberGrid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
 }

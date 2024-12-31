@@ -86,6 +86,28 @@ export default function VoteMembersView({
   return (
     <div className={styles.container}>
       <div className={styles.statsGrid}>
+        {/* 1행: 참여 현황 */}
+        <div className={`${styles.stats} ${styles.participation}`}>
+          <span className={styles.number}>{participationRate}%</span>
+          <span className={styles.label}>참여율</span>
+        </div>
+
+        <div className={`${styles.stats} ${styles.present}`}>
+          <span className={styles.number}>{voteResult.VOTE_TCNT}명</span>
+          <span className={styles.label}>참석</span>
+        </div>
+
+        <div 
+          className={`${styles.stats} ${styles.absent} ${styles.clickable} ${
+            selectedType === 'absent' ? styles.selected : ''
+          } ${emphasizeAbsent ? styles.emphasized : ''}`}
+          onClick={() => loadMembers('absent')}
+        >
+          <span className={styles.number}>{absentCount}명</span>
+          <span className={styles.label}>불참</span>
+        </div>
+
+        {/* 2행: 표결 결과 */}
         <div 
           className={`${styles.stats} ${styles.yes} ${styles.clickable} ${
             selectedType === 'yes' ? styles.selected : ''
@@ -112,30 +134,17 @@ export default function VoteMembersView({
           }`}
           onClick={() => loadMembers('blank')}
         >
-          <span className={styles.number}>{voteResult.BLANK_TCNT}명</span>
-          <span className={styles.label}>기권</span>
-        </div>
-
-        <div 
-          className={`${styles.stats} ${styles.absent} ${styles.clickable} ${
-            selectedType === 'absent' ? styles.selected : ''
-          } ${emphasizeAbsent ? styles.emphasized : ''}`}
-          onClick={() => loadMembers('absent')}
-        >
-          <span className={styles.number}>{absentCount}명</span>
-          <span className={styles.label}>불참</span>
-        </div>
-
-        <div className={`${styles.stats} ${styles.total}`}>
-          <span className={styles.number}>{participationRate}%</span>
-          <span className={styles.label}>참여율</span>
+          <span className={styles.number}>{parseInt(voteResult.BLANK_TCNT)}명</span>
+          <span className={styles.label}>기권/무효</span>
         </div>
       </div>
+
 
       {loading && (
         <div className={styles.loading}>의원 목록을 불러오는 중...</div>
       )}
 
+      {/* 의원 명단 */}
       {members && (
         <>
           <h3 className={styles.memberListTitle}>
@@ -150,7 +159,10 @@ export default function VoteMembersView({
             .sort(([partyA], [partyB]) => partyA.localeCompare(partyB))
             .map(([party, partyMembers]) => (
             <div key={party}>
-              <h4 className={styles.partyName}>{party}</h4>
+              <h4 className={styles.partyName}>
+                <span>{party}</span>
+                <span className={styles.partyCount}>{partyMembers.length}명</span>
+              </h4>
               <div className={styles.memberGrid}>
                 {partyMembers
                   .sort((a, b) => a.name.localeCompare(b.name))
@@ -164,6 +176,7 @@ export default function VoteMembersView({
           ))}
         </>
       )}
+
     </div>
   );
 }

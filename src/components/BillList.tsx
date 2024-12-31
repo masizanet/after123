@@ -39,6 +39,8 @@ export function BillList({ bills }: BillListProps) {
       const votesChecked = await Promise.all(
         bills.map(async (bill) => {
           const voteResult = await fetchVoteResult(bill.BILL_ID);
+          // null이 아닌 모든 결과를 유효한 것으로 처리
+          // 정상 표결과 불성립(INFO-200) 모두 표시
           return {
             ...bill,
             hasVoteResult: voteResult !== null
@@ -47,7 +49,7 @@ export function BillList({ bills }: BillListProps) {
       );
       setBillsWithVote(votesChecked);
     }
-
+  
     checkVoteResults();
   }, [bills]);
 

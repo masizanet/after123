@@ -3,41 +3,19 @@ import { fetchBillDetail, fetchVoteResult, fetchTrackedBills } from '@/lib/api/b
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 import { BillDetail as BillDetailComponent } from './BillDetail';
-import { IMPORTANT_BILL_IDS, TRACKED_BILL_NUMBERS } from '@/constants/bills';
+import { BILL_METADATA } from '@/constants/bills';
 import type { BillDetail, VoteResult } from '@/types/bill';
 
-type PageProps = {
-  params: {
+interface PageProps {
+  params: Promise<{
     id: string;
-  };
-};
-
-export default async function BillDetailPage({
-  params
-}: PageProps) {
-  const { id } = params;
-
-  const [billDetail, voteResult] = await Promise.all([
-    fetchBillDetail(id),
-    fetchVoteResult(id)
-  ]) as [BillDetail | null, VoteResult | null];
-
-  if (!billDetail || !voteResult) {
-    notFound();
-  }
-
-  return (
-    <BillDetailComponent
-      billDetail={billDetail}
-      voteResult={voteResult}
-      isImportant={IMPORTANT_BILL_IDS.includes(id as typeof IMPORTANT_BILL_IDS[number])}
-    />
-  );
+  }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }
 
-export async function generateMetadata({
-  params: { id }
-}: PageProps): Promise<Metadata> {
+export async function generateMetadata(props: PageProps): Promise<Metadata> {
+  const { id } = await props.params;
+  
   const billDetail = await fetchBillDetail(id);
   
   if (!billDetail) {
@@ -50,6 +28,29 @@ export async function generateMetadata({
     title: billDetail.BILL_NM,
     description: `${billDetail.BILL_NO} - ${billDetail.PPSR}`,
   };
+}
+
+export default async function BillDetailPage(props: PageProps) {
+  const { id } = await props.params;
+  
+  const [billDetail, voteResult] = await Promise.all([
+    fetchBillDetail(id),
+    fetchVoteResult(id)
+  ]) as [BillDetail | null, VoteResult | null];
+
+  if (!billDetail || !voteResult) {
+    notFound();
+  }
+
+  const metadata = BILL_METADATA[id];
+
+  return (
+    <BillDetailComponent 
+      billDetail={billDetail} 
+      voteResult={voteResult}
+      isImportant={metadata?.emphasizeAbsent}
+    />
+  );
 }
 
 export async function generateStaticParams() {
