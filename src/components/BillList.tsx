@@ -38,10 +38,17 @@ export function BillList({ bills }: BillListProps) {
     async function checkVoteResults() {
       const votesChecked = await Promise.all(
         bills.map(async (bill) => {
+          console.log('Checking bill:', {
+            billId: bill.BILL_ID,
+            billNo: bill.BILL_NO,
+            is2206205: bill.BILL_ID === BILL_2206205_ID || bill.BILL_ID.includes('2206205')
+          });
+
           // 2206205 법안 체크
           if (bill.BILL_ID === BILL_2206205_ID || 
               bill.BILL_ID.includes('2206205') || 
               bill.BILL_ID === 'PRC_V2Y4M1J2X0P9Y1S8X3P8L2H5K0C5R1') {
+            console.log('Found 2206205 bill:', bill.BILL_ID);
             return {
               ...bill,
               hasVoteResult: true
@@ -55,11 +62,18 @@ export function BillList({ bills }: BillListProps) {
           };
         })
       );
+
+      console.log('Processed bills:', votesChecked.map(b => ({
+        billId: b.BILL_ID,
+        hasVoteResult: b.hasVoteResult
+      })));
+
       setBillsWithVote(votesChecked);
     }
 
     checkVoteResults();
   }, [bills]);
+
 
   return (
     <div className={styles.billList}>

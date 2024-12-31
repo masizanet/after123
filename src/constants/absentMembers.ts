@@ -94,7 +94,7 @@ export const BILL_2206205_ABSENTEES = [
     { name: '조배숙', region: '비례대표', party: '국민의힘' },
     { name: '조승환', region: '부산 중구영도구', party: '국민의힘' },
     { name: '조은희', region: '서울 서초구갑', party: '국민의힘' },
-    { name: '조정훈', region: '서울 마포구갑', party: '시대전환' },
+    { name: '조정훈', region: '서울 마포구갑', party: '국민의힘' },
     { name: '조지연', region: '경북 경산시', party: '국민의힘' },
     { name: '주진우', region: '부산 해운대구갑', party: '국민의힘' },
     { name: '주호영', region: '대구 수성구갑', party: '국민의힘' },

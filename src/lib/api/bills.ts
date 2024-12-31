@@ -10,7 +10,7 @@ const BILL_DETAIL_API = `${API_BASE}/BILLINFODETAIL`;
 const VOTE_RESULT_API = `${API_BASE}/ncocpgfiaoituanbr`;
 const VOTE_MEMBERS_API = `${API_BASE}/nojepdqqaweusdfbi`;
 
-export const BILL_2206205_ID = 'PRC_F2Y4Z1N2G0Y5Q1A4M1O0P4N2I4P3N1';
+export const BILL_2206205_ID = 'PRC_P2U4C1T2Q0J4E1F7B5G6W3L7D1W6P4';
 export const BILL_2206205_NAME = '대통령(윤석열) 탄핵소추안(1차)';
 const BILL_2206205_VOTE_RESULT: VoteResult = {
   BILL_ID: BILL_2206205_ID,
