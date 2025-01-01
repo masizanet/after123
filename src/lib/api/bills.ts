@@ -181,7 +181,7 @@ export async function fetchVoteResult(billId: string): Promise<VoteResult | null
 
 export async function fetchVoteMembers(billId: string): Promise<APIVoteMember[]> {
   // 2206205 법안의 경우 하드코딩된 불참자 명단 반환
-  if (billId === BILL_2206205_ID || billId.includes('2206205')) {
+  if (billId === BILL_2206205_ID) {
     return BILL_2206205_ABSENTEES.map(member => ({
       POLY_NM: member.party,
       HG_NM: member.name,
@@ -189,8 +189,10 @@ export async function fetchVoteMembers(billId: string): Promise<APIVoteMember[]>
       VOTE_DT: '20241210',
       BILL_NO: '2206205',
       BILL_NM: BILL_2206205_NAME,
+      RESULT_VOTE_MOD: "불참",  
+      MONA_CD: member.name,     // 임시 ID로 이름 사용
       PROC_RESULT: '불참'
-    }));
+    } as APIVoteMember));
   }
 
   const searchParams = new URLSearchParams({

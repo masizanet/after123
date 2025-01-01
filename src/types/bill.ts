@@ -90,4 +90,5 @@ export interface APIVoteMember {
   BILL_NM: string;       // 의안명
   RESULT_VOTE_MOD: string;  // 표결 결과 (찬성/반대/기권)
   MONA_CD: string;       // 의원 고유 ID
+  PROC_RESULT?: string;  // 불참 등 처리 결과
 }

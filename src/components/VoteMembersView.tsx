@@ -4,7 +4,7 @@
 import React, { useState } from 'react';
 import { fetchVoteMembers } from '@/lib/api/bills';
 import styles from './VoteMembersView.module.css';
-import type { APIVoteMember } from '@/types/bill';
+import type { VoteResult, APIVoteMember } from '@/types/bill';
 
 interface Member {
   id: string;

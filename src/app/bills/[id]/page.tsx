@@ -48,7 +48,7 @@ export default async function BillDetailPage(props: PageProps) {
     <BillDetailComponent 
       billDetail={billDetail} 
       voteResult={voteResult}
-      isImportant={metadata?.emphasizeAbsent ?? false} // 기본값 추가
+      isImportant={metadata?.emphasizeAbsent ?? false}
     />
   );
 }
