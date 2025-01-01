@@ -1,6 +1,6 @@
 // src/lib/api/bills.ts
 
-import { BillsResponse, Bill, VoteResult, VoteMember } from '@/types/bill';
+import { BillsResponse, Bill, VoteResult, APIVoteMember } from '@/types/bill';
 import { TRACKED_BILL_NUMBERS } from '@/constants/bills';
 import { BILL_2206205_ABSENTEES } from '@/constants/absentMembers';
 
@@ -179,7 +179,7 @@ export async function fetchVoteResult(billId: string): Promise<VoteResult | null
   }
 }
 
-export async function fetchVoteMembers(billId: string): Promise<VoteMember[]> {
+export async function fetchVoteMembers(billId: string): Promise<APIVoteMember[]> {
   // 2206205 법안의 경우 하드코딩된 불참자 명단 반환
   if (billId === BILL_2206205_ID || billId.includes('2206205')) {
     return BILL_2206205_ABSENTEES.map(member => ({

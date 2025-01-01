@@ -4,7 +4,7 @@
 import React, { useState } from 'react';
 import { fetchVoteMembers } from '@/lib/api/bills';
 import styles from './VoteMembersView.module.css';
-import type { VoteResult } from '@/types/bill';
+import type { APIVoteMember } from '@/types/bill';
 
 interface Member {
   id: string;
@@ -44,7 +44,7 @@ export default function VoteMembersView({
     setSelectedType(type);
 
     try {
-      const allMembers = await fetchVoteMembers(billId);
+      const allMembers = await fetchVoteMembers(billId) as APIVoteMember[];
       
       const filteredMembers = allMembers.filter(member => {
         const result = member.RESULT_VOTE_MOD?.trim();

@@ -81,11 +81,13 @@ export interface VoteResult {
   LINK_URL: string;
 }
 
-export interface VoteMember {
+export interface APIVoteMember {
   POLY_NM: string;        // 정당명
-  ORIG_NM: string;        // 의원명
-  VOTE_DT: string;        // 표결일시
-  BILL_NO: string;        // 의안번호
-  BILL_NM: string;        // 의안명
-  PROC_RESULT: string;    // 표결결과 (찬성/반대/기권)
+  HG_NM: string;         // 의원 이름
+  ORIG_NM: string;       // 지역구
+  VOTE_DT: string;       // 표결일시
+  BILL_NO: string;       // 의안번호
+  BILL_NM: string;       // 의안명
+  RESULT_VOTE_MOD: string;  // 표결 결과 (찬성/반대/기권)
+  MONA_CD: string;       // 의원 고유 ID
 }
