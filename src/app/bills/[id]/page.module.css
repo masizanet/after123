@@ -1,212 +1,22 @@
 .container {
-  padding: 2rem;
   max-width: 1200px;
   margin: 0 auto;
-  min-height: 100vh;
+  padding: 2rem 1rem;
 }
 
-.navigation {
+.header {
   margin-bottom: 2rem;
 }
 
-.backLink {
-  display: inline-flex;
-  align-items: center;
-  color: #2563eb;
-  text-decoration: none;
-  font-size: 1rem;
+.title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  color: var(--foreground);
 }
 
-.backLink:hover {
-  text-decoration: underline;
-}
-
-.content {
-  background: white;
+.listWrapper {
+  background: var(--card);
   border-radius: 8px;
-  padding: 2rem;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-}
-
-.content h1 {
-  font-size: 1.875rem;
-  font-weight: bold;
-  color: #1a1a1a;
-  margin-bottom: 2rem;
-}
-
-.billInfo {
-  display: grid;
-  grid-template-columns: 150px 1fr;
-  gap: 1rem;
-  margin-bottom: 2rem;
-}
-
-.billInfo dt {
-  color: #666;
-  font-size: 0.925rem;
-}
-
-.billInfo dd {
-  color: #1a1a1a;
-  font-size: 0.925rem;
-  margin: 0;
-}
-
-.voteResult {
-  margin-top: 3rem;
-  padding-top: 2rem;
-  border-top: 1px solid #e5e7eb;
-}
-
-.voteResult h2 {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #1a1a1a;
-  margin-bottom: 1.5rem;
-}
-
-.voteResultGrid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 1rem;
-}
-
-.voteResultItem {
-  background: #f9fafb;
-  padding: 1rem;
-  border-radius: 6px;
-  text-align: center;
-}
-
-.voteResultItem dt {
-  font-size: 0.875rem;
-  color: #666;
-  margin-bottom: 0.5rem;
-}
-
-.voteResultItem dd {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #1a1a1a;
-  margin: 0;
-}
-
-.voteYes dd {
-  color: #059669;
-}
-
-.voteNo dd {
-  color: #dc2626;
-}
-
-.voteBlank dd {
-  color: #6b7280;
-}
-
-/* 반응형 디자인을 위한 미디어 쿼리 */
-@media (max-width: 768px) {
-  .container {
-    padding: 1rem;
-  }
-
-  .content {
-    padding: 1.5rem;
-  }
-
-  .billInfo {
-    grid-template-columns: 120px 1fr;
-  }
-
-  .voteResultGrid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.75rem;
-  }
-
-  /* 모바일에서 마지막 항목(기권) 중앙 정렬 */
-  .voteResultGrid > :last-child {
-    grid-column: 1 / -1;
-  }
-}
-
-/* page.module.css에 추가 */
-.voteMemberList {
-  margin-top: 3rem;
-  padding-top: 2rem;
-  border-top: 1px solid #e5e7eb;
-}
-
-.voteMemberList h2 {
-  font-size: 1.5rem;
-  font-weight: bold;
-  color: #1a1a1a;
-  margin-bottom: 1.5rem;
-}
-
-.partyGroups {
-  display: grid;
-  gap: 2rem;
-}
-
-.partyGroup h3 {
-  font-size: 1.25rem;
-  font-weight: bold;
-  color: #1a1a1a;
-  margin-bottom: 1rem;
-  padding-bottom: 0.5rem;
-  border-bottom: 2px solid #e5e7eb;
-}
-
-.memberGrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1rem;
-}
-
-.memberItem {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0.75rem;
-  background: #f9fafb;
-  border-radius: 6px;
-}
-
-.memberName {
-  font-size: 0.925rem;
-  color: #1a1a1a;
-}
-
-.voteResult {
-  font-size: 0.875rem;
-  font-weight: 500;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-}
-
-.vote찬성 {
-  background: #dcfce7;
-  color: #059669;
-}
-
-.vote반대 {
-  background: #fee2e2;
-  color: #dc2626;
-}
-
-.vote기권 {
-  background: #f3f4f6;
-  color: #6b7280;
-}
-
-.loading {
-  text-align: center;
-  padding: 2rem;
-  color: #666;
-}
-
-@media (max-width: 768px) {
-  .memberGrid {
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-  }
+  box-shadow: var(--card-shadow);
+  border: 1px solid var(--card-border);
 }

@@ -1,0 +1,84 @@
+.list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background: var(--card);
+}
+
+.item {
+  padding: 1.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.item:last-child {
+  border-bottom: none;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  gap: 1rem;
+}
+
+.title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  margin: 0;
+  color: var(--foreground);
+  flex: 1;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 4px;
+  background-color: var(--link-background);
+  color: var(--link);
+  font-size: 0.875rem;
+  text-decoration: none;
+  border: 1px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.button:hover {
+  background-color: var(--link-hover);
+}
+
+.details {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin: 0;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.label {
+  color: var(--muted);
+  font-size: 0.875rem;
+  min-width: 4rem;
+}
+
+.value {
+  font-size: 0.925rem;
+  color: var(--foreground);
+}
+
+.resultRow {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
