@@ -88,7 +88,7 @@ export function BillDetail({ billDetail, voteResult, isImportant }: BillDetailPr
           </div>
 
           <div className={styles.body}>
-            <h2 className={styles.sectionTitle}>표결 현황</h2>
+            <h2 className={styles.sectionTitle}>표결 정보</h2>
             <VoteMembersView 
               billId={billDetail.BILL_ID}
               voteResult={voteResult}
