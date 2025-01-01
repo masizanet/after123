@@ -22,8 +22,7 @@ export const TRACKED_BILL_NUMBERS = [
 ] as const;
 
 export const IMPORTANT_BILL_IDS = [
-  '2206205', // 중요 법안
-  '2206448'  // 탄핵소추안
+  '2206205' // 탄핵소추안
 ] as const;
 
 export const BILL_METADATA: Record<string, { 

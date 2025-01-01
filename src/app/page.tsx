@@ -1,6 +1,7 @@
 import { BillList } from '@/components/BillList';
 import { fetchTrackedBills } from '@/lib/api/bills';
 import styles from './page.module.css';
+import Link from "next/link";
 
 export default async function Home() {
   const { bills } = await fetchTrackedBills();
@@ -19,6 +20,9 @@ export default async function Home() {
       <div className={styles.listWrapper}>
         <BillList bills={sortedBills} />
       </div>
+      <Link href="/members">
+        22대국회의원 명단
+      </Link>
     </div>
   );
 }
