@@ -1,11 +1,9 @@
-// src/app/bills/[id]/BillDetail.tsx
 'use client';
 
 import { BillDetail as BillDetailType, VoteResult } from '@/types/bill';
 import { formatDate } from '@/lib/utils/date';
-import Link from 'next/link';
 import VoteMembersView from '@/components/VoteMembersView';
-import { BILL_METADATA } from '@/constants/bills';
+import Link from 'next/link';
 import styles from './BillDetail.module.css';
 
 interface BillDetailProps {
@@ -15,7 +13,6 @@ interface BillDetailProps {
 }
 
 export function BillDetail({ billDetail, voteResult, isImportant }: BillDetailProps) {
-  const metadata = BILL_METADATA[billDetail.BILL_ID];
   return (
     <div className={styles.container}>
       <div className={styles.content}>
@@ -92,8 +89,7 @@ export function BillDetail({ billDetail, voteResult, isImportant }: BillDetailPr
             <VoteMembersView 
               billId={billDetail.BILL_ID}
               voteResult={voteResult}
-              isImportant={isImportant}
-              emphasizeAbsent={metadata?.emphasizeAbsent}
+              emphasizeAbsent={isImportant}
             />
           </div>
         </div>

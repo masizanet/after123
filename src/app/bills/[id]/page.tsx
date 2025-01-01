@@ -42,13 +42,13 @@ export default async function BillDetailPage(props: PageProps) {
     notFound();
   }
 
-  const metadata = BILL_METADATA[id];
+  const isImportant = BILL_METADATA[id]?.emphasizeAbsent ?? false;
 
   return (
     <BillDetailComponent 
       billDetail={billDetail} 
       voteResult={voteResult}
-      isImportant={metadata?.emphasizeAbsent ?? false}
+      isImportant={isImportant}
     />
   );
 }

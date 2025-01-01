@@ -16,14 +16,12 @@ interface Member {
 interface VoteMembersViewProps {
   billId: string;
   voteResult: VoteResult;
-  isImportant?: boolean;
   emphasizeAbsent?: boolean;
 }
 
 export default function VoteMembersView({ 
   billId, 
   voteResult, 
-  isImportant = false,
   emphasizeAbsent = false
 }: VoteMembersViewProps) {
   const [selectedType, setSelectedType] = useState<string | null>(null);
