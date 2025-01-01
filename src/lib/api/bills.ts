@@ -5,7 +5,8 @@ import { BillsResponse, Bill, VoteResult, APIVoteMember } from '@/types/bill';
 import { TRACKED_BILL_NUMBERS } from '@/constants/bills';
 import { BILL_LIST_API,BILL_DETAIL_API,VOTE_RESULT_API,VOTE_MEMBERS_API } from '@/constants/apis';
 import { BILL_2206205_ABSENTEES } from '@/constants/absentMembers';
-
+import { promises as fs } from 'fs';
+import path from 'path';
 
 export const BILL_2206205_ID = 'PRC_P2U4C1T2Q0J4E1F7B5G6W3L7D1W6P4';
 export const BILL_2206205_NAME = '대통령(윤석열) 탄핵소추안(1차)';

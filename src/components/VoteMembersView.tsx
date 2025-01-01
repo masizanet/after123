@@ -1,33 +1,39 @@
-// src/components/VoteMembersView.tsx
 'use client';
 
 import React, { useState } from 'react';
 import { fetchVoteMembers } from '@/lib/api/bills';
 import styles from './VoteMembersView.module.css';
-import type { VoteResult, APIVoteMember } from '@/types/bill';
+import type { VoteResult } from '@/types/bill';
+import type { Member22 } from '@/types/member';
 
 interface Member {
   id: string;
   name: string;
   party: string;
   voteResult: string;
+  district?: string;
 }
 
 interface VoteMembersViewProps {
   billId: string;
   voteResult: VoteResult;
+  isImportant?: boolean;
   emphasizeAbsent?: boolean;
+  member22Data: Member22[];
 }
 
 export default function VoteMembersView({ 
   billId, 
   voteResult, 
-  emphasizeAbsent = false
+  isImportant = false,
+  emphasizeAbsent = false,
+  member22Data
 }: VoteMembersViewProps) {
   const [selectedType, setSelectedType] = useState<string | null>(null);
   const [members, setMembers] = useState<Record<string, Member[]> | null>(null);
   const [loading, setLoading] = useState(false);
 
+  const member22Map = new Map(member22Data.map(m => [m.id, m]));
   const absentCount = parseInt(voteResult.MEMBER_TCNT) - parseInt(voteResult.VOTE_TCNT);
   const participationRate = ((parseInt(voteResult.VOTE_TCNT) / parseInt(voteResult.MEMBER_TCNT)) * 100).toFixed(1);
 
@@ -42,7 +48,7 @@ export default function VoteMembersView({
     setSelectedType(type);
 
     try {
-      const allMembers = await fetchVoteMembers(billId) as APIVoteMember[];
+      const allMembers = await fetchVoteMembers(billId);
       
       const filteredMembers = allMembers.filter(member => {
         const result = member.RESULT_VOTE_MOD?.trim();
@@ -55,12 +61,16 @@ export default function VoteMembersView({
 
       const groupedMembers = filteredMembers.reduce((acc: Record<string, Member[]>, member) => {
         const party = member.POLY_NM?.trim() || '무소속';
+        const member22Info = member22Map.get(member.MONA_CD);
+        
         if (!acc[party]) acc[party] = [];
         acc[party].push({
           id: member.MONA_CD,
-          name: `${member.HG_NM} (${member.ORIG_NM === '비례대표' ? '비례' : member.ORIG_NM})`,
-          party: member.POLY_NM?.trim() || '무소속',
-          voteResult: member.RESULT_VOTE_MOD?.trim() || ''
+          name: member22Info?.name || 
+            `${member.HG_NM} (${member.ORIG_NM === '비례대표' ? '비례' : member.ORIG_NM})`,
+          party: party,
+          voteResult: member.RESULT_VOTE_MOD?.trim() || '',
+          district: member22Info?.district
         });
         return acc;
       }, {});
@@ -74,7 +84,6 @@ export default function VoteMembersView({
     }
   };
 
-  // 불참 표시가 강조되어야 하는 경우 컴포넌트 마운트시 바로 불참 목록 로드
   React.useEffect(() => {
     if (emphasizeAbsent) {
       loadMembers('absent');
@@ -84,7 +93,6 @@ export default function VoteMembersView({
   return (
     <div className={styles.container}>
       <div className={styles.statsGrid}>
-        {/* 1행: 참여 현황 */}
         <div className={`${styles.stats} ${styles.participation}`}>
           <span className={styles.number}>{participationRate}%</span>
           <span className={styles.label}>참여율</span>
@@ -105,7 +113,6 @@ export default function VoteMembersView({
           <span className={styles.label}>불참</span>
         </div>
 
-        {/* 2행: 표결 결과 */}
         <div 
           className={`${styles.stats} ${styles.yes} ${styles.clickable} ${
             selectedType === 'yes' ? styles.selected : ''
@@ -137,12 +144,10 @@ export default function VoteMembersView({
         </div>
       </div>
 
-
       {loading && (
         <div className={styles.loading}>의원 목록을 불러오는 중...</div>
       )}
 
-      {/* 의원 명단 */}
       {members && (
         <>
           <h3 className={styles.memberListTitle}>
@@ -166,7 +171,7 @@ export default function VoteMembersView({
                   .sort((a, b) => a.name.localeCompare(b.name))
                   .map((member) => (
                   <div key={member.id} className={styles.member}>
-                    {member.name}
+                    {member.name} {member.district && `(${member.district})`}
                   </div>
                 ))}
               </div>
@@ -174,7 +179,6 @@ export default function VoteMembersView({
           ))}
         </>
       )}
-
     </div>
   );
 }

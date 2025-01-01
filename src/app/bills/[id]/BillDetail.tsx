@@ -5,6 +5,10 @@ import { formatDate } from '@/lib/utils/date';
 import VoteMembersView from '@/components/VoteMembersView';
 import Link from 'next/link';
 import styles from './BillDetail.module.css';
+import type { Member22 } from '@/types/member';
+import member22Data from '@/data/member22.json';
+
+const { members } = member22Data as { members: Member22[] };
 
 interface BillDetailProps {
   billDetail: BillDetailType;
@@ -86,10 +90,11 @@ export function BillDetail({ billDetail, voteResult, isImportant }: BillDetailPr
 
           <div className={styles.body}>
             <h2 className={styles.sectionTitle}>표결 정보</h2>
-            <VoteMembersView 
-              billId={billDetail.BILL_ID}
+            <VoteMembersView
+              billId={billId}
               voteResult={voteResult}
-              emphasizeAbsent={isImportant}
+              emphasizeAbsent={emphasizeAbsent}
+              member22Data={members}
             />
           </div>
         </div>

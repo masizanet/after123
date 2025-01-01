@@ -92,3 +92,10 @@ export interface APIVoteMember {
   MONA_CD: string;       // 의원 고유 ID
   PROC_RESULT?: string;  // 불참 등 처리 결과
 }
+
+export interface VoteMemberList {
+  id: string;
+  type: 'yes' | 'no' | 'abstain' | 'absent';
+  count: number;
+  members: string[];
+}

@@ -59,3 +59,15 @@ export interface NationalAssemblyMember {
       row: NationalAssemblyMember[];
     };
   }
+
+  export interface Member22 {
+    id: string;
+    name: string;
+    party: string;
+    district: string;
+    type: string;
+    gender: string;
+    committee: string[];
+    electedCount: string;
+  }
+  
