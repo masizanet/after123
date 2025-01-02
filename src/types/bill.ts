@@ -87,11 +87,19 @@ export interface VoteMemberList {
   members: string[];
 }
 
+export interface Member {
+  id: string;
+  name: string;
+  party: string;
+  region: string;
+  memberNo: string;
+}
+
 export interface BillsData {
   [key: string]: {
     detail: BillDetail;
     voteResult?: VoteResult;
-    voteMembers?: any[];
+    voteMembers?: Member[];
     billNo: string;
   };
 }

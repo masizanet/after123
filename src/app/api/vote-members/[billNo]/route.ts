@@ -14,17 +14,19 @@ export async function GET(
   try {
     // 2206205 의안의 경우 특별 처리
     if (billNo === '2206205') {
-      const absentMembers = BILL_2206205_ABSENTEES.map(member => ({
-        POLY_NM: member.party,
-        HG_NM: member.name,
-        ORIG_NM: member.region,
-        VOTE_DT: '20241210',
-        BILL_NO: '2206205',
-        BILL_NAME: '대통령(윤석열) 탄핵소추안(1차)',
-        RESULT_VOTE_MOD: '불참',
-        MONA_CD: member.name,  // 임시 ID로 이름 사용
-        PROC_RESULT: '불참'
-      }));
+      const absentMembers = BILL_2206205_ABSENTEES.map(member => {
+        return {
+          POLY_NM: member.party,
+          HG_NM: member.name,
+          ORIG_NM: member.region,
+          VOTE_DT: '20241210',
+          BILL_NO: '2206205',
+          BILL_NAME: '대통령(윤석열) 탄핵소추안(1차)',
+          RESULT_VOTE_MOD: '불참',
+          MONA_CD: member.name,  // 임시 ID로 이름 사용
+          PROC_RESULT: '불참'
+        };
+      });
 
       // 파일로 저장
       const filePath = path.join(process.cwd(), 'src/data', `vote-members-${billNo}.json`);
@@ -59,7 +61,7 @@ export async function GET(
     }
 
     // 2. bills.json에서 의안ID 찾기
-    const billEntry = Object.entries(billsData).find(([_, data]) => data.billNo === billNo);
+    const billEntry = Object.entries(billsData).find(([, data]) => data.billNo === billNo);
     if (!billEntry) {
       console.error(`Bill not found: ${billNo}`);
       return NextResponse.json(null);

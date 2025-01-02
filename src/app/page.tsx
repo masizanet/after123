@@ -1,4 +1,3 @@
-import { BillList } from '@/components/BillList';
 import styles from './page.module.css';
 import billsData from '@/data/bills.json';
 import { Bill } from '@/types/bill';

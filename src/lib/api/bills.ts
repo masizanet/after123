@@ -3,25 +3,15 @@
 import type { 
   Bill,
   BillsResponse,
-  VoteResult,
-  APIVoteMember 
 } from '@/types/bill';
 
 import { logDebug } from '@/lib/utils/debug';
 import { TRACKED_BILL_NUMBERS } from '@/constants/bills';
-import { BILL_2206205_ABSENTEES } from '@/constants/absentMembers';
-import { 
-  BILL_LIST_API,
-  BILL_DETAIL_API,
-  VOTE_RESULT_API,
-  VOTE_MEMBERS_API 
-} from '@/constants/apis';
+import { BILL_LIST_API } from '@/constants/apis';
 import billsData from '@/data/bills.json';
 import member22Data from '@/data/member22.json';
 import type { BillDetail } from '@/types/bill';
 import type { Member22 } from '@/types/member';
-import fs from 'fs';
-import path from 'path';
 
 export type {
   Bill,
@@ -68,21 +58,6 @@ export async function getBillData(billId: string): Promise<BillData | null> {
 
 export const BILL_2206205_ID = 'PRC_P2U4C1T2Q0J4E1F7B5G6W3L7D1W6P4';
 export const BILL_2206205_NAME = '대통령(윤석열) 탄핵소추안(1차)';
-
-const BILL_2206205_VOTE_RESULT: VoteResult = {
-  BILL_ID: BILL_2206205_ID,
-  PROC_DT: "20241210",
-  BILL_NO: "2206205",
-  BILL_NAME: BILL_2206205_NAME,
-  CURR_COMMITTEE: "",
-  PROC_RESULT_CD: "",
-  MEMBER_TCNT: "300",            // 전체 의원수
-  VOTE_TCNT: "195",             // 참석한 의원수 (300 - 105)
-  YES_TCNT: "0",                // 찬성
-  NO_TCNT: "0",                 // 반대
-  BLANK_TCNT: "195",            // 무효/기권 (참석은 했으나 투표 불성립)
-  LINK_URL: ""
-};
 
 async function fetchBillByNo(billNo: string) {
   const searchParams = new URLSearchParams({

@@ -11,14 +11,14 @@ async function generateStaticParams() {
 }
 
 async function Page({ params }: Props) {
-  const resolvedParams = await params;
-  const billData = await getBillData(resolvedParams.id);
+  const { id } = await params;
+  const billData = await getBillData(id);
 
   if (!billData) {
     return <div>의안을 찾을 수 없습니다.</div>;
   }
 
-  const isImportant = resolvedParams.id.includes('2206205');
+  const isImportant = id.includes('2206205');
 
   return (
     <BillDetail 

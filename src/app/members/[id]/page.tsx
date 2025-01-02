@@ -10,10 +10,10 @@ async function generateStaticParams() {
 }
 
 async function Page({ params }: Props) {
-  const resolvedParams = await params;
+  const { id } = await params;
   return (
     <Suspense fallback={<div>로딩 중...</div>}>
-      <MemberDetailClient id={resolvedParams.id} />
+      <MemberDetailClient id={id} />
     </Suspense>
   );
 }

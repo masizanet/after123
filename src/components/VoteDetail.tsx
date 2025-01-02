@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import styles from './VoteDetail.module.css';
 import billsData from '@/data/bills.json';
 import type { BillsData } from '@/types/bill';
@@ -6,14 +6,7 @@ import { BILL_2206205_ABSENTEES } from '@/constants/absentMembers';
 import { fetchVoteMembers } from '@/lib/api/bills';
 import Link from 'next/link';
 import { createPortal } from 'react-dom';
-
-interface Member {
-  id: string;
-  name: string;
-  party: string;
-  region: string;
-  memberNo: string;
-}
+import type { Member } from '@/types/bill';
 
 interface VoteResult {
   MEMBER_TCNT: string;
@@ -68,7 +61,6 @@ function groupMembersByParty(members: Member[]) {
 export function VoteDetail({ billId, voteResult, isImportant }: VoteDetailProps) {
   const [memberDetails, setMemberDetails] = useState<Member[] | null>(null);
   const [selectedType, setSelectedType] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
   const [popover, setPopover] = useState<MemberPopover | null>(null);
 
   const handleClick = (type: 'absent' | 'yes' | 'no' | 'blank') => {
@@ -84,7 +76,6 @@ export function VoteDetail({ billId, voteResult, isImportant }: VoteDetailProps)
 
     setPopover(null);
     setSelectedType(type);
-    setIsLoading(true);
     
     let filteredMembers: Member[] = [];
     
@@ -107,7 +98,6 @@ export function VoteDetail({ billId, voteResult, isImportant }: VoteDetailProps)
       
       if (!voteData) {
         console.error('Failed to get vote data');
-        setIsLoading(false);
         return;
       }
 
@@ -132,7 +122,6 @@ export function VoteDetail({ billId, voteResult, isImportant }: VoteDetailProps)
     }
 
     setMemberDetails(filteredMembers);
-    setIsLoading(false);
   };
 
   const stats = {
