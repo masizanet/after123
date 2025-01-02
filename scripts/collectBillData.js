@@ -15,68 +15,91 @@ const {
   VOTE_MEMBERS_API: 'https://open.assembly.go.kr/portal/openapi/nojepdqqaweusdfbi'
 };
 
-const TRACKED_BILL_NUMBERS = [
-  '2206448',
-  '2206312',
-  '2206313',
-  '2206314',
-  '2206435',
-  '2206961',
-  '2206349',
-  '2206348',
-  '2206289',
-  '2206269',
-  '2206226',
-  '2206206',
-  '2206205',
-  '2200819',
-  '2206197',
-  '2203837',
-  '2207082',
-  '2207147'
-];
-
 const fetch = require('node-fetch');
 
+// constants/bills.json에서 TRACKED_BILL_NUMBERS 읽기
+const constantsPath = path.join(__dirname, '../src/constants/bills.json');
+const { TRACKED_BILL_NUMBERS } = JSON.parse(fs.readFileSync(constantsPath, 'utf8'));
+
+// data/bills.json 경로 설정
+const billsJsonPath = path.join(__dirname, '../src/data/bills.json');
+
 // 의안 상세 정보 조회
-async function fetchBillDetail(billId) {
-  const searchParams = new URLSearchParams({
-    Key: process.env.NEXT_PUBLIC_ASSEMBLY_API_KEY || '',
-    Type: 'json',
-    pIndex: '1',
-    pSize: '300',
-    BILL_ID: billId
-  });
+async function fetchBillDetail(billNo) {
+  try {
+    // 먼저 BILL_ID 조회
+    const billId = await fetchBillId(billNo);
+    if (!billId) {
+      console.error(`Failed to get BILL_ID for bill ${billNo}`);
+      return null;
+    }
 
-  const response = await fetch(`${BILL_DETAIL_API}?${searchParams.toString()}`);
-  const data = await response.json();
+    console.log(`Fetching details for bill ${billNo} (ID: ${billId})`);
 
-  if (data?.BILLINFODETAIL?.[0]?.head?.[1]?.RESULT?.CODE !== 'INFO-000') {
+    const params = new URLSearchParams({
+      Key: process.env.NEXT_PUBLIC_ASSEMBLY_API_KEY || '',
+      Type: 'json',
+      pIndex: '1',
+      pSize: '1',
+      AGE: '22',
+      BILL_ID: billId
+    });
+
+    const response = await fetch(`${BILL_DETAIL_API}?${params.toString()}`);
+    const data = await response.json();
+
+    // 응답 데이터 구조 로깅
+    console.log(`Response for bill ${billNo}:`, JSON.stringify(data, null, 2));
+
+    if (!data?.BILLINFODETAIL?.[0]?.head?.[1]?.RESULT?.CODE ||
+        data.BILLINFODETAIL[0].head[1].RESULT.CODE !== 'INFO-000') {
+      console.error(`Invalid response for bill detail ${billNo}:`, data);
+      return null;
+    }
+
+    const detail = data.BILLINFODETAIL[1].row[0];
+    
+    // 처리일과 결과가 있는지 확인하고 로깅
+    if (!detail.RGS_RSLN_DT || !detail.RGS_CONF_RSLT) {
+      console.warn(`Missing processing date or result for bill ${billNo}:`, {
+        RGS_RSLN_DT: detail.RGS_RSLN_DT,
+        RGS_CONF_RSLT: detail.RGS_CONF_RSLT
+      });
+    }
+
+    return detail;
+  } catch (error) {
+    console.error(`Failed to fetch bill detail for ${billNo}:`, error);
     return null;
   }
-
-  return data.BILLINFODETAIL[1]?.row?.[0] || null;
 }
 
 // 투표 결과 조회
 async function fetchVoteResult(billId) {
-  const searchParams = new URLSearchParams({
-    Key: process.env.NEXT_PUBLIC_ASSEMBLY_API_KEY || '',
-    Type: 'json',
-    pIndex: '1',
-    pSize: '300',
-    AGE: '22',
-    BILL_ID: billId
-  });
+  try {
+    const params = new URLSearchParams({
+      Key: process.env.NEXT_PUBLIC_ASSEMBLY_API_KEY || '',
+      Type: 'json',
+      pIndex: '1',
+      pSize: '1',
+      AGE: '22',
+      BILL_ID: billId
+    });
 
-  const response = await fetch(`${VOTE_RESULT_API}?${searchParams.toString()}`);
-  const data = await response.json();
+    const response = await fetch(`${VOTE_RESULT_API}?${params.toString()}`);
+    const data = await response.json();
 
-  if (data?.ncocpgfiaoituanbr?.[0]?.head?.[1]?.RESULT?.CODE !== 'INFO-000') {
+    if (!data?.ncocpgfiaoituanbr?.[0]?.head?.[1]?.RESULT?.CODE ||
+        data.ncocpgfiaoituanbr[0].head[1].RESULT.CODE !== 'INFO-000') {
+      console.error(`Invalid response for vote result ${billId}:`, data);
+      return null;
+    }
+
+    return data.ncocpgfiaoituanbr[1].row[0];
+  } catch (error) {
+    console.error(`Failed to fetch vote result for ${billId}:`, error);
     return null;
   }
-
-  return data.ncocpgfiaoituanbr[1]?.row?.[0] || null;
 }
 
 async function fetchVoteMembers(billId) {
@@ -146,41 +169,57 @@ async function fetchBillId(billNo) {
 
 async function collectBillData() {
   try {
-    // 기존 bills.json 읽기
-    const billsJsonPath = path.join(__dirname, '../src/data/bills.json');
-    const existingBillsData = JSON.parse(fs.readFileSync(billsJsonPath, 'utf8'));
-    
-    // 투표 결과가 있는 의안만 필터링
-    const billsWithVotes = Object.entries(existingBillsData)
-      .filter(([_, data]) => data.voteResult)
-      .map(([billId, data]) => ({ billId, billNo: data.billNo }));
+    const billsData = {};
 
-    console.log(`Found ${billsWithVotes.length} bills with vote results`);
+    // 각 의안에 대해 데이터 수집
+    for (const billNo of TRACKED_BILL_NUMBERS) {
+      console.log(`Fetching data for bill ${billNo}...`);
+      
+      // 의안 상세 정보 조회
+      const detail = await fetchBillDetail(billNo);
+      if (!detail) {
+        console.error(`Failed to fetch detail for bill ${billNo}`);
+        continue;
+      }
 
-    // 투표 멤버 데이터만 업데이트
-    for (const { billId, billNo } of billsWithVotes) {
-      console.log(`Fetching vote members for bill ${billNo}...`);
+      const billId = detail.BILL_ID;
       
-      const voteMembers = await fetchVoteMembers(billId);
+      // 투표 결과 조회
+      const voteResult = await fetchVoteResult(billId);
+      if (voteResult) {
+        console.log(`Vote result found for bill ${billNo}`);
+      }
       
+      // 투표 멤버 조회
+      const voteMembers = voteResult ? await fetchVoteMembers(billId) : null;
       if (voteMembers) {
-        // vote-members-*.json 파일 업데이트
+        console.log(`Vote members found for bill ${billNo}`);
+      }
+
+      // bills.json에 저장할 데이터 구조
+      billsData[billId] = {
+        detail,
+        voteResult,
+        voteMembers: voteMembers?.nojepdqqaweusdfbi?.[1]?.row || null,
+        billNo
+      };
+
+      // vote-members 파일 별도 저장
+      if (voteMembers) {
         fs.writeFileSync(
           path.join(__dirname, `../src/data/vote-members-${billNo}.json`),
           JSON.stringify(voteMembers, null, 2),
           'utf8'
         );
-        
-        // bills.json의 voteMembers 필드 업데이트
-        existingBillsData[billId].voteMembers = voteMembers.nojepdqqaweusdfbi[1].row;
       }
     }
 
-    // 업데이트된 bills.json 저장
-    fs.writeFileSync(billsJsonPath, JSON.stringify(existingBillsData, null, 2), 'utf8');
-    console.log('Successfully updated vote members data');
+    // bills.json 저장
+    fs.writeFileSync(billsJsonPath, JSON.stringify(billsData, null, 2), 'utf8');
+    
+    console.log('Successfully collected bill data');
   } catch (error) {
-    console.error('Failed to collect vote members data:', error);
+    console.error('Failed to collect bill data:', error);
   }
 }
 

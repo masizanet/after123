@@ -63,11 +63,6 @@ export function BillList({ bills }: BillListProps) {
               
               <dl className={styles.details}>
                 <div className={styles.row}>
-                  <dt className={styles.label}>종류</dt>
-                  <dd className={styles.value}>{bill.BILL_KND}</dd>
-                </div>
-
-                <div className={styles.row}>
                   <dt className={styles.label}>제안일</dt>
                   <dd className={styles.value}>{formatDate(bill.PPSL_DT)}</dd>
                 </div>
