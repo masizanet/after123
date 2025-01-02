@@ -70,4 +70,23 @@ export interface NationalAssemblyMember {
     committee: string[];
     electedCount: string;
   }
+
+  export interface MemberProfile {
+    HG_NM: string;          // 이름
+    ENG_NM: string;         // 영문 이름
+    POLY_NM: string;        // 정당명
+    ORIG_NM: string;        // 선거구
+    ELECT_GBN_NM: string;   // 선출방법
+    CMITS: string;          // 소속위원회
+    HOMEPAGE: string;       // 홈페이지
+    EMAIL: string;          // 이메일
+    IMG_URL: string;        // 사진 URL
+  }
+
+  export interface MemberAttendance {
+    ATTEND_CNT: string;     // 출석수
+    ABSENT_CNT: string;     // 결석수
+    LEAVE_CNT: string;      // 청가수
+    ATTEND_RATE: string;    // 출석률
+  }
   

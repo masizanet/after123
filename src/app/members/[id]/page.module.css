@@ -42,9 +42,15 @@
   font-size: 1.875rem;
   font-weight: 600;
   color: var(--foreground);
-  margin-bottom: 2rem;
-  padding-bottom: 1rem;
+  margin-bottom: 0.5rem;
+  padding-bottom: 0.5rem;
   border-bottom: 1px solid var(--border);
+}
+
+.party, .district {
+  font-size: 1rem;
+  color: var(--muted);
+  margin: 0.25rem 0;
 }
 
 .info {
@@ -139,5 +145,33 @@
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 0.75rem;
+  }
+}
+
+.profileHeader {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.photoContainer {
+  flex-shrink: 0;
+}
+
+.photo {
+  object-fit: cover;
+  border-radius: 0.75rem;
+}
+
+@media (max-width: 640px) {
+  .profileHeader {
+    flex-direction: row;
+    gap: 1rem;
+  }
+
+  .photo {
+    width: 120px;
+    height: 156px;
+    aspect-ratio: 3/4;
   }
 } 

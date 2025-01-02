@@ -1,9 +1,11 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import styles from './page.module.css';
+import { MemberStats } from '@/components/MemberStats';
 
 interface MemberDetail {
   HG_NM: string;       // 이름
@@ -13,6 +15,12 @@ interface MemberDetail {
   TEL_NO: string;      // 전화번호
   E_MAIL: string;      // 이메일
   HOMEPAGE: string;    // 홈페이지
+  photoUrl: string;    // 사진 URL
+  SEX_GBN_NM: string;  // 성별
+  BTH_DATE: string;    // 생년월일
+  REELE_GBN_NM: string; // 선수
+  JOB_RES_NM: string;  // 직책명
+  UNITS: string;       // 당선대수
 }
 
 interface Props {
@@ -23,37 +31,34 @@ export default function MemberDetailClient({ id }: Props) {
   const router = useRouter();
   const [member, setMember] = useState<MemberDetail | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-
+  
   useEffect(() => {
     async function fetchMemberDetail() {
       try {
         const response = await fetch(`/api/members/${id}`);
+        if (!response.ok) throw new Error('Failed to fetch member detail');
+        
         const data = await response.json();
         setMember(data);
       } catch (error) {
-        console.error('Failed to fetch member detail:', error);
+        console.error('Error:', error);
       } finally {
         setIsLoading(false);
       }
     }
-
+    
     fetchMemberDetail();
   }, [id]);
 
-  if (isLoading) {
-    return <div className={styles.loading}>로딩 중...</div>;
-  }
-
-  if (!member) {
-    return <div className={styles.error}>의원 정보를 찾을 수 없습니다.</div>;
-  }
+  if (isLoading) return <div className={styles.loading}>로딩 중...</div>;
+  if (!member) return <div className={styles.error}>의원 정보를 찾을 수 없습니다.</div>;
 
   return (
     <div className={styles.container}>
       <nav className={styles.navigation}>
         <div className={styles.navButtons}>
           <button onClick={() => router.back()} className={styles.backButton}>
-            ← 이전 페이지
+            ← 뒤로 가기
           </button>
           <Link href="/" className={styles.homeButton}>
             홈으로
@@ -63,46 +68,85 @@ export default function MemberDetailClient({ id }: Props) {
 
       <main className={styles.content}>
         <article>
-          <header>
-            <h1 className={styles.title}>{member.HG_NM} 의원</h1>
-          </header>
+          <div className={styles.profileHeader}>
+            {member.photoUrl && (
+              <div className={styles.photoContainer}>
+                <Image 
+                  src={member.photoUrl}
+                  alt={member.HG_NM} 
+                  className={styles.photo}
+                  width={120}
+                  height={156}
+                  onError={(e) => {
+                    e.currentTarget.style.display = 'none';
+                  }}
+                />
+              </div>
+            )}
+            <header>
+              <h1 className={styles.title}>{member.HG_NM}</h1>
+              <p className={styles.party}>{member.POLY_NM}</p>
+              <p className={styles.district}>{member.ORIG_NM || '비례대표'}</p>
+            </header>
+          </div>
 
           <dl className={styles.info}>
-            <dt className={styles.label}>소속정당</dt>
-            <dd className={styles.value}>{member.POLY_NM}</dd>
-            
-            <dt className={styles.label}>지역구</dt>
-            <dd className={styles.value}>{member.ORIG_NM || '비례대표'}</dd>
-            
-            <dt className={styles.label}>소속위원회</dt>
-            <dd>
-              <ul className={styles.committeeList}>
-                {member.CMITS.split(',').map((committee, index) => (
-                  <li key={index} className={styles.committeeItem}>
-                    {committee.trim()}
-                  </li>
-                ))}
-              </ul>
-            </dd>
+            <div className={styles.infoItem}>
+              <dt>소속위원회</dt>
+              <dd>
+                {member.CMITS ? (
+                  <ul className={styles.committeeList}>
+                    {member.CMITS.split(',').map((committee, index) => (
+                      <li key={index} className={styles.committeeItem}>
+                        {committee.trim()}
+                      </li>
+                    ))}
+                  </ul>
+                ) : (
+                  '-'
+                )}
+              </dd>
+            </div>
+
+            {member.REELE_GBN_NM && (
+              <div className={styles.infoItem}>
+                <dt>선수</dt>
+                <dd>{member.REELE_GBN_NM} ({member.UNITS})</dd>
+              </div>
+            )}
+
+            {member.JOB_RES_NM && (
+              <div className={styles.infoItem}>
+                <dt>직책명</dt>
+                <dd>{member.JOB_RES_NM}</dd>
+              </div>
+            )}
+
+            {member.BTH_DATE && (
+              <div className={styles.infoItem}>
+                <dt>생년월일</dt>
+                <dd>{member.BTH_DATE}</dd>
+              </div>
+            )}
 
             {member.TEL_NO && (
-              <>
-                <dt className={styles.label}>전화번호</dt>
-                <dd className={styles.value}>{member.TEL_NO}</dd>
-              </>
+              <div className={styles.infoItem}>
+                <dt>전화번호</dt>
+                <dd>{member.TEL_NO}</dd>
+              </div>
             )}
 
             {member.E_MAIL && (
-              <>
-                <dt className={styles.label}>이메일</dt>
-                <dd className={styles.value}>{member.E_MAIL}</dd>
-              </>
+              <div className={styles.infoItem}>
+                <dt>이메일</dt>
+                <dd>{member.E_MAIL}</dd>
+              </div>
             )}
 
             {member.HOMEPAGE && (
-              <>
-                <dt className={styles.label}>홈페이지</dt>
-                <dd className={styles.value}>
+              <div className={styles.infoItem}>
+                <dt>홈페이지</dt>
+                <dd>
                   <a 
                     href={member.HOMEPAGE}
                     target="_blank"
@@ -112,9 +156,11 @@ export default function MemberDetailClient({ id }: Props) {
                     바로가기 →
                   </a>
                 </dd>
-              </>
+              </div>
             )}
           </dl>
+
+          <MemberStats id={id} />
         </article>
       </main>
     </div>

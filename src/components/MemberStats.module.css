@@ -1,0 +1,53 @@
+.stats {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--border);
+}
+
+.photoContainer {
+  margin-bottom: 1.5rem;
+}
+
+.photo {
+  width: 200px;
+  height: 260px;
+  object-fit: cover;
+  border-radius: 0.5rem;
+}
+
+.attendance {
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 1.5rem;
+}
+
+.attendance h3 {
+  margin: 0 0 1rem 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.attendanceStats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+  gap: 1rem;
+  margin: 0;
+}
+
+.statItem {
+  text-align: center;
+}
+
+.statItem dt {
+  color: var(--muted);
+  font-size: 0.875rem;
+  margin-bottom: 0.5rem;
+}
+
+.statItem dd {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--foreground);
+} 

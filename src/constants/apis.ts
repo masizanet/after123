@@ -5,3 +5,7 @@ export const VOTE_RESULT_API = `${API_BASE}/ncocpgfiaoituanbr`;
 export const VOTE_MEMBERS_API = `${API_BASE}/nojepdqqaweusdfbi`;
 export const ALLNAMEMBER_API =  `${API_BASE}/ALLNAMEMBER`;
 export const MEMBER_API =  `${API_BASE}/nprlapfmaufmqytet`;
+export const MEMBER_PROFILE_API = `${API_BASE}/nwvrqwxyaytdsfvhu`;  // 의원 프로필
+export const MEMBER_ATTENDANCE_API = `${API_BASE}/npffdutiapkzbfyvr`;  // 본회의 출석
+export const MEMBER_BILLS_API = `${API_BASE}/nzmimeepazxkubdpn`;  // 대표발의 의안
+export const MEMBER_VOTES_API = `${API_BASE}/votrrujbgxmawjdpn`;  // 표결 정보
