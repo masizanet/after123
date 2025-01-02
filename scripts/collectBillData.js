@@ -106,42 +106,65 @@ async function fetchVoteMembers(billId) {
   try {
     console.log(`Fetching vote members for bill ${billId}...`);
     
-    // 전체 데이터를 한 번에 가져오기 위해 더 큰 페이지 크기 시도
-    const params = new URLSearchParams({
-      Key: process.env.NEXT_PUBLIC_ASSEMBLY_API_KEY || '',
-      Type: 'json',
-      pIndex: '1',
-      pSize: '1000',  // 더 큰 값으로 시도
-      AGE: '22',
-      BILL_ID: billId,
-      numOfRows: '1000'  // 일부 API에서 사용하는 파라미터
-    });
+    let allRows = [];
+    let pageIndex = 1;
+    let hasMoreData = true;
+    const seenMembers = new Set(); // 중복 체크를 위한 Set
+    
+    while (hasMoreData) {
+      const params = new URLSearchParams({
+        Key: process.env.NEXT_PUBLIC_ASSEMBLY_API_KEY || '',
+        Type: 'json',
+        pIndex: pageIndex.toString(),
+        pSize: '300',  // 한 페이지당 300개씩
+        AGE: '22',
+        BILL_ID: billId
+      });
 
-    // API 요청 URL 로깅
-    const url = `${VOTE_MEMBERS_API}?${params.toString()}`;
-    console.log('Request URL:', url);
-    
-    const response = await fetch(url);
-    const data = await response.json();
-    
-    // 응답 데이터 구조 로깅
-    console.log('Response data structure:', JSON.stringify(data, null, 2));
-    
-    if (!data?.nojepdqqaweusdfbi?.[0]?.head?.[1]?.RESULT?.CODE ||
-        data.nojepdqqaweusdfbi[0].head[1].RESULT.CODE !== 'INFO-000') {
-      console.error(`Invalid response for bill ${billId}:`, data);
-      return null;
+      const url = `${VOTE_MEMBERS_API}?${params.toString()}`;
+      console.log(`Fetching page ${pageIndex}...`);
+      
+      const response = await fetch(url);
+      const data = await response.json();
+      
+      if (!data?.nojepdqqaweusdfbi?.[0]?.head?.[1]?.RESULT?.CODE ||
+          data.nojepdqqaweusdfbi[0].head[1].RESULT.CODE !== 'INFO-000') {
+        console.error(`Invalid response for bill ${billId} page ${pageIndex}:`, data);
+        break;
+      }
+
+      const totalCount = data.nojepdqqaweusdfbi[0].head[0].list_total_count;
+      const currentRows = data.nojepdqqaweusdfbi[1]?.row || [];
+      
+      // 중복 제거하면서 데이터 추가
+      for (const row of currentRows) {
+        const memberKey = `${row.MEMBER_NO}-${row.VOTE_DATE}`;
+        if (!seenMembers.has(memberKey)) {
+          seenMembers.add(memberKey);
+          allRows.push(row);
+        }
+      }
+      
+      console.log(`Received ${currentRows.length} rows (unique: ${allRows.length}/${totalCount})`);
+      
+      // 모든 데이터를 가져왔는지 확인
+      if (allRows.length >= totalCount || currentRows.length === 0) {
+        hasMoreData = false;
+      } else {
+        pageIndex++;
+      }
     }
 
-    const totalCount = data.nojepdqqaweusdfbi[0].head[0].list_total_count;
-    const rows = data.nojepdqqaweusdfbi[1]?.row || [];
-    
-    console.log(`Received ${rows.length} rows out of ${totalCount} total`);
-    
+    // 최종 데이터 구조 생성
     return {
       nojepdqqaweusdfbi: [
-        data.nojepdqqaweusdfbi[0],
-        { row: rows }
+        {
+          head: [
+            { list_total_count: allRows.length },
+            { RESULT: { CODE: 'INFO-000', MESSAGE: 'SUCCESS' } }
+          ]
+        },
+        { row: allRows }
       ]
     };
   } catch (error) {
@@ -170,6 +193,12 @@ async function fetchBillId(billNo) {
 async function collectBillData() {
   try {
     const billsData = {};
+    const dataDir = path.join(__dirname, '../src/data');
+
+    // data 디렉토리가 없으면 생성
+    if (!fs.existsSync(dataDir)) {
+      fs.mkdirSync(dataDir, { recursive: true });
+    }
 
     // 각 의안에 대해 데이터 수집
     for (const billNo of TRACKED_BILL_NUMBERS) {
@@ -206,16 +235,19 @@ async function collectBillData() {
 
       // vote-members 파일 별도 저장
       if (voteMembers) {
+        const voteMembersPath = path.join(dataDir, `vote-members-${billNo}.json`);
         fs.writeFileSync(
-          path.join(__dirname, `../src/data/vote-members-${billNo}.json`),
+          voteMembersPath,
           JSON.stringify(voteMembers, null, 2),
           'utf8'
         );
+        console.log(`Saved vote members data to ${voteMembersPath}`);
       }
     }
 
     // bills.json 저장
     fs.writeFileSync(billsJsonPath, JSON.stringify(billsData, null, 2), 'utf8');
+    console.log(`Saved bills data to ${billsJsonPath}`);
     
     console.log('Successfully collected bill data');
   } catch (error) {
