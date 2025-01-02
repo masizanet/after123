@@ -51,14 +51,11 @@ export default function BillDetail({ detail, voteResult, isImportant = false }: 
           </header>
 
           {voteResult && (
-            <section className={styles.voteSection}>
-              <h2 className={styles.sectionTitle}>표결 정보</h2>
-              <VoteDetail 
-                billId={detail.BILL_ID} 
-                voteResult={voteResult}
-                isImportant={isImportant}
-              />
-            </section>
+            <VoteDetail 
+              billId={detail.BILL_ID} 
+              voteResult={voteResult}
+              isImportant={isImportant}
+            />
           )}
         </article>
       </main>
