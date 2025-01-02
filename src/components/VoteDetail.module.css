@@ -126,3 +126,25 @@
   outline: 2px solid #3b82f6;
   outline-offset: 2px;
 }
+
+.memberPartyGroups {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  padding: 1rem;
+}
+
+.partyGroup {
+  border: 1px solid #e5e7eb;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.partyName {
+  padding: 0.75rem 1rem;
+  background-color: #f9fafb;
+  border-bottom: 1px solid #e5e7eb;
+  font-size: 1rem;
+  font-weight: 500;
+  color: #111827;
+}

@@ -1,15 +1,67 @@
 // src/lib/api/bills.ts
 
+import type { 
+  Bill,
+  BillsResponse,
+  VoteResult,
+  APIVoteMember 
+} from '@/types/bill';
+
 import { logDebug } from '@/lib/utils/debug';
-import { BillsResponse, Bill, VoteResult, APIVoteMember } from '@/types/bill';
 import { TRACKED_BILL_NUMBERS } from '@/constants/bills';
-import { BILL_LIST_API,BILL_DETAIL_API,VOTE_RESULT_API,VOTE_MEMBERS_API } from '@/constants/apis';
 import { BILL_2206205_ABSENTEES } from '@/constants/absentMembers';
-import { promises as fs } from 'fs';
-import path from 'path';
+import { 
+  BILL_LIST_API,
+  BILL_DETAIL_API,
+  VOTE_RESULT_API,
+  VOTE_MEMBERS_API 
+} from '@/constants/apis';
+import billsData from '@/data/bills.json';
+import member22Data from '@/data/member22.json';
+import type { BillDetail, VoteResult } from '@/types/bill';
+import type { Member22 } from '@/types/member';
+
+interface BillData {
+  detail: BillDetail;
+  voteResult: VoteResult;
+  members: Member22[];
+}
+
+export async function getBillData(billId: string): Promise<BillData | null> {
+  const billData = billsData[billId];
+  
+  if (!billData?.detail) {
+    return null;
+  }
+
+  // 2206205 의안은 voteResult가 없어도 표시
+  if (!billData.voteResult && billData.detail.BILL_NO !== '2206205') {
+    return null;
+  }
+
+  return {
+    detail: billData.detail,
+    voteResult: billData.voteResult || {
+      BILL_ID: billId,
+      PROC_DT: "20241210",
+      BILL_NO: "2206205",
+      BILL_NAME: billData.detail.BILL_NM,
+      CURR_COMMITTEE: "",
+      PROC_RESULT_CD: "",
+      MEMBER_TCNT: "300",
+      VOTE_TCNT: "195",
+      YES_TCNT: "0",
+      NO_TCNT: "0",
+      BLANK_TCNT: "195",
+      LINK_URL: ""
+    },
+    members: member22Data.members
+  };
+}
 
 export const BILL_2206205_ID = 'PRC_P2U4C1T2Q0J4E1F7B5G6W3L7D1W6P4';
 export const BILL_2206205_NAME = '대통령(윤석열) 탄핵소추안(1차)';
+
 const BILL_2206205_VOTE_RESULT: VoteResult = {
   BILL_ID: BILL_2206205_ID,
   PROC_DT: "20241210",
@@ -72,101 +124,11 @@ export async function fetchTrackedBills() {
 }
 
 export async function fetchBillDetail(billId: string) {
-  const searchParams = new URLSearchParams({
-    Key: process.env.NEXT_PUBLIC_ASSEMBLY_API_KEY || '',
-    Type: 'json',
-    pIndex: '1',
-    pSize: '1',
-    BILL_ID: billId
-  });
-
-  try {
-    const response = await fetch(`${BILL_DETAIL_API}?${searchParams.toString()}`);
-    
-    if (!response.ok) {
-      throw new Error(`API request failed: ${response.status}`);
-    }
-
-    const data = await response.json();
-
-    if (data?.BILLINFODETAIL?.[0]?.head?.[1]?.RESULT?.CODE === "INFO-200") {
-      return null;
-    }
-
-    if (!data?.BILLINFODETAIL?.[0]?.head?.[1]?.RESULT) {
-      logDebug('Invalid API response structure:', data);
-      return null;
-    }
-
-    const resultCode = data.BILLINFODETAIL[0].head[1].RESULT.CODE;
-    if (resultCode !== 'INFO-000') {
-      logDebug('API returned error:', data.BILLINFODETAIL[0].head[1].RESULT.MESSAGE);
-      return null;
-    }
-
-    if (!data.BILLINFODETAIL[1]?.row?.[0]) {
-      logDebug('No bill data found');
-      return null;
-    }
-
-    const billDetail = data.BILLINFODETAIL[1].row[0];
-    return billDetail;
-
-  } catch (error) {
-    logDebug(`Failed to fetch detail for bill ${billId}:`, error);
-    return null;
-  }
+  return billsData[billId]?.detail || null;
 }
 
-export async function fetchVoteResult(billId: string): Promise<VoteResult | null> {
-  // 2206205 법안인지 확인하는 함수
-  const is2206205Bill = (id: string) => 
-    id === BILL_2206205_ID || 
-    id.includes('2206205') || 
-    id === 'PRC_V2Y4M1J2X0P9Y1S8X3P8L2H5K0C5R1';
-
-  // 2206205 법안인 경우 하드코딩된 결과 반환
-  if (is2206205Bill(billId)) {
-    return {
-      ...BILL_2206205_VOTE_RESULT,
-      BILL_ID: billId
-    };
-  }
-
-  const searchParams = new URLSearchParams({
-    Key: process.env.NEXT_PUBLIC_ASSEMBLY_API_KEY || '',
-    Type: 'json',
-    pIndex: '1',
-    pSize: '1',
-    AGE: '22',
-    BILL_ID: billId
-  });
-
-  try {
-    const response = await fetch(`${VOTE_RESULT_API}?${searchParams.toString()}`);
-    
-    if (!response.ok) {
-      return null;
-    }
-
-    const data = await response.json();
-    
-    // INFO-200이나 다른 에러코드의 경우 null 반환
-    if (data?.ncocpgfiaoituanbr?.[0]?.head?.[1]?.RESULT?.CODE !== "INFO-000") {
-      return null;
-    }
-
-    const result = data.ncocpgfiaoituanbr[1]?.row?.[0];
-    if (!result) {
-      return null;
-    }
-
-    return result as VoteResult;
-
-  } catch (error) {
-    console.error(`Error fetching vote result for bill ${billId}:`, error);
-    return null;
-  }
+export async function fetchVoteResult(billId: string) {
+  return billsData[billId]?.voteResult || null;
 }
 
 export async function fetchVoteMembers(billId: string): Promise<APIVoteMember[]> {

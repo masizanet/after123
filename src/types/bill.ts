@@ -99,3 +99,12 @@ export interface VoteMemberList {
   count: number;
   members: string[];
 }
+
+export interface BillsData {
+  [key: string]: {
+    detail: BillDetail;
+    voteResult: VoteResult;
+    voteMembers: any[] | null;
+    billNo: string;
+  };
+}

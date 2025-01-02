@@ -1,0 +1,146 @@
+{
+  "nojepdqqaweusdfbi": [
+    {
+      "head": [
+        {
+          "list_total_count": 300
+        },
+        {
+          "RESULT": {
+            "CODE": "INFO-000",
+            "MESSAGE": "정상 처리되었습니다."
+          }
+        }
+      ]
+    },
+    {
+      "row": [
+        {
+          "HG_NM": "이언주",
+          "HJ_NM": "李彦周",
+          "POLY_NM": "더불어민주당",
+          "ORIG_NM": "경기 용인시정",
+          "MEMBER_NO": "2200000000201",
+          "POLY_CD": "101182",
+          "ORIG_CD": "080184",
+          "VOTE_DATE": "20241231 142813",
+          "BILL_NO": "2207082",
+          "BILL_NAME": "반인권적 국가범죄의 시효 등에 관한 특례법안(대안)",
+          "BILL_ID": "PRC_T2E4V1L2D2C3J1F4T3T2R3J3L4Q6A5",
+          "LAW_TITLE": null,
+          "CURR_COMMITTEE": "법제사법위원회",
+          "RESULT_VOTE_MOD": "찬성",
+          "DEPT_CD": "9771408",
+          "CURR_COMMITTEE_ID": "9700006",
+          "DISP_ORDER": 0,
+          "BILL_URL": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_T2E4V1L2D2C3J1F4T3T2R3J3L4Q6A5",
+          "BILL_NAME_URL": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_T2E4V1L2D2C3J1F4T3T2R3J3L4Q6A5",
+          "SESSION_CD": 420,
+          "CURRENTS_CD": 3,
+          "AGE": 22,
+          "MONA_CD": "JG77046J"
+        },
+        {
+          "HG_NM": "안상훈",
+          "HJ_NM": "安祥薰",
+          "POLY_NM": "국민의힘",
+          "ORIG_NM": "비례대표",
+          "MEMBER_NO": "2200000000156",
+          "POLY_CD": "101210",
+          "ORIG_CD": "240001",
+          "VOTE_DATE": "20241231 142813",
+          "BILL_NO": "2207082",
+          "BILL_NAME": "반인권적 국가범죄의 시효 등에 관한 특례법안(대안)",
+          "BILL_ID": "PRC_T2E4V1L2D2C3J1F4T3T2R3J3L4Q6A5",
+          "LAW_TITLE": null,
+          "CURR_COMMITTEE": "법제사법위원회",
+          "RESULT_VOTE_MOD": "반대",
+          "DEPT_CD": "9771386",
+          "CURR_COMMITTEE_ID": "9700006",
+          "DISP_ORDER": 0,
+          "BILL_URL": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_T2E4V1L2D2C3J1F4T3T2R3J3L4Q6A5",
+          "BILL_NAME_URL": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_T2E4V1L2D2C3J1F4T3T2R3J3L4Q6A5",
+          "SESSION_CD": 420,
+          "CURRENTS_CD": 3,
+          "AGE": 22,
+          "MONA_CD": "PYA8594I"
+        },
+        {
+          "HG_NM": "추미애",
+          "HJ_NM": "秋美愛",
+          "POLY_NM": "더불어민주당",
+          "ORIG_NM": "경기 하남시갑",
+          "MEMBER_NO": "2200000000285",
+          "POLY_CD": "101182",
+          "ORIG_CD": "210055",
+          "VOTE_DATE": "20241231 142813",
+          "BILL_NO": "2207082",
+          "BILL_NAME": "반인권적 국가범죄의 시효 등에 관한 특례법안(대안)",
+          "BILL_ID": "PRC_T2E4V1L2D2C3J1F4T3T2R3J3L4Q6A5",
+          "LAW_TITLE": null,
+          "CURR_COMMITTEE": "법제사법위원회",
+          "RESULT_VOTE_MOD": "찬성",
+          "DEPT_CD": "9771452",
+          "CURR_COMMITTEE_ID": "9700006",
+          "DISP_ORDER": 0,
+          "BILL_URL": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_T2E4V1L2D2C3J1F4T3T2R3J3L4Q6A5",
+          "BILL_NAME_URL": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_T2E4V1L2D2C3J1F4T3T2R3J3L4Q6A5",
+          "SESSION_CD": 420,
+          "CURRENTS_CD": 3,
+          "AGE": 22,
+          "MONA_CD": "URV1689Q"
+        },
+        {
+          "HG_NM": "문대림",
+          "HJ_NM": "文大林",
+          "POLY_NM": "더불어민주당",
+          "ORIG_NM": "제주 제주시갑",
+          "MEMBER_NO": "2200000000087",
+          "POLY_CD": "101182",
+          "ORIG_CD": "170011",
+          "VOTE_DATE": "20241231 142813",
+          "BILL_NO": "2207082",
+          "BILL_NAME": "반인권적 국가범죄의 시효 등에 관한 특례법안(대안)",
+          "BILL_ID": "PRC_T2E4V1L2D2C3J1F4T3T2R3J3L4Q6A5",
+          "LAW_TITLE": null,
+          "CURR_COMMITTEE": "법제사법위원회",
+          "RESULT_VOTE_MOD": "찬성",
+          "DEPT_CD": "9771353",
+          "CURR_COMMITTEE_ID": "9700006",
+          "DISP_ORDER": 0,
+          "BILL_URL": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_T2E4V1L2D2C3J1F4T3T2R3J3L4Q6A5",
+          "BILL_NAME_URL": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_T2E4V1L2D2C3J1F4T3T2R3J3L4Q6A5",
+          "SESSION_CD": 420,
+          "CURRENTS_CD": 3,
+          "AGE": 22,
+          "MONA_CD": "D9I3309M"
+        },
+        {
+          "HG_NM": "박정현",
+          "HJ_NM": "朴貞炫",
+          "POLY_NM": "더불어민주당",
+          "ORIG_NM": "대전 대덕구",
+          "MEMBER_NO": "2200000000111",
+          "POLY_CD": "101182",
+          "ORIG_CD": "060011",
+          "VOTE_DATE": "20241231 142813",
+          "BILL_NO": "2207082",
+          "BILL_NAME": "반인권적 국가범죄의 시효 등에 관한 특례법안(대안)",
+          "BILL_ID": "PRC_T2E4V1L2D2C3J1F4T3T2R3J3L4Q6A5",
+          "LAW_TITLE": null,
+          "CURR_COMMITTEE": "법제사법위원회",
+          "RESULT_VOTE_MOD": "찬성",
+          "DEPT_CD": "9771363",
+          "CURR_COMMITTEE_ID": "9700006",
+          "DISP_ORDER": 0,
+          "BILL_URL": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_T2E4V1L2D2C3J1F4T3T2R3J3L4Q6A5",
+          "BILL_NAME_URL": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_T2E4V1L2D2C3J1F4T3T2R3J3L4Q6A5",
+          "SESSION_CD": 420,
+          "CURRENTS_CD": 3,
+          "AGE": 22,
+          "MONA_CD": "HVV5250J"
+        }
+      ]
+    }
+  ]
+}

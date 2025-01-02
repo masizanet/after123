@@ -1,29 +1,15 @@
+import { getMemberById } from '@/lib/api/member';
 import { notFound } from 'next/navigation';
 import type { Metadata } from 'next';
 
-interface Member {
-  id: string;
-  name: string;
-  party: string;
-  district: string;
-  committee: string[];
-  type: string;
-  gender: string;
-  electedCount: string;
+interface PageProps {
+  params: {
+    id: string;
+  }
 }
 
-type Props = {
-  params: { id: string };
-  searchParams?: { [key: string]: string | string[] | undefined };
-}
-
-const memberData: { members: Member[] } = require('@/data/member22.json');
-
-export async function generateMetadata({  params 
-}: { 
- params: { id: string } 
-}): Promise<Metadata> {
-  const member = memberData.members.find(m => m.id === params.id);
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const member = getMemberById(params.id);
   
   if (!member) {
     return {
@@ -32,20 +18,13 @@ export async function generateMetadata({  params
   }
 
   return {
-    title: `${member.name} 의원 - ${member.party}`,
-    description: `${member.district} 지역구, ${member.committee.join(', ')}`,
+    title: `${member.name} 의원`,
+    description: `${member.party} ${member.district || '비례대표'}`,
   };
 }
 
-export default function MemberPage({ params 
-}: {
- params: { id: string }
-}) {
-
-  // console.log('Requested ID:', params.id);
-  // console.log('Available IDs:', memberData.members.map(m => m.id));
-  
-  const member = memberData.members.find(m => m.id === params.id);
+export default async function MemberDetailPage({ params }: PageProps) {
+  const member = getMemberById(params.id);
 
   if (!member) {
     notFound();
@@ -55,18 +34,10 @@ export default function MemberPage({ params
     <div>
       <h1>{member.name} 의원</h1>
       <div>
-        <div><span>소속정당:</span> {member.party}</div>
-        <div><span>지역구:</span> {member.district}</div>
-        <div><span>선출방법:</span> {member.type}</div>
-        <div><span>소속위원회:</span> {member.committee.join(', ')}</div>
-        <div><span>선수:</span> {member.electedCount}</div>
+        <p>소속: {member.party}</p>
+        <p>지역구: {member.district || '비례대표'}</p>
       </div>
+      {/* 추가 의원 정보 표시 */}
     </div>
   );
-}
-
-export function generateStaticParams() {
-  return memberData.members.map(member => ({
-    id: member.id
-  }));
 }

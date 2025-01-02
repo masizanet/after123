@@ -1,0 +1,146 @@
+{
+  "nojepdqqaweusdfbi": [
+    {
+      "head": [
+        {
+          "list_total_count": 300
+        },
+        {
+          "RESULT": {
+            "CODE": "INFO-000",
+            "MESSAGE": "정상 처리되었습니다."
+          }
+        }
+      ]
+    },
+    {
+      "row": [
+        {
+          "HG_NM": "김성원",
+          "HJ_NM": "金成願",
+          "POLY_NM": "국민의힘",
+          "ORIG_NM": "경기 동두천시양주시연천구을",
+          "MEMBER_NO": "2200000000043",
+          "POLY_CD": "101210",
+          "ORIG_CD": "210051",
+          "VOTE_DATE": "20241204 010042",
+          "BILL_NO": "2206197",
+          "BILL_NAME": "비상계엄해제요구 결의안",
+          "BILL_ID": "PRC_E2W4R1Q2I0U4B0O0Y5Q5Z4N6H5E8O7",
+          "LAW_TITLE": null,
+          "CURR_COMMITTEE": "본회의",
+          "RESULT_VOTE_MOD": "찬성",
+          "DEPT_CD": "9770985",
+          "CURR_COMMITTEE_ID": "1000000",
+          "DISP_ORDER": 0,
+          "BILL_URL": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_E2W4R1Q2I0U4B0O0Y5Q5Z4N6H5E8O7",
+          "BILL_NAME_URL": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_E2W4R1Q2I0U4B0O0Y5Q5Z4N6H5E8O7",
+          "SESSION_CD": 418,
+          "CURRENTS_CD": 15,
+          "AGE": 22,
+          "MONA_CD": "9D939735"
+        },
+        {
+          "HG_NM": "조경태",
+          "HJ_NM": "趙慶泰",
+          "POLY_NM": "국민의힘",
+          "ORIG_NM": "부산 사하구을",
+          "MEMBER_NO": "2200000000257",
+          "POLY_CD": "101210",
+          "ORIG_CD": "020022",
+          "VOTE_DATE": "20241204 010042",
+          "BILL_NO": "2206197",
+          "BILL_NAME": "비상계엄해제요구 결의안",
+          "BILL_ID": "PRC_E2W4R1Q2I0U4B0O0Y5Q5Z4N6H5E8O7",
+          "LAW_TITLE": null,
+          "CURR_COMMITTEE": "본회의",
+          "RESULT_VOTE_MOD": "찬성",
+          "DEPT_CD": "9770450",
+          "CURR_COMMITTEE_ID": "1000000",
+          "DISP_ORDER": 0,
+          "BILL_URL": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_E2W4R1Q2I0U4B0O0Y5Q5Z4N6H5E8O7",
+          "BILL_NAME_URL": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_E2W4R1Q2I0U4B0O0Y5Q5Z4N6H5E8O7",
+          "SESSION_CD": 418,
+          "CURRENTS_CD": 15,
+          "AGE": 22,
+          "MONA_CD": "5KV82250"
+        },
+        {
+          "HG_NM": "윤준병",
+          "HJ_NM": "尹準炳",
+          "POLY_NM": "더불어민주당",
+          "ORIG_NM": "전북 정읍시고창군",
+          "MEMBER_NO": "2200000000182",
+          "POLY_CD": "101182",
+          "ORIG_CD": "130075",
+          "VOTE_DATE": "20241204 010042",
+          "BILL_NO": "2206197",
+          "BILL_NAME": "비상계엄해제요구 결의안",
+          "BILL_ID": "PRC_E2W4R1Q2I0U4B0O0Y5Q5Z4N6H5E8O7",
+          "LAW_TITLE": null,
+          "CURR_COMMITTEE": "본회의",
+          "RESULT_VOTE_MOD": "찬성",
+          "DEPT_CD": "9771212",
+          "CURR_COMMITTEE_ID": "1000000",
+          "DISP_ORDER": 0,
+          "BILL_URL": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_E2W4R1Q2I0U4B0O0Y5Q5Z4N6H5E8O7",
+          "BILL_NAME_URL": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_E2W4R1Q2I0U4B0O0Y5Q5Z4N6H5E8O7",
+          "SESSION_CD": 418,
+          "CURRENTS_CD": 15,
+          "AGE": 22,
+          "MONA_CD": "JC14718Q"
+        },
+        {
+          "HG_NM": "정일영",
+          "HJ_NM": "鄭日永",
+          "POLY_NM": "더불어민주당",
+          "ORIG_NM": "인천 연수구을",
+          "MEMBER_NO": "2200000000247",
+          "POLY_CD": "101182",
+          "ORIG_CD": "040030",
+          "VOTE_DATE": "20241204 010042",
+          "BILL_NO": "2206197",
+          "BILL_NAME": "비상계엄해제요구 결의안",
+          "BILL_ID": "PRC_E2W4R1Q2I0U4B0O0Y5Q5Z4N6H5E8O7",
+          "LAW_TITLE": null,
+          "CURR_COMMITTEE": "본회의",
+          "RESULT_VOTE_MOD": "찬성",
+          "DEPT_CD": "9771150",
+          "CURR_COMMITTEE_ID": "1000000",
+          "DISP_ORDER": 0,
+          "BILL_URL": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_E2W4R1Q2I0U4B0O0Y5Q5Z4N6H5E8O7",
+          "BILL_NAME_URL": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_E2W4R1Q2I0U4B0O0Y5Q5Z4N6H5E8O7",
+          "SESSION_CD": 418,
+          "CURRENTS_CD": 15,
+          "AGE": 22,
+          "MONA_CD": "LT72093S"
+        },
+        {
+          "HG_NM": "용혜인",
+          "HJ_NM": "龍慧仁",
+          "POLY_NM": "기본소득당",
+          "ORIG_NM": "비례대표",
+          "MEMBER_NO": "2200000000167",
+          "POLY_CD": "101208",
+          "ORIG_CD": "240001",
+          "VOTE_DATE": "20241204 010042",
+          "BILL_NO": "2206197",
+          "BILL_NAME": "비상계엄해제요구 결의안",
+          "BILL_ID": "PRC_E2W4R1Q2I0U4B0O0Y5Q5Z4N6H5E8O7",
+          "LAW_TITLE": null,
+          "CURR_COMMITTEE": "본회의",
+          "RESULT_VOTE_MOD": "찬성",
+          "DEPT_CD": "9771261",
+          "CURR_COMMITTEE_ID": "1000000",
+          "DISP_ORDER": 0,
+          "BILL_URL": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_E2W4R1Q2I0U4B0O0Y5Q5Z4N6H5E8O7",
+          "BILL_NAME_URL": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_E2W4R1Q2I0U4B0O0Y5Q5Z4N6H5E8O7",
+          "SESSION_CD": 418,
+          "CURRENTS_CD": 15,
+          "AGE": 22,
+          "MONA_CD": "GE71932C"
+        }
+      ]
+    }
+  ]
+}

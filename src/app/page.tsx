@@ -1,16 +1,20 @@
 import { BillList } from '@/components/BillList';
-import { fetchTrackedBills } from '@/lib/api/bills';
 import styles from './page.module.css';
-import Link from "next/link";
+import billsData from '@/data/bills.json';
 
-export default async function Home() {
-  const { bills } = await fetchTrackedBills();
-  const sortedBills = [...bills].sort((a, b) => {
-    const dateA = new Date(a.PPSL_DT);
-    const dateB = new Date(b.PPSL_DT);
-    return dateB.getTime() - dateA.getTime();
-  });
-
+export default function Home() {
+  // bills.json에서 의안 목록 생성 및 처리일순 정렬
+  const bills = Object.values(billsData)
+    .map(bill => ({
+      ...bill.detail,
+      hasVoteResult: bill.voteResult !== null || bill.detail.BILL_NO === '2206205'
+    }))
+    .sort((a, b) => {
+      // 처리일이 없는 경우 제안일로 대체
+      const dateA = new Date(a.RGS_RSLN_DT || a.PPSL_DT);
+      const dateB = new Date(b.RGS_RSLN_DT || b.PPSL_DT);
+      return dateB.getTime() - dateA.getTime();
+    });
 
   return (
     <div className={styles.container}>
@@ -18,11 +22,8 @@ export default async function Home() {
         <h1 className={styles.title}>12.3 내란 관련 주요 의안</h1>
       </header>
       <div className={styles.listWrapper}>
-        <BillList bills={sortedBills} />
+        <BillList bills={bills} />
       </div>
-      <Link href="/members">
-        22대국회의원 명단
-      </Link>
     </div>
   );
 }

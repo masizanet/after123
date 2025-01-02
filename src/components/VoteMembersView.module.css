@@ -128,10 +128,14 @@
   border-radius: 6px;
   font-size: 0.925rem;
   color: #1a1a1a;
+  text-decoration: none;
+  display: block;
+  transition: background-color 0.2s;
 }
 
 .member:hover {
   background-color: #e9ecef;
+  text-decoration: none;
 }
 
 .loading {
@@ -156,4 +160,11 @@
   .memberGrid {
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
   }
+}
+
+.note {
+  font-size: 0.8em;
+  color: #666;
+  display: block;
+  margin-top: 0.2em;
 }

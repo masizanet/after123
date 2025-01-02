@@ -1,7 +1,5 @@
 'use client';
 
-import { useEffect, useState } from 'react';
-import { fetchVoteResult, BILL_2206205_ID } from '@/lib/api/bills';
 import { formatDate } from '@/lib/utils/date';
 import Link from 'next/link';
 import styles from './BillList.module.css';
@@ -11,55 +9,10 @@ interface BillListProps {
   bills: Bill[];
 }
 
-interface BillWithVote extends Bill {
-  hasVoteResult?: boolean;
-}
-
 export function BillList({ bills }: BillListProps) {
-  const [billsWithVote, setBillsWithVote] = useState<BillWithVote[]>(bills);
-
-  useEffect(() => {
-    // console.log('Initial bills:', bills); // Debug log
-
-    async function checkVoteResults() {
-      const votesChecked = await Promise.all(
-        bills.map(async (bill) => {
-          // Debug log for each bill
-          // console.log('Processing bill:', {
-          //   id: bill.BILL_ID,
-          //   name: bill.BILL_NM,
-          //   procDt: bill.PROC_DT,
-          //   procResult: bill.PROC_RESULT,
-          //   proposeDate: bill.PROPOSE_DT,
-          //   billKind: bill.BILL_KIND
-          // });
-
-          if (bill.BILL_ID === BILL_2206205_ID || 
-              bill.BILL_ID.includes('2206205') || 
-              bill.BILL_ID === 'PRC_V2Y4M1J2X0P9Y1S8X3P8L2H5K0C5R1') {
-            return {
-              ...bill,
-              hasVoteResult: true
-            };
-          }
-
-          const voteResult = await fetchVoteResult(bill.BILL_ID);
-          return {
-            ...bill,
-            hasVoteResult: voteResult !== null
-          };
-        })
-      );
-      setBillsWithVote(votesChecked);
-    }
-
-    checkVoteResults();
-  }, [bills]);
-
-
   return (
     <ul className={styles.list}>
-      {billsWithVote.map((bill) => (
+      {bills.map((bill) => (
         <li key={bill.BILL_ID} className={styles.item}>
           <div className={styles.info}>
             <div className={styles.header}>
