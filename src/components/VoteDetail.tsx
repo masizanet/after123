@@ -118,7 +118,7 @@ export function VoteDetail({ billId, voteResult, isImportant = false }: VoteDeta
         .map(m => ({
           id: m.MONA_CD,
           name: m.HG_NM || m.MONA_NM,
-          party: m.POLY_NM,
+          POLY_NM: m.POLY_NM,
           region: m.ORIG_NM || '비례대표',
           memberNo: m.MEMBER_NO || ''
         }));
