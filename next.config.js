@@ -1,6 +1,14 @@
-module.exports = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   images: {
-    domains: ['www.assembly.go.kr'],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'www.assembly.go.kr',
+        pathname: '/static/portal/img/openassm/**',
+      },
+    ],
   },
-  // 다른 설정들...
-}; 
+};
+
+module.exports = nextConfig; 
