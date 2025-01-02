@@ -6,6 +6,8 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import styles from './page.module.css';
 import { MemberStats } from '@/components/MemberStats';
+import { getPartyColor } from '@/constants/partyColors';
+import { getContrastTextColor } from '@/lib/utils/color';
 
 interface MemberDetail {
   HG_NM: string;       // 이름
@@ -85,7 +87,14 @@ export default function MemberDetailClient({ id }: Props) {
             )}
             <header>
               <h1 className={styles.title}>{member.HG_NM}</h1>
-              <p className={styles.party}>{member.POLY_NM}</p>
+              <p className={styles.party}
+                style={{ 
+                  backgroundColor: getPartyColor(member.POLY_NM).main,
+                  color: getContrastTextColor(getPartyColor(member.POLY_NM).main)
+                }}
+              >
+                {member.POLY_NM}
+              </p>
               <p className={styles.district}>{member.ORIG_NM || '비례대표'}</p>
             </header>
           </div>

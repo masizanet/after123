@@ -90,7 +90,7 @@ export interface VoteMemberList {
 export interface Member {
   id: string;
   name: string;
-  party: string;
+  POLY_NM: string;
   region: string;
   memberNo: string;
 }

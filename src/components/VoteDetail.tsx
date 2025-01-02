@@ -7,6 +7,8 @@ import { fetchVoteMembers } from '@/lib/api/bills';
 import Link from 'next/link';
 import { createPortal } from 'react-dom';
 import type { Member } from '@/types/bill';
+import { getPartyColor } from '@/constants/partyColors';
+import { getContrastTextColor } from '@/lib/utils/color';
 
 interface VoteResult {
   MEMBER_TCNT: string;
@@ -14,6 +16,7 @@ interface VoteResult {
   YES_TCNT: string;
   NO_TCNT: string;
   BLANK_TCNT: string;
+  BILL_NO: string;
 }
 
 interface VoteDetailProps {
@@ -49,7 +52,7 @@ function getTypeLabel(type: string | null) {
 
 function groupMembersByParty(members: Member[]) {
   return members.reduce((groups, member) => {
-    const party = member.party;
+    const party = member.POLY_NM || '무소속';
     if (!groups[party]) {
       groups[party] = [];
     }
@@ -58,7 +61,7 @@ function groupMembersByParty(members: Member[]) {
   }, {} as Record<string, Member[]>);
 }
 
-export function VoteDetail({ billId, voteResult, isImportant }: VoteDetailProps) {
+export function VoteDetail({ billId, voteResult, isImportant = false }: VoteDetailProps) {
   const [memberDetails, setMemberDetails] = useState<Member[] | null>(null);
   const [selectedType, setSelectedType] = useState<string | null>(null);
   const [popover, setPopover] = useState<MemberPopover | null>(null);
@@ -83,9 +86,9 @@ export function VoteDetail({ billId, voteResult, isImportant }: VoteDetailProps)
       filteredMembers = BILL_2206205_ABSENTEES.map(member => ({
         id: member.name,
         name: member.name,
-        party: member.party,
+        POLY_NM: member.party,
         region: member.region,
-        memberNo: member.memberNo || ''
+        memberNo: member.name
       }));
     } else {
       const billData = bills[billId];
@@ -131,61 +134,21 @@ export function VoteDetail({ billId, voteResult, isImportant }: VoteDetailProps)
 
   const is2206205 = billId.includes('2206205');
 
-  const fetchMemberDetails = async (member: Member, position: { x: number; y: number }) => {
-    try {
-      const response = await fetch(`/api/members/${member.memberNo || ''}`);
-      if (!response.ok) {
-        throw new Error('Failed to fetch member details');
+  const handleMemberClick = async (member: Member, event: React.MouseEvent) => {
+    const rect = (event.target as HTMLElement).getBoundingClientRect();
+    setPopover({
+      member,
+      detail: {
+        HG_NM: member.name,
+        POLY_NM: member.POLY_NM,
+        ORIG_NM: member.region,
+        CMITS: ''
+      },
+      position: {
+        x: rect.left,
+        y: rect.bottom + window.scrollY + 8
       }
-      const detail = await response.json();
-      setPopover({ member, detail, position });
-    } catch (error) {
-      console.error('Error fetching member details:', error);
-      setPopover({
-        member,
-        detail: {
-          HG_NM: member.name,
-          POLY_NM: member.party,
-          ORIG_NM: member.region,
-          CMITS: ''
-        },
-        position
-      });
-    }
-  };
-
-  const handleMemberClick = async (member: Member, event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-    event.stopPropagation();
-    
-    const target = event.currentTarget;
-    const rect = target.getBoundingClientRect();
-    
-    // 이전 팝오버가 같은 멤버면 닫기
-    if (popover?.member.id === member.id) {
-      setPopover(null);
-      return;
-    }
-
-    // 오버레이 위치 계산
-    const POPOVER_WIDTH = 280;
-    const SCREEN_PADDING = 24;
-    
-    let x = rect.left + window.scrollX;
-    const y = rect.bottom + window.scrollY + 8;
-    
-    // 오버레이가 화면 우측을 벗어나는지 확인
-    if (x + POPOVER_WIDTH > window.innerWidth - SCREEN_PADDING) {
-      // 우측을 벗어나면 왼쪽으로 이동
-      x = window.innerWidth - POPOVER_WIDTH - SCREEN_PADDING;
-    }
-
-    const position = {
-      x,
-      y
-    };
-
-    fetchMemberDetails(member, position);
+    });
   };
 
   return (
@@ -261,7 +224,13 @@ export function VoteDetail({ billId, voteResult, isImportant }: VoteDetailProps)
               .sort(([partyA], [partyB]) => partyA.localeCompare(partyB))
               .map(([party, members]) => (
                 <article key={party} className={styles.partyGroup}>
-                  <h3 className={styles.partyName}>
+                  <h3 
+                    className={styles.partyName}
+                    style={{ 
+                      backgroundColor: getPartyColor(party).main,
+                      color: getContrastTextColor(getPartyColor(party).main)
+                    }}
+                  >
                     {party} ({members.length}명)
                   </h3>
                   <ul className={styles.memberGrid}>

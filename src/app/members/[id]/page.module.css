@@ -174,4 +174,21 @@
     height: 156px;
     aspect-ratio: 3/4;
   }
+}
+
+.party {
+  font-size: 1rem;
+  margin: 0.25rem 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.375rem 0.75rem;
+  border-radius: 0.375rem;
+}
+
+.partyColor {
+  width: 0.75rem;
+  height: 0.75rem;
+  border-radius: 50%;
+  flex-shrink: 0;
 } 
