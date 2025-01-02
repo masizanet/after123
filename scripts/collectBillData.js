@@ -24,6 +24,12 @@ const { TRACKED_BILL_NUMBERS } = JSON.parse(fs.readFileSync(constantsPath, 'utf8
 // data/bills.json 경로 설정
 const billsJsonPath = path.join(__dirname, '../src/data/bills.json');
 
+// member22.json 읽기
+const memberPath = path.join(__dirname, '../src/data/member22.json');
+const rawMemberData = JSON.parse(fs.readFileSync(memberPath, 'utf8'));
+// 객체를 배열로 변환
+const memberData = Object.values(rawMemberData);
+
 // 의안 상세 정보 조회
 async function fetchBillDetail(billNo) {
   try {
@@ -109,7 +115,7 @@ async function fetchVoteMembers(billId) {
     let allRows = [];
     let pageIndex = 1;
     let hasMoreData = true;
-    const seenMembers = new Set(); // 중복 체크를 위한 Set
+    const seenMembers = new Set();
     
     while (hasMoreData) {
       const params = new URLSearchParams({
@@ -136,26 +142,47 @@ async function fetchVoteMembers(billId) {
       const totalCount = data.nojepdqqaweusdfbi[0].head[0].list_total_count;
       const currentRows = data.nojepdqqaweusdfbi[1]?.row || [];
       
+      if (currentRows.length === 0) {
+        console.log(`No more rows found at page ${pageIndex}`);
+        break;
+      }
+
       // 중복 제거하면서 데이터 추가
       for (const row of currentRows) {
-        const memberKey = `${row.MEMBER_NO}-${row.VOTE_DATE}`;
-        if (!seenMembers.has(memberKey)) {
-          seenMembers.add(memberKey);
-          allRows.push(row);
+        const member = memberData.find(m => m.HG_NM === row.HG_NM);
+        if (member) {
+          const memberKey = `${member.MONA_CD}-${row.VOTE_DATE}`;
+          if (!seenMembers.has(memberKey)) {
+            seenMembers.add(memberKey);
+            allRows.push({
+              ...row,
+              MONA_CD: member.MONA_CD,
+              POLY_NM: member.POLY_NM,
+              ORIG_NM: member.ORIG_NM
+            });
+          }
+        } else {
+          console.warn(`Member not found in member22.json: ${row.HG_NM}`);
+          const memberKey = `${row.MEMBER_NO}-${row.VOTE_DATE}`;
+          if (!seenMembers.has(memberKey)) {
+            seenMembers.add(memberKey);
+            allRows.push(row);
+          }
         }
       }
       
       console.log(`Received ${currentRows.length} rows (unique: ${allRows.length}/${totalCount})`);
       
-      // 모든 데이터를 가져왔는지 확인
-      if (allRows.length >= totalCount || currentRows.length === 0) {
+      // 실제 총 개수와 비교하여 페이징 처리
+      const expectedPages = Math.ceil(totalCount / 300);
+      if (pageIndex >= expectedPages || allRows.length >= totalCount) {
+        console.log(`Completed fetching all ${allRows.length} members`);
         hasMoreData = false;
       } else {
         pageIndex++;
       }
     }
 
-    // 최종 데이터 구조 생성
     return {
       nojepdqqaweusdfbi: [
         {
