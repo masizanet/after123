@@ -190,18 +190,15 @@ export function VoteDetail({ billId, voteResult, isImportant }: VoteDetailProps)
 
   return (
     <div className={styles.container}>
+      <div className={styles.header}>
+        <h2 className={styles.title}>
+          표결 정보
+          <span className={styles.participation}>
+            (참여율 {stats.participation}%)
+          </span>
+        </h2>
+      </div>
       <div className={styles.grid}>
-        <button 
-          onClick={() => handleClick('absent')}
-          className={`${styles.voteButton} ${
-            isImportant ? styles.buttonImportantAbsent : styles.buttonAbsent
-          } ${selectedType === 'absent' ? styles.selected : ''}`}
-          disabled={stats.absent === 0}
-        >
-          <span className={styles.label}>불참</span>
-          <span className={styles.count}>{stats.absent}명</span>
-        </button>
-
         {!is2206205 && (
           <>
             <button 
@@ -237,13 +234,18 @@ export function VoteDetail({ billId, voteResult, isImportant }: VoteDetailProps)
                 <span className={styles.count}>{voteResult.BLANK_TCNT}명</span>
               </button>
             )}
-
-            <div className={`${styles.voteButton} ${styles.buttonStats}`}>
-              <span className={styles.label}>참여율</span>
-              <span className={styles.count}>{stats.participation}%</span>
-            </div>
           </>
         )}
+        <button 
+          onClick={() => handleClick('absent')}
+          className={`${styles.voteButton} ${
+            isImportant ? styles.buttonImportantAbsent : styles.buttonAbsent
+          } ${selectedType === 'absent' ? styles.selected : ''}`}
+          disabled={stats.absent === 0}
+        >
+          <span className={styles.label}>불참</span>
+          <span className={styles.count}>{stats.absent}명</span>
+        </button>
       </div>
 
       {(selectedType && memberDetails) && (

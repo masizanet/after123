@@ -17,7 +17,7 @@
   }
 
   .grid {
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 
@@ -269,4 +269,24 @@
   .memberGrid {
     grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
   }
+}
+
+.header {
+  margin-bottom: 1.5rem;
+}
+
+.title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin: 0;
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+}
+
+.participation {
+  font-size: 1rem;
+  font-weight: normal;
+  color: var(--muted);
 }
