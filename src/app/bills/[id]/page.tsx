@@ -2,18 +2,23 @@
 import { getBillData } from '@/lib/api/bills';
 import BillDetail from './BillDetail';
 
-export default async function Page({
-  params,
-}: {
-  params: { id: string }
-}) {
-  const billData = await getBillData(params.id);
+type Props = {
+  params: Promise<{ id: string }>;
+};
+
+async function generateStaticParams() {
+  return [];
+}
+
+async function Page({ params }: Props) {
+  const resolvedParams = await params;
+  const billData = await getBillData(resolvedParams.id);
 
   if (!billData) {
     return <div>의안을 찾을 수 없습니다.</div>;
   }
 
-  const isImportant = params.id.includes('2206205');
+  const isImportant = resolvedParams.id.includes('2206205');
 
   return (
     <BillDetail 
@@ -23,3 +28,6 @@ export default async function Page({
     />
   );
 }
+
+export { generateStaticParams };
+export default Page;
