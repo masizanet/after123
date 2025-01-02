@@ -149,7 +149,13 @@ async function fetchVoteMembers(billId) {
 
       // 중복 제거하면서 데이터 추가
       for (const row of currentRows) {
-        const member = memberData.find(m => m.HG_NM === row.HG_NM);
+        if (!row.HG_NM) {
+          console.warn(`Missing HG_NM for a member in bill ${billId}`);
+          continue;
+        }
+
+        // member22.json의 데이터와 매칭하여 고유 식별자 생성
+        const member = memberData.find(m => m.HG_NM.replace(/\s+/g, '').toLowerCase() === row.HG_NM.replace(/\s+/g, '').toLowerCase());
         if (member) {
           const memberKey = `${member.MONA_CD}-${row.VOTE_DATE}`;
           if (!seenMembers.has(memberKey)) {
