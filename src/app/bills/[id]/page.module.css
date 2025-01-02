@@ -1,7 +1,14 @@
 .container {
-  max-width: 1200px;
+  max-width: 800px;
   margin: 0 auto;
   padding: 2rem 1rem;
+}
+
+.content {
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 2rem;
 }
 
 .header {
@@ -9,14 +16,43 @@
 }
 
 .title {
-  font-size: 1.5rem;
-  font-weight: bold;
+  font-size: 1.875rem;
+  font-weight: 600;
   color: var(--foreground);
+  margin-bottom: 1rem;
 }
 
-.listWrapper {
-  background: var(--card);
-  border-radius: 8px;
-  box-shadow: var(--card-shadow);
-  border: 1px solid var(--card-border);
+.meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+.navigation {
+  margin-bottom: 2rem;
+}
+
+.navButtons {
+  display: flex;
+  gap: 1rem;
+}
+
+.backButton, .homeButton {
+  padding: 0.75rem 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  background-color: var(--card);
+  color: var(--foreground);
+  font-size: 0.875rem;
+  cursor: pointer;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  transition: all 0.2s;
+}
+
+.backButton:hover, .homeButton:hover {
+  background-color: var(--card-hover);
 }

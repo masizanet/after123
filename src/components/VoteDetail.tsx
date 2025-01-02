@@ -1,31 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from './VoteDetail.module.css';
 import billsData from '@/data/bills.json';
 import type { BillsData } from '@/types/bill';
 import { BILL_2206205_ABSENTEES } from '@/constants/absentMembers';
-
-// 모든 vote-members 파일을 직접 import
-import voteMembers2200819 from '@/data/vote-members-2200819.json';
-import voteMembers2203837 from '@/data/vote-members-2203837.json';
-import voteMembers2206197 from '@/data/vote-members-2206197.json';
-import voteMembers2206226 from '@/data/vote-members-2206226.json';
-import voteMembers2207082 from '@/data/vote-members-2207082.json';
-import voteMembers2207147 from '@/data/vote-members-2207147.json';
-
-// vote-members 데이터 매핑
-const voteMembersMap: Record<string, any> = {
-  '2200819': voteMembers2200819,
-  '2203837': voteMembers2203837,
-  '2206197': voteMembers2206197,
-  '2206226': voteMembers2206226,
-  '2207082': voteMembers2207082,
-  '2207147': voteMembers2207147,
-};
+import { fetchVoteMembers } from '@/lib/api/bills';
+import Link from 'next/link';
+import { createPortal } from 'react-dom';
 
 interface Member {
   id: string;
   name: string;
   party: string;
+  region: string;
+  memberNo: string;
 }
 
 interface VoteResult {
@@ -42,7 +29,20 @@ interface VoteDetailProps {
   isImportant: boolean;
 }
 
-const bills = billsData as BillsData;
+interface MemberDetail {
+  HG_NM: string;
+  POLY_NM: string;
+  ORIG_NM: string;
+  CMITS: string;
+}
+
+interface MemberPopover {
+  member: Member;
+  detail: MemberDetail | null;
+  position: { x: number; y: number };
+}
+
+const bills = billsData as unknown as BillsData;
 
 function getTypeLabel(type: string | null) {
   switch (type) {
@@ -65,32 +65,26 @@ function groupMembersByParty(members: Member[]) {
   }, {} as Record<string, Member[]>);
 }
 
-function getVoteData(billNo: string) {
-  const voteMembers = voteMembersMap[billNo];
-  if (!voteMembers) {
-    console.warn(`No vote data found for bill ${billNo}`);
-    return [];
-  }
-  return voteMembers.nojepdqqaweusdfbi[1].row;
-}
-
 export function VoteDetail({ billId, voteResult, isImportant }: VoteDetailProps) {
   const [memberDetails, setMemberDetails] = useState<Member[] | null>(null);
   const [selectedType, setSelectedType] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [popover, setPopover] = useState<MemberPopover | null>(null);
 
   const handleClick = (type: 'absent' | 'yes' | 'no' | 'blank') => {
     showMemberDetails(type);
   };
 
-  const showMemberDetails = (type: 'absent' | 'yes' | 'no' | 'blank') => {
+  const showMemberDetails = async (type: 'absent' | 'yes' | 'no' | 'blank') => {
     if (selectedType === type && memberDetails !== null) {
       setMemberDetails(null);
       setSelectedType(null);
       return;
     }
 
+    setPopover(null);
     setSelectedType(type);
+    setIsLoading(true);
     
     let filteredMembers: Member[] = [];
     
@@ -98,7 +92,9 @@ export function VoteDetail({ billId, voteResult, isImportant }: VoteDetailProps)
       filteredMembers = BILL_2206205_ABSENTEES.map(member => ({
         id: member.name,
         name: member.name,
-        party: member.party
+        party: member.party,
+        region: member.region,
+        memberNo: member.memberNo || ''
       }));
     } else {
       const billData = bills[billId];
@@ -107,14 +103,17 @@ export function VoteDetail({ billId, voteResult, isImportant }: VoteDetailProps)
         return;
       }
 
-      console.log('Getting vote data for bill:', billData.detail.BILL_NO);
-      const voteData = billData.voteMembers || [];
-      console.log('Vote data:', voteData);
+      const voteData = await fetchVoteMembers(billId, billData.detail.BILL_NO);
       
+      if (!voteData) {
+        console.error('Failed to get vote data');
+        setIsLoading(false);
+        return;
+      }
+
       filteredMembers = voteData
         .filter(m => {
-          const result = m.RESULT_VOTE_MOD;
-          console.log('Vote result for member:', m.HG_NM, result);
+          const result = m.RESULT_VOTE_MOD || m.PROC_RESULT;
           switch (type) {
             case 'yes': return result === '찬성';
             case 'no': return result === '반대';
@@ -125,18 +124,79 @@ export function VoteDetail({ billId, voteResult, isImportant }: VoteDetailProps)
         })
         .map(m => ({
           id: m.MONA_CD,
-          name: m.HG_NM,
-          party: m.POLY_NM
+          name: m.HG_NM || m.MONA_NM,
+          party: m.POLY_NM,
+          region: m.ORIG_NM || '비례대표',
+          memberNo: m.MEMBER_NO || ''
         }));
     }
 
-    console.log('Filtered members:', filteredMembers);
     setMemberDetails(filteredMembers);
+    setIsLoading(false);
   };
 
   const stats = {
-    absent: String(parseInt(voteResult.MEMBER_TCNT) - parseInt(voteResult.VOTE_TCNT)),
+    absent: parseInt(voteResult.MEMBER_TCNT) - parseInt(voteResult.VOTE_TCNT),
     participation: ((parseInt(voteResult.VOTE_TCNT) / parseInt(voteResult.MEMBER_TCNT)) * 100).toFixed(1)
+  };
+
+  const is2206205 = billId.includes('2206205');
+
+  const fetchMemberDetails = async (member: Member, position: { x: number; y: number }) => {
+    try {
+      const response = await fetch(`/api/members/${member.memberNo || ''}`);
+      if (!response.ok) {
+        throw new Error('Failed to fetch member details');
+      }
+      const detail = await response.json();
+      setPopover({ member, detail, position });
+    } catch (error) {
+      console.error('Error fetching member details:', error);
+      setPopover({
+        member,
+        detail: {
+          HG_NM: member.name,
+          POLY_NM: member.party,
+          ORIG_NM: member.region,
+          CMITS: ''
+        },
+        position
+      });
+    }
+  };
+
+  const handleMemberClick = async (member: Member, event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+    event.stopPropagation();
+    
+    const target = event.currentTarget;
+    const rect = target.getBoundingClientRect();
+    
+    // 이전 팝오버가 같은 멤버면 닫기
+    if (popover?.member.id === member.id) {
+      setPopover(null);
+      return;
+    }
+
+    // 오버레이 위치 계산
+    const POPOVER_WIDTH = 280;
+    const SCREEN_PADDING = 24;
+    
+    let x = rect.left + window.scrollX;
+    const y = rect.bottom + window.scrollY + 8;
+    
+    // 오버레이가 화면 우측을 벗어나는지 확인
+    if (x + POPOVER_WIDTH > window.innerWidth - SCREEN_PADDING) {
+      // 우측을 벗어나면 왼쪽으로 이동
+      x = window.innerWidth - POPOVER_WIDTH - SCREEN_PADDING;
+    }
+
+    const position = {
+      x,
+      y
+    };
+
+    fetchMemberDetails(member, position);
   };
 
   return (
@@ -147,78 +207,123 @@ export function VoteDetail({ billId, voteResult, isImportant }: VoteDetailProps)
           className={`${styles.voteButton} ${
             isImportant ? styles.buttonImportantAbsent : styles.buttonAbsent
           } ${selectedType === 'absent' ? styles.selected : ''}`}
+          disabled={stats.absent === 0}
         >
           <span className={styles.label}>불참</span>
           <span className={styles.count}>{stats.absent}명</span>
         </button>
 
-        <button 
-          onClick={() => handleClick('yes')}
-          className={`${styles.voteButton} ${styles.buttonYes} ${
-            selectedType === 'yes' ? styles.selected : ''
-          }`}
-        >
-          <span className={styles.label}>찬성</span>
-          <span className={styles.count}>{voteResult.YES_TCNT}명</span>
-        </button>
+        {!is2206205 && (
+          <>
+            <button 
+              onClick={() => handleClick('yes')}
+              className={`${styles.voteButton} ${styles.buttonYes} ${
+                selectedType === 'yes' ? styles.selected : ''
+              }`}
+              disabled={parseInt(voteResult.YES_TCNT) === 0}
+            >
+              <span className={styles.label}>찬성</span>
+              <span className={styles.count}>{voteResult.YES_TCNT}명</span>
+            </button>
 
-        <button 
-          onClick={() => handleClick('no')}
-          className={`${styles.voteButton} ${styles.buttonNo} ${
-            selectedType === 'no' ? styles.selected : ''
-          }`}
-        >
-          <span className={styles.label}>반대</span>
-          <span className={styles.count}>{voteResult.NO_TCNT}명</span>
-        </button>
+            <button 
+              onClick={() => handleClick('no')}
+              className={`${styles.voteButton} ${styles.buttonNo} ${
+                selectedType === 'no' ? styles.selected : ''
+              }`}
+              disabled={parseInt(voteResult.NO_TCNT) === 0}
+            >
+              <span className={styles.label}>반대</span>
+              <span className={styles.count}>{voteResult.NO_TCNT}명</span>
+            </button>
 
-        {parseInt(voteResult.BLANK_TCNT) > 0 && (
-          <button 
-            onClick={() => handleClick('blank')}
-            className={`${styles.voteButton} ${styles.buttonBlank} ${
-              selectedType === 'blank' ? styles.selected : ''
-            }`}
-          >
-            <span className={styles.label}>기권/무효</span>
-            <span className={styles.count}>{voteResult.BLANK_TCNT}명</span>
-          </button>
+            {parseInt(voteResult.BLANK_TCNT) > 0 && (
+              <button 
+                onClick={() => handleClick('blank')}
+                className={`${styles.voteButton} ${styles.buttonBlank} ${
+                  selectedType === 'blank' ? styles.selected : ''
+                }`}
+              >
+                <span className={styles.label}>기권/무효</span>
+                <span className={styles.count}>{voteResult.BLANK_TCNT}명</span>
+              </button>
+            )}
+
+            <div className={`${styles.voteButton} ${styles.buttonStats}`}>
+              <span className={styles.label}>참여율</span>
+              <span className={styles.count}>{stats.participation}%</span>
+            </div>
+          </>
         )}
-
-        <div className={`${styles.voteButton} ${styles.buttonStats}`}>
-          <span className={styles.label}>총여율</span>
-          <span className={styles.count}>{stats.participation}%</span>
-        </div>
       </div>
 
       {(selectedType && memberDetails) && (
         <div className={styles.memberList}>
-          <div className={styles.memberListHeader}>
-            <h3 className={styles.memberListTitle}>
+          <header className={styles.memberListHeader}>
+            <h2 className={styles.memberListTitle}>
               {getTypeLabel(selectedType)} 의원 명단
-            </h3>
-          </div>
+            </h2>
+          </header>
           
-          <div className={styles.memberPartyGroups}>
+          <section className={styles.memberPartyGroups}>
             {Object.entries(groupMembersByParty(memberDetails))
               .sort(([partyA], [partyB]) => partyA.localeCompare(partyB))
               .map(([party, members]) => (
-                <div key={party} className={styles.partyGroup}>
-                  <h4 className={styles.partyName}>
+                <article key={party} className={styles.partyGroup}>
+                  <h3 className={styles.partyName}>
                     {party} ({members.length}명)
-                  </h4>
-                  <div className={styles.memberGrid}>
+                  </h3>
+                  <ul className={styles.memberGrid}>
                     {members
                       .sort((a, b) => a.name.localeCompare(b.name))
                       .map((member) => (
-                        <div key={member.id} className={styles.memberItem}>
-                          <div className={styles.memberName}>{member.name}</div>
-                        </div>
+                        <li key={member.id} className={styles.memberItem}>
+                          <button
+                            className={styles.memberLink}
+                            onClick={(e) => handleMemberClick(member, e)}
+                          >
+                            {member.name}
+                          </button>
+                        </li>
                       ))}
-                  </div>
-                </div>
+                  </ul>
+                </article>
               ))}
-          </div>
+          </section>
         </div>
+      )}
+
+      {popover && createPortal(
+        <div 
+          className={styles.memberPopover}
+          style={{
+            left: `${popover.position.x}px`,
+            top: `${popover.position.y}px`
+          }}
+        >
+          <button 
+            className={styles.closeButton}
+            onClick={() => setPopover(null)}
+            aria-label="닫기"
+          >
+            ×
+          </button>
+          <dl className={styles.popoverInfo}>
+            <dt>소속정당</dt>
+            <dd>{popover.detail?.POLY_NM}</dd>
+            <dt>지역구</dt>
+            <dd>{popover.detail?.ORIG_NM || '비례대표'}</dd>
+            <dt>소속위원회</dt>
+            <dd>{popover.detail?.CMITS}</dd>
+          </dl>
+          <Link 
+            href={`/members/${popover.member.memberNo}`}
+            className={styles.popoverLink}
+          >
+            상세정보 →
+          </Link>
+        </div>,
+        document.body
       )}
     </div>
   );

@@ -12,8 +12,8 @@ async function collectMonaCodes() {
   try {
     // 두 의안에서 투표 멤버 정보를 가져옴
     const [members2207082, members2206197] = await Promise.all([
-      fetchVoteMembers('2207082'),
-      fetchVoteMembers('2206197')
+      fetchVoteMembers('2207082', '2207082'),
+      fetchVoteMembers('2206197', '2206197')
     ]) as [APIVoteMember[], APIVoteMember[]];
     
     // 두 의안의 멤버 데이터 병합

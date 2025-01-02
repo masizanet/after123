@@ -1,14 +1,21 @@
 .container {
-  margin-top: 16px;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem 0;
 }
 
 .grid {
   display: grid;
+  gap: 1rem;
+  margin-bottom: 2rem;
   grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
 }
 
-@media screen and (min-width: 768px) {
+@media (min-width: 768px) {
+  .container {
+    padding: 2rem 0;
+  }
+
   .grid {
     grid-template-columns: repeat(5, 1fr);
   }
@@ -18,133 +25,248 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 12px;
-  border-radius: 8px;
+  padding: 1.25rem;
+  border-radius: 0.75rem;
   border: none;
   cursor: pointer;
-  transition: opacity 0.2s;
+  transition: all 0.2s;
 }
 
-.voteButton:hover {
-  opacity: 0.9;
+.voteButton:hover:not(:disabled) {
+  transform: translateY(-2px);
+}
+
+.voteButton:disabled {
+  cursor: default;
+  opacity: 0.7;
+}
+
+.voteButton:disabled:hover {
+  transform: none;
 }
 
 .buttonAbsent {
-  background-color: #f3f4f6;
+  background-color: var(--vote-blank);
 }
 
 .buttonImportantAbsent {
-  background-color: #fee2e2;
+  background-color: var(--vote-no);
 }
 
 .buttonYes {
-  background-color: #dcfce7;
+  background-color: var(--vote-yes);
 }
 
 .buttonNo {
-  background-color: #fee2e2;
+  background-color: var(--vote-no);
 }
 
 .buttonBlank {
-  background-color: #f3f4f6;
+  background-color: var(--vote-blank);
 }
 
 .buttonStats {
-  background-color: #dbeafe;
+  background-color: var(--vote-stats);
 }
 
 .label {
-  font-size: 14px;
+  font-size: 0.875rem;
   font-weight: 500;
-  color: #111827;
+  color: var(--foreground);
+  margin-bottom: 0.5rem;
 }
 
 .count {
-  font-size: 18px;
+  font-size: 1.25rem;
   font-weight: 600;
-  color: #111827;
-  margin-top: 4px;
+  color: var(--foreground);
 }
 
 .memberList {
-  margin-top: 16px;
-  border: 1px solid #e5e7eb;
-  border-radius: 8px;
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  margin-top: 1rem;
 }
 
 .memberListHeader {
-  padding: 12px 16px;
-  border-bottom: 1px solid #e5e7eb;
-  background-color: #f9fafb;
+  padding: 1.25rem;
+  border-bottom: 1px solid var(--border);
+  background-color: var(--card);
 }
 
 .memberListTitle {
-  font-size: 16px;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin: 0;
+}
+
+.memberPartyGroups {
+  background-color: var(--card);
+  padding: 1.5rem 0;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.partyGroup {
+  overflow: hidden;
+}
+
+.partyName {
+  padding: 0.75rem 0;
+  margin: 0 1rem;
+  margin-bottom: 1rem;
+  font-size: 1rem;
   font-weight: 500;
-  color: #111827;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
 }
 
 .memberGrid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 8px;
-  padding: 16px;
-}
-
-@media screen and (min-width: 768px) {
-  .memberGrid {
-    grid-template-columns: repeat(4, 1fr);
-  }
+  gap: 0.5rem;
+  padding: 0.5rem;
+  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+  list-style: none;
+  margin: 0;
 }
 
 .memberItem {
-  background-color: #f9fafb;
-  padding: 8px;
-  border-radius: 4px;
+  background-color: var(--card);
+  border-radius: 0.5rem;
+  transition: background-color 0.2s;
 }
 
-.memberName {
-  font-weight: 500;
-  color: #111827;
+.memberItem:hover {
+  background-color: var(--card-hover);
 }
 
-.memberParty {
-  font-size: 14px;
-  color: #6b7280;
-  margin-top: 2px;
+.memberLink {
+  padding: 0.5rem;
+  text-decoration: none;
+  color: var(--foreground);
+  display: inline-block;
+  font-size: 0.875rem;
+  width: 100%;
+  text-align: center;
+  background: none;
+  border: none;
+  cursor: pointer;
+  border-radius: 0.375rem;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.memberLink:hover,
+.memberLink:focus {
+  text-decoration: none;
+  color: var(--link);
+  background-color: var(--card-hover);
+  outline: none;
+}
+
+.selected {
+  outline: 2px solid var(--link);
+  outline-offset: 2px;
 }
 
 .loading {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100px;
-  color: #6b7280;
+  height: 200px;
+  color: var(--muted);
 }
 
-.selected {
-  outline: 2px solid #3b82f6;
-  outline-offset: 2px;
-}
-
-.memberPartyGroups {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  padding: 1rem;
-}
-
-.partyGroup {
-  border: 1px solid #e5e7eb;
+.memberPopover {
+  position: absolute;
+  z-index: 50;
+  background-color: var(--card);
+  border: 1px solid var(--border);
   border-radius: 0.5rem;
-  overflow: hidden;
+  padding: 1rem;
+  width: 280px;
+  box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
 }
 
-.partyName {
-  padding: 0.75rem 1rem;
-  background-color: #f9fafb;
-  border-bottom: 1px solid #e5e7eb;
-  font-size: 1rem;
+.closeButton {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+  width: 2rem;
+  height: 2rem;
+  border: none;
+  background: none;
+  color: var(--muted);
+  font-size: 1.25rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 0.375rem;
+  transition: all 0.2s;
+}
+
+.closeButton:hover {
+  background-color: var(--card-hover);
+  color: var(--foreground);
+}
+
+@media (max-width: 767px) {
+  .memberPopover {
+    width: auto;
+    min-width: 280px;
+    max-width: calc(100vw - 32px);
+  }
+
+  .memberLink {
+    padding: 0.75rem 0.5rem;
+  }
+
+  .memberGrid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+.popoverInfo {
+  margin: 0;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 0.5rem 1rem;
+  font-size: 0.875rem;
+  padding-right: 2rem;
+}
+
+.popoverInfo dt {
+  color: var(--muted);
   font-weight: 500;
-  color: #111827;
+}
+
+.popoverInfo dd {
+  margin: 0;
+  color: var(--foreground);
+}
+
+.popoverLink {
+  display: inline-block;
+  margin-top: 0.75rem;
+  color: var(--link);
+  font-size: 0.875rem;
+  text-decoration: none;
+}
+
+.popoverLink:hover {
+  text-decoration: underline;
+}
+
+@media (min-width: 768px) {
+  .memberGrid {
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  }
 }

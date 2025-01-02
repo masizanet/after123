@@ -1,142 +1,107 @@
 /* src/app/page.module.css */
-.main {
-  padding: 2rem;
-  max-width: 1200px;
+.container {
+  max-width: 800px;
   margin: 0 auto;
-  background-color: #f5f5f5;
-  min-height: 100vh;
+  padding: 1rem;
 }
 
-.main h1 {
-  font-size: 2rem;
-  font-weight: bold;
+.header {
   margin-bottom: 2rem;
-  color: #1a1a1a;
+  text-align: center;
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin-bottom: 0.5rem;
+}
+
+.description {
+  color: var(--muted);
+  font-size: 0.875rem;
+}
+
+.billList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 }
 
 .billItem {
-  padding: 24px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  background: #ffffff;
-  transition: transform 0.2s, box-shadow 0.2s;
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  overflow: hidden;
+  transition: all 0.2s;
 }
 
 .billItem:hover {
-  transform: translateY(-2px);
-  border: 1px solid #ccc;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  background-color: var(--card-hover);
 }
 
-.billHeader {
-  margin-bottom: 16px;
+.billLink {
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .billTitle {
-  font-size: 20px;
-  font-weight: 600;
-  color: #1a1a1a;
-  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--foreground);
+  margin: 0 0 0.75rem;
+}
+
+.billMeta {
   display: flex;
-  align-items: center;
-  gap: 8px;
+  gap: 1rem;
+  font-size: 0.875rem;
+  margin: 0;
+  margin-bottom: 1rem;
 }
 
-.billTitle:hover {
-  text-decoration: underline;
+.metaItem {
+  display: flex;
+  gap: 0.5rem;
 }
 
-.externalIcon {
-  width: 16px;
-  height: 16px;
-  opacity: 0.6;
+.metaItem dt {
+  color: var(--muted);
+}
+
+.metaItem dd {
+  margin: 0;
+  color: var(--foreground);
 }
 
 .detailButton {
   display: inline-flex;
   align-items: center;
-  padding: 10px 20px;
-  background: #2563eb;
-  border-radius: 6px;
-  border: none;
-  color: #ffffff;
-  font-size: 15px;
+  padding: 0.5rem 1rem;
+  background-color: var(--link);
+  color: white;
+  border-radius: 0.375rem;
+  text-decoration: none;
+  font-size: 0.875rem;
   font-weight: 500;
-  cursor: pointer;
-  transition: background-color 0.2s;
+  transition: opacity 0.2s;
+  align-self: flex-end;
 }
 
 .detailButton:hover {
-  background: #1d4ed8;
+  opacity: 0.9;
 }
 
-.billLink {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.625rem 1.25rem;
-  background: #2563eb;
-  border-radius: 6px;
-  text-decoration: none;
-  color: #ffffff;
-  font-size: 0.925rem;
-  font-weight: 500;
-  margin-top: 1rem;
-  transition: all 0.2s;
-  border: none;
-  cursor: pointer;
-}
+@media (min-width: 768px) {
+  .container {
+    padding: 2rem;
+  }
 
-.billLink:hover {
-  background: #1d4ed8;
-  transform: translateY(-1px);
-}
-
-/* 법안 목록 그리드 스타일 */
-.billList {
-  display: grid;
-  gap: 1.5rem;
-}
-
-/* 법안 정보 스타일 */
-.billInfo {
-  display: grid;
-  grid-template-columns: 100px 1fr;
-  gap: 0.75rem;
-  margin-bottom: 1rem;
-}
-
-.billInfo dt {
-  color: #666;
-  font-size: 0.875rem;
-}
-
-.billInfo dd {
-  color: #1a1a1a;
-  font-size: 0.875rem;
-  margin: 0;
-}
-
-/* 처리결과에 따른 상태 표시 */
-.status {
-  display: inline-block;
-  padding: 0.25rem 0.5rem;
-  border-radius: 4px;
-  font-weight: 500;
-  font-size: 0.875rem;
-}
-
-.statusPassed {
-  background-color: #276749;
-  color: white;
-}
-
-.statusRejected {
-  background-color: #9b2c2c;
-  color: white;
-}
-
-.statusPending {
-  background-color: #744210;
-  color: white;
+  .title {
+    font-size: 1.875rem;
+  }
 }

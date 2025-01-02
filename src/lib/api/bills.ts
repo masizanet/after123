@@ -18,12 +18,19 @@ import {
 } from '@/constants/apis';
 import billsData from '@/data/bills.json';
 import member22Data from '@/data/member22.json';
-import type { BillDetail, VoteResult } from '@/types/bill';
+import type { BillDetail } from '@/types/bill';
 import type { Member22 } from '@/types/member';
+import fs from 'fs';
+import path from 'path';
 
-interface BillData {
+export type {
+  Bill,
+  BillDetail,
+};
+
+export interface BillData {
   detail: BillDetail;
-  voteResult: VoteResult;
+  voteResult: import('@/types/bill').VoteResult | null;
   members: Member22[];
 }
 
@@ -131,46 +138,15 @@ export async function fetchVoteResult(billId: string) {
   return billsData[billId]?.voteResult || null;
 }
 
-export async function fetchVoteMembers(billId: string): Promise<APIVoteMember[]> {
-  // 2206205 법안의 경우 하드코딩된 불참자 명단 반환
-  if (billId === BILL_2206205_ID) {
-    return BILL_2206205_ABSENTEES.map(member => ({
-      POLY_NM: member.party,
-      HG_NM: member.name,
-      ORIG_NM: member.region,
-      VOTE_DT: '20241210',
-      BILL_NO: '2206205',
-      BILL_NM: BILL_2206205_NAME,
-      RESULT_VOTE_MOD: "불참",  
-      MONA_CD: member.name,     // 임시 ID로 이름 사용
-      PROC_RESULT: '불참'
-    } as APIVoteMember));
-  }
-
-  const searchParams = new URLSearchParams({
-    Key: process.env.NEXT_PUBLIC_ASSEMBLY_API_KEY || '',
-    Type: 'json',
-    pIndex: '1',
-    pSize: '300',
-    AGE: '22',
-    BILL_ID: billId
-  });
-
+export async function fetchVoteMembers(billId: string, billNo: string) {
   try {
-    const response = await fetch(`${VOTE_MEMBERS_API}?${searchParams.toString()}`);
+    const response = await fetch(`/api/vote-members/${billNo}`);
     if (!response.ok) {
       throw new Error('Failed to fetch vote members');
     }
-
-    const data = await response.json();
-
-    if (data?.nojepdqqaweusdfbi?.[0]?.head?.[1]?.RESULT?.CODE !== "INFO-000") {
-      return [];
-    }
-
-    return data.nojepdqqaweusdfbi[1].row || [];
+    return await response.json();
   } catch (error) {
-    console.error('Error fetching vote members:', error);
-    return [];
+    console.error(`Failed to fetch vote members for bill ${billId}:`, error);
+    return null;
   }
 }

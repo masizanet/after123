@@ -1,0 +1,143 @@
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.navigation {
+  margin-bottom: 2rem;
+}
+
+.navButtons {
+  display: flex;
+  gap: 1rem;
+}
+
+.backButton, .homeButton {
+  padding: 0.75rem 1.5rem;
+  border: 1px solid var(--border);
+  border-radius: 0.5rem;
+  background-color: var(--card);
+  color: var(--foreground);
+  font-size: 0.875rem;
+  cursor: pointer;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  transition: all 0.2s;
+}
+
+.backButton:hover, .homeButton:hover {
+  background-color: var(--card-hover);
+}
+
+.content {
+  background-color: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 0.75rem;
+  padding: 2rem;
+}
+
+.title {
+  font-size: 1.875rem;
+  font-weight: 600;
+  color: var(--foreground);
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.info {
+  margin: 0;
+  display: grid;
+  gap: 1.5rem;
+}
+
+.info dt {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--muted);
+  margin-bottom: 0.25rem;
+}
+
+.info dd {
+  margin: 0;
+  color: var(--foreground);
+  font-size: 1rem;
+}
+
+.infoItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.label {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.value {
+  font-size: 1rem;
+  color: var(--foreground);
+}
+
+.link {
+  color: var(--link);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.loading, .error {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 300px;
+  font-size: 1rem;
+  color: var(--muted);
+}
+
+.error {
+  color: var(--vote-no);
+}
+
+.committeeList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.committeeItem {
+  color: var(--foreground);
+  padding: 0.5rem 0.75rem;
+  background-color: var(--background);
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+}
+
+@media (min-width: 640px) {
+  .info {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .info dt:nth-of-type(3),
+  .info dd:nth-of-type(3) {
+    grid-column: 1 / -1;
+  }
+
+  .committeeList {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.75rem;
+  }
+} 

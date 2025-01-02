@@ -7,61 +7,72 @@
 
 :root {
   /* Light mode colors */
-  --background: #ffffff;
-  --foreground: #1a1a1a;
-  --muted: #666666;
-  --border: #eeeeee;
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --muted: #475569;
+  --border: #e2e8f0;
   --card: #ffffff;
-  --card-border: #eaeaea;
-  --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  --link: #1971c2;
-  --link-background: #e7f5ff;
-  --link-hover: #d0ebff;
+  --card-hover: #f1f5f9;
+  --card-border: #e2e8f0;
+  --link: #2563eb;
+  
+  /* Vote colors */
+  --vote-yes: #bbf7d0;
+  --vote-no: #fecaca;
+  --vote-blank: #e5e7eb;
+  --vote-stats: #bfdbfe;
 }
 
 [data-theme='dark'] {
   /* Dark mode colors */
-  --background: #111111;
-  --foreground: #ffffff;
-  --muted: #888888;
-  --border: #333333;
-  --card: #1a1a1a;
-  --card-border: #333333;
-  --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-  --link: #74c0fc;
-  --link-background: rgba(25, 113, 194, 0.2);
-  --link-hover: rgba(25, 113, 194, 0.3);
+  --background: #0f172a;
+  --foreground: #f8fafc;
+  --muted: #cbd5e1;
+  --border: #334155;
+  --card: #1e293b;
+  --card-hover: #334155;
+  --card-border: #334155;
+  --link: #60a5fa;
+
+  /* Vote colors in dark mode */
+  --vote-yes: #166534;
+  --vote-no: #991b1b;
+  --vote-blank: #374151;
+  --vote-stats: #1e40af;
 }
 
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
-    /* Dark mode colors when system prefers dark */
-    --background: #111111;
-    --foreground: #ffffff;
-    --muted: #888888;
-    --border: #333333;
-    --card: #1a1a1a;
-    --card-border: #333333;
-    --card-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
-    --link: #74c0fc;
-    --link-background: rgba(25, 113, 194, 0.2);
-    --link-hover: rgba(25, 113, 194, 0.3);
+    --background: #111827;
+    --foreground: #f9fafb;
+    --muted: #9ca3af;
+    --border: #374151;
+    --card: #1f2937;
+    --card-hover: #374151;
+    --card-border: #374151;
+    --link: #60a5fa;
+
+    --vote-yes: #065f46;
+    --vote-no: #991b1b;
+    --vote-blank: #374151;
+    --vote-stats: #1e40af;
   }
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--background);
+  color: var(--foreground);
+  font-family: 'Pretendard-Regular', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
 }
 
 * {
   box-sizing: border-box;
-  padding: 0;
-  margin: 0;
 }
 
-html,
-body {
-  max-width: 100vw;
-  overflow-x: hidden;
-  font-family: 'Pretendard-Regular', -apple-system, BlinkMacSystemFont, system-ui, Roboto, 'Helvetica Neue', 'Segoe UI', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
-  background-color: var(--background);
-  color: var(--foreground);
+main {
+  min-height: 100vh;
 }
 
 a {

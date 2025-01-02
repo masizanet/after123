@@ -111,3 +111,21 @@
       padding: 1.5rem;
     }
   }
+  
+  .invalidVote {
+    display: inline-block;
+    margin-right: 8px;
+    color: #dc2626;
+    font-weight: bold;
+  }
+  
+  .link {
+    display: inline-block;
+    margin-left: 12px;
+    color: #2563eb;
+    text-decoration: none;
+  }
+  
+  .link:hover {
+    text-decoration: underline;
+  }
