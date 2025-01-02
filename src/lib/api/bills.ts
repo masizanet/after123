@@ -31,33 +31,16 @@ export async function getBillData(billId: string): Promise<BillData | null> {
     return null;
   }
 
-  // 2206205 의안은 voteResult가 없어도 표시
-  if (!billData.voteResult && billData.detail.BILL_NO !== '2206205') {
+  if (!billData.voteResult) {
     return null;
   }
 
   return {
     detail: billData.detail,
-    voteResult: billData.voteResult || {
-      BILL_ID: billId,
-      PROC_DT: "20241210",
-      BILL_NO: "2206205",
-      BILL_NAME: billData.detail.BILL_NM,
-      CURR_COMMITTEE: "",
-      PROC_RESULT_CD: "",
-      MEMBER_TCNT: "300",
-      VOTE_TCNT: "195",
-      YES_TCNT: "0",
-      NO_TCNT: "0",
-      BLANK_TCNT: "195",
-      LINK_URL: ""
-    },
+    voteResult: billData.voteResult,
     members: member22Data.members
   };
 }
-
-export const BILL_2206205_ID = 'PRC_P2U4C1T2Q0J4E1F7B5G6W3L7D1W6P4';
-export const BILL_2206205_NAME = '대통령(윤석열) 탄핵소추안(1차)';
 
 async function fetchBillByNo(billNo: string) {
   const searchParams = new URLSearchParams({

@@ -534,14 +534,14 @@
       "RGS_PRSNT_DT": "2024-12-07",
       "RGS_RSLN_DT": "2024-12-08",
       "RGS_CONF_NM": "제418회 국회(정기회) 제17차 본회의",
-      "RGS_CONF_RSLT": "폐기",
+      "RGS_CONF_RSLT": "폐기(불성립)",
       "GVRN_TRSF_DT": null,
       "PROM_LAW_NM": null,
       "PROM_DT": null,
       "PROM_NO": null
     },
     "voteResult": null,
-    "voteMembers": null,
+    "hasVoteResult": false,
     "billNo": "2206205"
   },
   "PRC_G2C4J0I6H1F8N1M4L4K4S1R2Q4Q3P5": {

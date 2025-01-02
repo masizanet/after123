@@ -1,7 +1,7 @@
 import styles from './page.module.css';
 import billsData from '@/data/bills.json';
 import { Bill } from '@/types/bill';
-import Link from 'next/link';
+import { BillList } from '@/components/BillList';
 
 export default function Home() {
   // bills.json에서 의안 목록 생성 및 처리일순 정렬
@@ -12,7 +12,7 @@ export default function Home() {
       PPSR_KND: '',
       PPSR_NM: '',
       LINK_URL: '',
-      hasVoteResult: bill.voteResult !== null || bill.detail.BILL_NO === '2206205'
+      hasVoteResult: bill.voteResult !== null && bill.detail.BILL_NO !== '2206205'
     }))
     .sort((a, b) => {
       // 처리일이 없는 경우 제안일로 대체
@@ -30,33 +30,7 @@ export default function Home() {
       
       <main>
         <section className={styles.billsSection}>
-          <ul className={styles.billList}>
-            {bills.map(bill => (
-              <li key={bill.BILL_ID} className={styles.billItem}>
-                <div className={styles.billLink}>
-                  <h2 className={styles.billTitle}>{bill.BILL_NM}</h2>
-                  <dl className={styles.billMeta}>
-                    <div className={styles.metaItem}>
-                      <dt>제안</dt>
-                      <dd>{bill.PPSR}</dd>
-                    </div>
-                    <div className={styles.metaItem}>
-                      <dt>처리결과</dt>
-                      <dd>{bill.RGS_CONF_RSLT || '계류중'}</dd>
-                    </div>
-                  </dl>
-                  {bill.hasVoteResult && (
-                    <Link 
-                      href={`/bills/${bill.BILL_ID}`} 
-                      className={styles.detailButton}
-                    >
-                      표결 정보 보기 →
-                    </Link>
-                  )}
-                </div>
-              </li>
-            ))}
-          </ul>
+          <BillList bills={bills} />
         </section>
       </main>
     </div>

@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { VoteDetail } from '@/components/VoteDetail';
+import { formatDate } from '@/lib/utils/date';
 import styles from './page.module.css';
 import type { BillDetail as BillDetailType, VoteResult } from '@/types/bill';
 
@@ -41,12 +42,14 @@ export default function BillDetail({ detail, voteResult, isImportant = false }: 
                 <dt className={styles.metaLabel}>소관위원회</dt>
                 <dd className={styles.metaValue}>{detail.JRCMIT_NM}</dd>
               </div>
-              {detail.PROC_RESULT_CD && (
-                <div className={styles.metaItem}>
-                  <dt className={styles.metaLabel}>처리결과</dt>
-                  <dd className={styles.metaValue}>{detail.PROC_RESULT_CD}</dd>
-                </div>
-              )}
+              <div className={styles.metaItem}>
+                <dt className={styles.metaLabel}>의결일</dt>
+                <dd className={styles.metaValue}>{detail.RGS_RSLN_DT ? formatDate(detail.RGS_RSLN_DT) : '-'}</dd>
+              </div>
+              <div className={styles.metaItem}>
+                <dt className={styles.metaLabel}>처리결과</dt>
+                <dd className={styles.metaValue}>{detail.RGS_CONF_RSLT || '-'}</dd>
+              </div>
             </dl>
           </header>
 
