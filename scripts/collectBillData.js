@@ -155,7 +155,14 @@ async function fetchVoteMembers(billId) {
         }
 
         // member22.json의 데이터와 매칭하여 고유 식별자 생성
-        const member = memberData.find(m => m.HG_NM.replace(/\s+/g, '').toLowerCase() === row.HG_NM.replace(/\s+/g, '').toLowerCase());
+        const member = memberData.find(m => {
+          if (!m?.HG_NM) {
+            console.warn(`Invalid member data found:`, m);
+            return false;
+          }
+          return m.HG_NM.replace(/\s+/g, '').toLowerCase() === row.HG_NM.replace(/\s+/g, '').toLowerCase();
+        });
+
         if (member) {
           const memberKey = `${member.MONA_CD}-${row.VOTE_DATE}`;
           if (!seenMembers.has(memberKey)) {
