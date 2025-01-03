@@ -2,6 +2,22 @@ import styles from './page.module.css';
 import billsData from '@/data/bills.json';
 import { Bill } from '@/types/bill';
 import { BillList } from '@/components/BillList';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: '12.3 내란 관련 주요 의안',
+  description: '2024년 12월 3일 내란 관련 주요 의안 정보와 표결 정보를 제공합니다.',
+  openGraph: {
+    title: '12.3 내란 관련 주요 의안',
+    description: '2024년 12월 3일 내란 관련 주요 의안 정보와 표결 정보를 제공합니다.',
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary',
+    title: '12.3 내란 관련 주요 의안',
+    description: '2024년 12월 3일 내란 관련 주요 의안 정보와 표결 정보를 제공합니다.',
+  }
+};
 
 export default function Home() {
   // bills.json에서 의안 목록 생성 및 처리일순 정렬
