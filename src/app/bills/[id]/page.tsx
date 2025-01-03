@@ -5,11 +5,12 @@ import BillDetail from './BillDetail';
 import { BILL_METADATA } from '@/constants/bills';
 
 type Props = {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const billData = await getBillData(params.id);
+  const { id } = await params;
+  const billData = await getBillData(id);
   if (!billData) {
     return {
       title: '의안을 찾을 수 없습니다',
@@ -39,13 +40,14 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 async function Page({ params }: Props) {
-  const billData = await getBillData(params.id);
+  const { id } = await params;
+  const billData = await getBillData(id);
 
   if (!billData) {
     return <div>의안을 찾을 수 없습니다.</div>;
   }
 
-  const isImportant = params.id.includes('2206205');
+  const isImportant = id.includes('2206205');
 
   return (
     <BillDetail 
