@@ -32,8 +32,8 @@ export function BillList({ bills }: BillListProps) {
             <th scope="col">의안번호</th>
             <th scope="col">의안명</th>
             <th scope="col">제안일</th>
-            <th scope="col">처리일</th>
             <th scope="col">제안자</th>
+            <th scope="col">처리일</th>
             <th scope="col">처리결과</th>
             <th scope="col">원문</th>
           </tr>
@@ -49,8 +49,7 @@ export function BillList({ bills }: BillListProps) {
                 <td className={styles.info}>
                   {bill.BILL_NM}
                 </td>
-                <td className={styles.value}>{formatDate(bill.PPSL_DT)}</td>
-                <td className={styles.value}>{bill.RGS_RSLN_DT ? formatDate(bill.RGS_RSLN_DT) : '-'}</td>
+                <td className={styles.date}>{formatDate(bill.PPSL_DT)}</td>
                 <td className={styles.value}>
                   {bill.PPSR_KIND}
                   {/* {bill.PPSR_KND === '의원' && bill.PPSR.includes('의원') && (
@@ -66,14 +65,15 @@ export function BillList({ bills }: BillListProps) {
                   )}
                   {bill.PPSR_KND !== '의원' && bill.PPSR} */}
                 </td>
-                <td className={styles.resultRow}>
-                  <span className={styles.value}>{bill.RGS_CONF_RSLT || '-'}</span>
+                <td className={styles.date}>{bill.RGS_RSLN_DT ? formatDate(bill.RGS_RSLN_DT) : '-'}</td>
+                <td className={styles.result}>
+                  <span>{bill.RGS_CONF_RSLT || '-'}</span>
                   {hasVoteResult && (
                     <Link
                       href={`/bills/${bill.BILL_ID}`}
                       className={styles.button}
                     >
-                      표결
+                      표결 정보
                       <svg 
                         width="14" 
                         height="14" 
@@ -94,7 +94,7 @@ export function BillList({ bills }: BillListProps) {
                     target="_blank"
                     rel="noopener noreferrer"
                     className={styles.button}
-                    title={`${bill.BILL_NM}(의안정보시스템 원문)`}
+                    title="새창" aria-label={`${bill.BILL_NM}(의안정보시스템 원문)`}
                   >
                     링크
                     <svg 
