@@ -3,6 +3,7 @@ import billsData from '@/data/bills.json';
 import { Bill } from '@/types/bill';
 import { BillList } from '@/components/BillList';
 import type { Metadata } from 'next';
+import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: '12.3 내란 관련 주요 의안',
@@ -47,6 +48,9 @@ export default function Home() {
       <main>
         <section className={styles.billsSection}>
           <BillList bills={bills} />
+        </section>
+        <section className={styles.otherLink}>
+          <Link href="/accomplice">공범자들 &gt;</Link>
         </section>
       </main>
     </div>

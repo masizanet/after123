@@ -103,6 +103,10 @@
   opacity: 0.9;
 }
 
+.otherLink {
+  padding: 1rem 0;
+}
+
 @media (min-width: 768px) {
   .container {
     padding: 2rem;
