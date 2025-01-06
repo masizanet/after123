@@ -1997,5 +1997,36 @@
     "voteResult": null,
     "voteMembers": null,
     "billNo": "2207190"
+  },
+  "PRC_C2C4B1B2Z3V1W1U6V1T9U3S4A1B5Z9": {
+    "detail": {
+      "BILL_ID": "PRC_C2C4B1B2Z3V1W1U6V1T9U3S4A1B5Z9",
+      "BILL_NO": "2207227",
+      "BILL_NM": "항공안전법 일부개정법률안",
+      "PPSR_KIND": "의원",
+      "PPSR": "이해민의원 등 13인",
+      "PPSL_DT": "2025-01-03",
+      "PPSL_SESS": "420",
+      "JRCMIT_NM": null,
+      "JRCMIT_CMMT_DT": null,
+      "JRCMIT_PRSNT_DT": null,
+      "JRCMIT_PROC_DT": null,
+      "JRCMIT_PROC_RSLT": null,
+      "LAW_CMMT_DT": null,
+      "LAW_PRSNT_DT": null,
+      "LAW_PROC_DT": null,
+      "LAW_PROC_RSLT": null,
+      "RGS_PRSNT_DT": null,
+      "RGS_RSLN_DT": null,
+      "RGS_CONF_NM": " ",
+      "RGS_CONF_RSLT": null,
+      "GVRN_TRSF_DT": null,
+      "PROM_LAW_NM": null,
+      "PROM_DT": null,
+      "PROM_NO": null
+    },
+    "voteResult": null,
+    "voteMembers": null,
+    "billNo": "2207227"
   }
 }
