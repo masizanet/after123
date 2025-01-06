@@ -4,24 +4,24 @@ import { formatDate } from '@/lib/utils/date';
 import Link from 'next/link';
 import styles from './BillList.module.css';
 import type { Bill } from '@/types/bill';
-import { getPartyColor } from '@/constants/partyColors';
+// import { getPartyColor } from '@/constants/partyColors';
 
 interface BillListProps {
   bills: Bill[];
 }
 
-function extractPartyFromPPSR(ppsr: string): string {
-  const parties = [
-    '더불어민주당', '국민의힘', '조국혁신당', 
-    '개혁신당', '진보당', '기본소득당', '사회민주당'
-  ];
-  for (const party of parties) {
-    if (ppsr.includes(party)) {
-      return party;
-    }
-  }
-  return '';
-}
+// function extractPartyFromPPSR(ppsr: string): string {
+//   const parties = [
+//     '더불어민주당', '국민의힘', '조국혁신당', 
+//     '개혁신당', '진보당', '기본소득당', '사회민주당'
+//   ];
+//   for (const party of parties) {
+//     if (ppsr.includes(party)) {
+//       return party;
+//     }
+//   }
+//   return '';
+// }
 
 export function BillList({ bills }: BillListProps) {
   return (
@@ -41,7 +41,7 @@ export function BillList({ bills }: BillListProps) {
         <tbody>
           {bills.map((bill) => {
             const hasVoteResult = bill.hasVoteResult && bill.BILL_NO !== '2206205';
-            const party = extractPartyFromPPSR(bill.PPSR);
+            // const party = extractPartyFromPPSR(bill.PPSR);
 
             return (
               <tr key={bill.BILL_ID} className={styles.item}>
