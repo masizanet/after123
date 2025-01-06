@@ -25,24 +25,78 @@ function extractPartyFromPPSR(ppsr: string): string {
 
 export function BillList({ bills }: BillListProps) {
   return (
-    <ul className={styles.list}>
-      {bills.map((bill) => {
-        const hasVoteResult = bill.hasVoteResult && bill.BILL_NO !== '2206205';
-        const party = extractPartyFromPPSR(bill.PPSR);
+    <div className={styles.scrollWrap}>
+      <table className={styles.list}>
+        <thead>
+          <tr>
+            <th scope="col">의안번호</th>
+            <th scope="col">의안명</th>
+            <th scope="col">제안일</th>
+            <th scope="col">처리일</th>
+            <th scope="col">제안자</th>
+            <th scope="col">처리결과</th>
+            <th scope="col">원문</th>
+          </tr>
+        </thead>
+        <tbody>
+          {bills.map((bill) => {
+            const hasVoteResult = bill.hasVoteResult && bill.BILL_NO !== '2206205';
+            const party = extractPartyFromPPSR(bill.PPSR);
 
-        return (
-          <li key={bill.BILL_ID} className={styles.item}>
-            <div className={styles.info}>
-              <div className={styles.header}>
-                <h2 className={styles.title}>{bill.BILL_NM}</h2>
-                <div className={styles.actions}>
-                  <a
-                    href={`http://likms.assembly.go.kr/bill/billDetail.do?billId=${bill.BILL_ID}`}
+            return (
+              <tr key={bill.BILL_ID} className={styles.item}>
+                <td className={styles.number}>{bill.BILL_NO}</td>
+                <td className={styles.info}>
+                  {bill.BILL_NM}
+                </td>
+                <td className={styles.value}>{formatDate(bill.PPSL_DT)}</td>
+                <td className={styles.value}>{bill.RGS_RSLN_DT ? formatDate(bill.RGS_RSLN_DT) : '-'}</td>
+                <td className={styles.value}>
+                  {bill.PPSR_KIND}
+                  {/* {bill.PPSR_KND === '의원' && bill.PPSR.includes('의원') && (
+                    <span className={styles.partyName}>
+                      <span 
+                        className={styles.partyColor} 
+                        style={{ 
+                          backgroundColor: getPartyColor(party).main 
+                        }} 
+                      />
+                      {bill.PPSR}
+                    </span>
+                  )}
+                  {bill.PPSR_KND !== '의원' && bill.PPSR} */}
+                </td>
+                <td className={styles.resultRow}>
+                  <span className={styles.value}>{bill.RGS_CONF_RSLT || '-'}</span>
+                  {hasVoteResult && (
+                    <Link
+                      href={`/bills/${bill.BILL_ID}`}
+                      className={styles.button}
+                    >
+                      표결
+                      <svg 
+                        width="14" 
+                        height="14" 
+                        viewBox="0 0 24 24" 
+                        fill="none" 
+                        stroke="currentColor" 
+                        strokeWidth="2" 
+                        strokeLinecap="round" 
+                        strokeLinejoin="round"
+                      >
+                        <polyline points="9 6 15 12 9 18" />
+                      </svg>
+                    </Link>
+                  )}
+                </td>
+                <td className={styles.outlink}>
+                  <a href={`http://likms.assembly.go.kr/bill/billDetail.do?billId=${bill.BILL_ID}`}
                     target="_blank"
                     rel="noopener noreferrer"
                     className={styles.button}
+                    title={`${bill.BILL_NM}(의안정보시스템 원문)`}
                   >
-                    원본 보기
+                    링크
                     <svg 
                       width="14" 
                       height="14" 
@@ -58,69 +112,12 @@ export function BillList({ bills }: BillListProps) {
                       <line x1="10" y1="14" x2="21" y2="3" />
                     </svg>
                   </a>
-                </div>
-              </div>
-              
-              <dl className={styles.details}>
-                <div className={styles.row}>
-                  <dt className={styles.label}>제안일</dt>
-                  <dd className={styles.value}>{formatDate(bill.PPSL_DT)}</dd>
-                </div>
-
-                <div className={styles.row}>
-                  <dt className={styles.label}>처리일</dt>
-                  <dd className={styles.value}>{bill.RGS_RSLN_DT ? formatDate(bill.RGS_RSLN_DT) : '-'}</dd>
-                </div>
-
-                <div className={styles.row}>
-                  <dt className={styles.label}>제안자</dt>
-                  <dd className={styles.value}>
-                    {bill.PPSR_KND === '의원' && bill.PPSR.includes('의원') && (
-                      <span className={styles.partyName}>
-                        <span 
-                          className={styles.partyColor} 
-                          style={{ 
-                            backgroundColor: getPartyColor(party).main 
-                          }} 
-                        />
-                        {bill.PPSR}
-                      </span>
-                    )}
-                    {bill.PPSR_KND !== '의원' && bill.PPSR}
-                  </dd>
-                </div>
-
-                <div className={styles.row}>
-                  <dt className={styles.label}>처리결과</dt>
-                  <dd className={styles.resultRow}>
-                    <span className={styles.value}>{bill.RGS_CONF_RSLT || '-'}</span>
-                    {hasVoteResult && (
-                      <Link
-                        href={`/bills/${bill.BILL_ID}`}
-                        className={styles.button}
-                      >
-                        표결 정보
-                        <svg 
-                          width="14" 
-                          height="14" 
-                          viewBox="0 0 24 24" 
-                          fill="none" 
-                          stroke="currentColor" 
-                          strokeWidth="2" 
-                          strokeLinecap="round" 
-                          strokeLinejoin="round"
-                        >
-                          <polyline points="9 6 15 12 9 18" />
-                        </svg>
-                      </Link>
-                    )}
-                  </dd>
-                </div>
-              </dl>
-            </div>
-          </li>
-        );
-      })}
-    </ul>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+    </div>
   );
 }

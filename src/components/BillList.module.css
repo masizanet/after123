@@ -1,14 +1,23 @@
+.scrollWrap {
+  overflow-x: auto;
+}
 .list {
-  display: grid;
-  gap: 1rem;
-  padding: 0;
+  display: table;
+  min-width: 800px;
   margin: 0;
-  list-style: none;
+  padding: 0;
+}
+.list th, .list td {
+  padding: .5rem;
+  text-align: center;
+}
+.outlink {
+  width: 100px;
 }
 
 @media (min-width: 768px) {
   .list {
-    grid-template-columns: repeat(2, 1fr);
+    width: 100%;
   }
 }
 
@@ -19,8 +28,8 @@
   overflow: hidden;
 }
 
-.info {
-  padding: 1.5rem;
+.list td.info {
+  text-align: left;
 }
 
 .item:last-child {
@@ -28,11 +37,7 @@
 }
 
 .header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 1rem;
-  gap: 1rem;
+  
 }
 
 .title {
