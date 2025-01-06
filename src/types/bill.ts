@@ -11,6 +11,7 @@ export interface Bill {
     BILL_KND: string;
     BILL_NM: string;
     PPSR_KND: string;
+    PPSR_KIND: string;
     PPSR_NM: string;
     PPSR: string;
     PPSL_DT: string;
