@@ -90,7 +90,12 @@
   font-size: 0.875rem;
   min-width: 4rem;
 }
-.date, .value {
+.knds {
+  display: block;
+  font-size: .875rem;
+  margin-top: .2rem;
+}
+.date, .value, .type {
   font-size: 0.925rem;
   color: var(--foreground);
   min-width: 4rem;
@@ -100,6 +105,9 @@
   font-size: 0.925rem;
   color: var(--foreground);
   min-width: 6.3rem;
+}
+.type {
+  width: 4.5rem;
 }
 
 .result {
@@ -117,7 +125,7 @@
   margin-bottom: -.2rem;
 }
 .partyName {
-  display: inline-flex;
+  display: inline-block;
   align-items: center;
   gap: 0.5rem;
 }
