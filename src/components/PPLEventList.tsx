@@ -1,6 +1,7 @@
 import React from 'react';
 import { PPL_EVENTS } from '@/constants/pplEvents';
 import styles from './PPLEventList.module.css';
+import Link from 'next/link';
 
 export function PPLEventList() {
   return (
@@ -12,7 +13,20 @@ export function PPLEventList() {
           <article key={event.id} className={styles.event}>
             <header className={styles.eventHeader}>
               <time className={styles.date}>{event.date}</time>
-              <h2 className={styles.eventTitle}>{event.title}</h2>
+              
+                {event.type !== 'participate' && (
+                    <h2 className={styles.eventTitle}>
+                    <Link href={`/bills/${event.id}`}>
+                        {event.title}
+                    </Link>
+                    </h2>
+                )}
+                {event.type === 'participate' && (
+                    <h2 className={styles.eventTitle}>
+                    {event.title}
+                    </h2>
+                )}
+              
             </header>
             
             <p className={styles.description}>{event.description}</p>
