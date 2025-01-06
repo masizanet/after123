@@ -17,7 +17,7 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return (
+return (
     <div className={styles.container}>
       <header className={styles.header}>
         <h1 className={styles.title}>내란의 공범자들</h1>

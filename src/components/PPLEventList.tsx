@@ -1,61 +1,69 @@
+"use client";
+
 import React from 'react';
 import { PPL_EVENTS } from '@/constants/pplEvents';
 import styles from './PPLEventList.module.css';
+import { VoteDetail } from './VoteDetail';
+import type { BillDetail as BillDetailType, VoteResult } from '@/types/bill';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
-export function PPLEventList() {
-  return (
-    <div className={styles.container}>
-      <h1 className={styles.title}>국민의힘</h1>
-      
-      <div className={styles.timeline}>
-        {PPL_EVENTS.map(event => (
-          <article key={event.id} className={styles.event}>
-            <header className={styles.eventHeader}>
-              <time className={styles.date}>{event.date}</time>
-              
-                {event.type !== 'participate' && (
-                    <h2 className={styles.eventTitle}>
-                    <Link href={`/bills/${event.id}`}>
-                        {event.title}
-                    </Link>
-                    </h2>
+interface Props {
+    detail: BillDetailType;
+    voteResult: VoteResult | null;
+    isImportant?: boolean;
+}
+
+export function PPLEventList({ detail, voteResult, isImportant = false }: Props) {
+    return (
+        <div className={styles.container}>
+            <div className={styles.timeline}>
+            {PPL_EVENTS.map(event => (
+                <article key={event.id} className={styles.event}>
+                <header className={styles.eventHeader}>
+                <time className={styles.date}>{event.date}</time>
+                
+                <h2 className={styles.eventTitle}>
+                {event.type === 'participate' ? event.title : (
+                    <Link href={`/bills/${event.id}`}>{event.title}</Link>
                 )}
-                {event.type === 'participate' && (
-                    <h2 className={styles.eventTitle}>
-                    {event.title}
-                    </h2>
+                </h2>
+                
+                </header>
+                
+                <p className={styles.description}>{event.description}</p>
+                {event.type !== 'participate' && voteResult && (
+                    <VoteDetail 
+                        billId={detail.BILL_ID} 
+                        voteResult={voteResult}
+                        isImportant={isImportant}
+                    />
                 )}
-              
-            </header>
-            
-            <p className={styles.description}>{event.description}</p>
-            
-            {event.type === 'participate' && event.members && (
-              <div className={styles.memberList}>
-                <section className={styles.memberSection}>
-                  <h3>국회의원 ({event.members.lawmakers.length}명)</h3>
-                  <ul>
-                    {event.members.lawmakers.map(name => (
-                      <li key={name}>{name}</li>
-                    ))}
-                  </ul>
-                </section>
-                {event.members.partyChairs && (
+                {event.type === 'participate' && event.members && (
+                    <div className={styles.memberList}>
                     <section className={styles.memberSection}>
-                    <h3>당협위원장 ({event.members.partyChairs.length}명)</h3>
+                    <h3>국회의원 ({event.members.lawmakers.length}명)</h3>
                     <ul>
-                        {event.members.partyChairs.map(name => (
+                    {event.members.lawmakers.map(name => (
                         <li key={name}>{name}</li>
-                        ))}
+                    ))}
                     </ul>
                     </section>
+                    {event.members.partyChairs && (
+                        <section className={styles.memberSection}>
+                        <h3>당협위원장 ({event.members.partyChairs.length}명)</h3>
+                        <ul>
+                        {event.members.partyChairs.map(name => (
+                            <li key={name}>{name}</li>
+                        ))}
+                        </ul>
+                        </section>
+                    )}
+                    </div>
                 )}
-              </div>
-            )}
-          </article>
-        ))}
-      </div>
-    </div>
-  );
+                </article>
+            ))}
+            </div>
+        </div>
+    );
 } 

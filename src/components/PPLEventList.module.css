@@ -22,15 +22,12 @@
 }
 
 .eventHeader {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
   margin-bottom: 1rem;
 }
 
 .date {
   font-size: 0.9rem;
-  color: #666;
+  color: #EEE;
 }
 
 .eventTitle {
@@ -39,14 +36,12 @@
 }
 
 .description {
-  color: #444;
+  color: #BBB;
   margin-bottom: 1.5rem;
 }
 
 .memberList {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 2rem;
+  margin: 2rem 0;
 }
 
 .memberSection h3 {
@@ -56,14 +51,14 @@
 
 .memberSection ul {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
   gap: 0.5rem;
   list-style: none;
   padding: 0;
 }
 
 .memberSection li {
-  padding: 0.5rem;
+  padding: 0.25rem;
   /* background: #f5f5f5; */
   border-radius: 4px;
   text-align: center;
