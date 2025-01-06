@@ -5,7 +5,7 @@ export const PPL_EVENTS = [
     title: '비상계엄해제요구 결의안',
     billNo: '2206197',
     type: 'absent',
-    description: '비상계엄해제요구 결의안 표결 불참 90명'
+    description: '비상계엄해제요구 결의안 표결 불참 국민의힘 의원 90명'
   },
   {
     id: 'PRC_P2U4C1T2Q0J4E1F7B5G6W3L7D1W6P4',
@@ -13,7 +13,7 @@ export const PPL_EVENTS = [
     title: '대통령(윤석열) 탄핵소추안',
     billNo: '2206448',
     type: 'participate',
-    description: '대통령 탄핵소추안 표결 불참 105명',
+    description: '대통령 탄핵소추안 표결 불참 국민의힘 의원 105명',
     members: {
         lawmakers: [
           '강대식','강명구','강민국','강선영','강승규','고동진','곽규택','구자근','권성동','권영세','권영진',
@@ -43,14 +43,14 @@ export const PPL_EVENTS = [
     title: '내란 혐의 진상규명 국정조사',
     billNo: '2207147',
     type: 'against',
-    description: '윤석열 정부의 비상계엄 선포를 통한 내란 혐의 진상규명 국정조사계획서 승인의 건 반대 71명'
+    description: '윤석열 정부의 비상계엄 선포를 통한 내란 혐의 진상규명 국정조사계획서 승인의 건 반대 국민의힘 의원 71명'
   },
   {
     id: 'hannam-defense',
     date: '2025-01-06',
     title: '한남동 관저 방어',
     type: 'participate',
-    description: '한남동 관저 방어. 의원 40명, 당협위원장 12명',
+    description: '한남동 관저 방어. 국민의힘 의원 40명, 국민의힘 당협위원장 12명',
     members: {
       lawmakers: [
         '이상휘', '임이자', '이만희', '강선영', '임종득', '송언석', '최은석', '김위상', 
