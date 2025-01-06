@@ -3,18 +3,9 @@
 import React from 'react';
 import { PPL_EVENTS } from '@/constants/pplEvents';
 import styles from './PPLEventList.module.css';
-import { VoteDetail } from './VoteDetail';
-import type { BillDetail as BillDetailType, VoteResult } from '@/types/bill';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
 
-interface Props {
-    detail: BillDetailType;
-    voteResult: VoteResult | null;
-    isImportant?: boolean;
-}
-
-export function PPLEventList({ detail, voteResult, isImportant = false }: Props) {
+export function PPLEventList() {
     return (
         <div className={styles.container}>
             <div className={styles.timeline}>
@@ -32,13 +23,6 @@ export function PPLEventList({ detail, voteResult, isImportant = false }: Props)
                 </header>
                 
                 <p className={styles.description}>{event.description}</p>
-                {event.type !== 'participate' && voteResult && (
-                    <VoteDetail 
-                        billId={detail.BILL_ID} 
-                        voteResult={voteResult}
-                        isImportant={isImportant}
-                    />
-                )}
                 {event.type === 'participate' && event.members && (
                     <div className={styles.memberList}>
                     <section className={styles.memberSection}>
