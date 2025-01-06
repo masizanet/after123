@@ -50,7 +50,7 @@ export const PPL_EVENTS = [
     date: '2025-01-06',
     title: '한남동 관저 방어',
     type: 'participate',
-    description: '한남동 관저 방어. 국민의힘 의원 40명, 국민의힘 당협위원장 12명',
+    description: '대통령 관저 체포 방해. 국민의힘 의원 40명, 국민의힘 당협위원장 12명',
     members: {
       lawmakers: [
         '이상휘', '임이자', '이만희', '강선영', '임종득', '송언석', '최은석', '김위상', 
