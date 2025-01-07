@@ -1,7 +1,7 @@
 "use client";
 
 import React from 'react';
-import { BILL_2206205_ABSENTEES } from '@/constants/absentMembers';
+// import { BILL_2206205_ABSENTEES } from '@/constants/absentMembers';
 import { PPL_EVENTS } from '@/constants/pplEvents';
 import styles from './PPLEventList.module.css';
 import Link from 'next/link';
