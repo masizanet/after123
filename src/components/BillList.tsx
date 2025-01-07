@@ -49,7 +49,6 @@ export function BillList({ bills }: BillListProps) {
                 <td className={styles.number}>{bill.BILL_NO}</td>
                 <td className={styles.info}>
                   {bill.BILL_NM}
-                  <br/>
                   <span className={styles.knds}>
                     {bill.PPSR_KND === '의원' && bill.PPSR.includes('의원') && (
                       <span className={styles.partyName}>

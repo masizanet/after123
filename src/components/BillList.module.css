@@ -101,9 +101,9 @@
   min-width: 4rem;
 }
 .knds {
-  display: block;
+  display: inline-block;
   font-size: .875rem;
-  margin-top: .2rem;
+  margin: .2rem 0 0 .5rem;
 }
 .date, .value, .type {
   font-size: 0.925rem;
