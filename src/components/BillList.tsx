@@ -38,8 +38,10 @@ export function BillList({ bills }: BillListProps) {
           </tr>
         </thead>
         <tbody>
-          {bills.map((bill) => {
-            const hasVoteResult = bill.hasVoteResult && bill.BILL_NO !== '2206205';
+          {[...bills].sort((a, b) => {
+              return b.BILL_NO.localeCompare(a.BILL_NO)
+            }).map((bill) => {
+            const hasVoteResult = bill.hasVoteResult;
             const party = extractPartyFromPPSR(bill.PPSR);
 
             return (
