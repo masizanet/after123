@@ -9,6 +9,7 @@ import { createPortal } from 'react-dom';
 import type { Member } from '@/types/bill';
 import { getPartyColor } from '@/constants/partyColors';
 import { getContrastTextColor } from '@/lib/utils/color';
+import { Suspense } from 'react';
 
 interface VoteResult {
   MEMBER_TCNT: string;
@@ -210,48 +211,49 @@ export function VoteDetail({ billId, voteResult, isImportant = false }: VoteDeta
           <span className={styles.count}>{stats.absent}명</span>
         </button>
       </div>
-
-      {(selectedType && memberDetails) && (
-        <div className={styles.memberList}>
-          <header className={styles.memberListHeader}>
-            <h2 className={styles.memberListTitle}>
-              {getTypeLabel(selectedType)} 의원 명단
-            </h2>
-          </header>
-          
-          <section className={styles.memberPartyGroups}>
-            {Object.entries(groupMembersByParty(memberDetails))
-              .sort(([partyA], [partyB]) => partyA.localeCompare(partyB))
-              .map(([party, members]) => (
-                <article key={party} className={styles.partyGroup}>
-                  <h3 
-                    className={styles.partyName}
-                    style={{ 
-                      backgroundColor: getPartyColor(party).main,
-                      color: getContrastTextColor(getPartyColor(party).main)
-                    }}
-                  >
-                    {party} ({members.length}명)
-                  </h3>
-                  <ul className={styles.memberGrid}>
-                    {members
-                      .sort((a, b) => a.name.localeCompare(b.name))
-                      .map((member) => (
-                        <li key={member.id} className={styles.memberItem}>
-                          <button
-                            className={styles.memberLink}
-                            onClick={(e) => handleMemberClick(member, e)}
-                          >
-                            {member.name}
-                          </button>
-                        </li>
-                      ))}
-                  </ul>
-                </article>
-              ))}
-          </section>
-        </div>
-      )}
+      <Suspense fallback={<div>로딩 중...</div>}>
+        {(selectedType && memberDetails) && (
+          <div className={styles.memberList}>
+            <header className={styles.memberListHeader}>
+              <h2 className={styles.memberListTitle}>
+                {getTypeLabel(selectedType)} 의원 명단
+              </h2>
+            </header>
+            
+            <section className={styles.memberPartyGroups}>
+              {Object.entries(groupMembersByParty(memberDetails))
+                .sort(([partyA], [partyB]) => partyA.localeCompare(partyB))
+                .map(([party, members]) => (
+                  <article key={party} className={styles.partyGroup}>
+                    <h3 
+                      className={styles.partyName}
+                      style={{ 
+                        backgroundColor: getPartyColor(party).main,
+                        color: getContrastTextColor(getPartyColor(party).main)
+                      }}
+                    >
+                      {party} ({members.length}명)
+                    </h3>
+                    <ul className={styles.memberGrid}>
+                      {members
+                        .sort((a, b) => a.name.localeCompare(b.name))
+                        .map((member) => (
+                          <li key={member.id} className={styles.memberItem}>
+                            <button
+                              className={styles.memberLink}
+                              onClick={(e) => handleMemberClick(member, e)}
+                            >
+                              {member.name}
+                            </button>
+                          </li>
+                        ))}
+                    </ul>
+                  </article>
+                ))}
+            </section>
+          </div>
+        )}
+      </Suspense>
 
       {popover && createPortal(
         <div 
@@ -273,8 +275,6 @@ export function VoteDetail({ billId, voteResult, isImportant = false }: VoteDeta
             <dd>{popover.detail?.POLY_NM}</dd>
             <dt>지역구</dt>
             <dd>{popover.detail?.ORIG_NM || '비례대표'}</dd>
-            <dt>소속위원회</dt>
-            <dd>{popover.detail?.CMITS}</dd>
           </dl>
           <Link 
             href={`/members/${popover.member.memberNo}`}

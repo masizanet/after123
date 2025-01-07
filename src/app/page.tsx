@@ -42,7 +42,7 @@ export default function Home() {
     <div className={styles.container}>
       <header className={styles.header}>
         <h1 className={styles.title}>12.3 내란 관련 주요 의안</h1>
-        <p className={styles.description}>표결 정보가 있는 경우에만 추가 정보가 제공됩니다.</p>
+        <p className={styles.description}>목록은 비정기 갱신 중. 표결 정보는 있는 경우에만 표시됩니다.</p>
       </header>
       
       <main>
