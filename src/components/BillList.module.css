@@ -14,7 +14,8 @@
 .list thead {
   position: sticky;
   top: 0;
-  background-color: #000; /* 또는 원하는 배경색 */
+  background-color: --background;
+  color: --foreground;
   z-index: 1;
 }
 .list th, .list td {
