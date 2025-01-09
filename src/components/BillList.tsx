@@ -1,6 +1,7 @@
 'use client';
 
 import { formatDate } from '@/lib/utils/date';
+import React, { useState } from 'react';
 import Link from 'next/link';
 import styles from './BillList.module.css';
 import type { Bill } from '@/types/bill';
@@ -24,23 +25,106 @@ function extractPartyFromPPSR(ppsr: string): string {
 }
 
 export function BillList({ bills }: BillListProps) {
+
+  const [sortConfig, setSortConfig] = useState({
+    key: 'BILL_NO',
+    direction: 'desc'
+  });
+
+  const onSort = (key: string) => {
+    setSortConfig((prevSort) => ({
+      key,
+      direction: prevSort.key === key && prevSort.direction === 'desc' ? 'asc' : 'desc'
+    }));
+  };
+
+  const getSortedBills = () => {
+    const sortedBills = [...bills].sort((a, b) => {
+      if (sortConfig.key === 'BILL_NO') {
+        return sortConfig.direction === 'desc' 
+          ? b.BILL_NO.localeCompare(a.BILL_NO)
+          : a.BILL_NO.localeCompare(b.BILL_NO);
+      }
+      if (sortConfig.key === 'BILL_NM') {
+        return sortConfig.direction === 'desc'
+          ? b.BILL_NM.localeCompare(a.BILL_NM)
+          : a.BILL_NM.localeCompare(b.BILL_NM);
+      }
+      if (sortConfig.key === 'PPSL_DT') {
+        return sortConfig.direction === 'desc'
+          ? new Date(b.PPSL_DT).getTime() - new Date(a.PPSL_DT).getTime()
+          : new Date(a.PPSL_DT).getTime() - new Date(b.PPSL_DT).getTime();
+      }
+      if (sortConfig.key === 'RGS_RSLN_DT') {
+        if (!a.RGS_RSLN_DT) return 1;
+        if (!b.RGS_RSLN_DT) return -1;
+        return sortConfig.direction === 'desc'
+          ? new Date(b.RGS_RSLN_DT).getTime() - new Date(a.RGS_RSLN_DT).getTime()
+          : new Date(a.RGS_RSLN_DT).getTime() - new Date(b.RGS_RSLN_DT).getTime();
+      }
+      return 0;
+    });
+    return sortedBills;
+  };
   return (
     <div className={styles.scrollWrap}>
       <table className={styles.list}>
         <thead>
           <tr>
-            <th scope="col">의안번호</th>
-            <th scope="col">의안명 - 제안자</th>
-            <th scope="col">제안일</th>
-            <th scope="col">처리일</th>
+            <th 
+              scope="col" 
+              onClick={() => onSort('BILL_NO')}
+              className={styles.sortable}
+            >
+              의안번호
+              {sortConfig.key === 'BILL_NO' && (
+                <span className={styles.sortIcon}>
+                  {sortConfig.direction === 'desc' ? '▼' : '▲'}
+                </span>
+              )}
+            </th>
+            <th 
+              scope="col"
+              onClick={() => onSort('BILL_NM')}
+              className={styles.sortable}
+            >
+              의안명 - 제안자
+              {sortConfig.key === 'BILL_NM' && (
+                <span className={styles.sortIcon}>
+                  {sortConfig.direction === 'desc' ? '▼' : '▲'}
+                </span>
+              )}
+            </th>
+            <th 
+              scope="col"
+              onClick={() => onSort('PPSL_DT')}
+              className={styles.sortable}
+            >
+              제안일
+              {sortConfig.key === 'PPSL_DT' && (
+                <span className={styles.sortIcon}>
+                  {sortConfig.direction === 'desc' ? '▼' : '▲'}
+                </span>
+              )}
+            </th>
+            <th 
+              scope="col"
+              onClick={() => onSort('RGS_RSLN_DT')}
+              className={styles.sortable}
+            >
+              처리일
+              {sortConfig.key === 'RGS_RSLN_DT' && (
+                <span className={styles.sortIcon}>
+                  {sortConfig.direction === 'desc' ? '▼' : '▲'}
+                </span>
+              )}
+            </th>
             <th scope="col">처리결과</th>
             <th scope="col">원문</th>
           </tr>
         </thead>
         <tbody>
-          {[...bills].sort((a, b) => {
-              return b.BILL_NO.localeCompare(a.BILL_NO)
-            }).map((bill) => {
+          {getSortedBills().map((bill) => {
             const hasVoteResult = bill.hasVoteResult;
             const party = extractPartyFromPPSR(bill.PPSR);
 
@@ -95,7 +179,8 @@ export function BillList({ bills }: BillListProps) {
                     target="_blank"
                     rel="noopener noreferrer"
                     className={styles.button}
-                    title="새창" aria-label={`${bill.BILL_NM}(의안정보시스템 원문)`}
+                    title="새창" 
+                    aria-label={`${bill.BILL_NM}(의안정보시스템 원문)`}
                   >
                     링크
                     <svg 

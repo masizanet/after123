@@ -26,6 +26,24 @@
   width: 100px;
 }
 
+.sortable {
+  cursor: pointer;
+  user-select: none;
+  position: relative;
+  padding-right: 20px;
+}
+
+.sortable:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+.sortIcon {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: .8rem;
+}
+
 @media (min-width: 768px) {
   .list {
     width: 100%;
