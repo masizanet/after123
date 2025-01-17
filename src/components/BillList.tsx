@@ -128,7 +128,7 @@ export function BillList({ bills }: BillListProps) {
             const hasVoteResult = bill.hasVoteResult;
             const party = extractPartyFromPPSR(bill.PPSR);
 
-            if (bill.RGS_RSLN_DT) {
+            if (bill.RGS_RSLN_DT && bill.RGS_CONF_RSLT !== "대안반영폐기") {
               return (
                 <tr key={bill.BILL_ID} className={styles.item}>
                   <td className={styles.number}>{bill.BILL_NO}</td>
