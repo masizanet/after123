@@ -1,0 +1,146 @@
+{
+  "nojepdqqaweusdfbi": [
+    {
+      "head": [
+        {
+          "list_total_count": 5
+        },
+        {
+          "RESULT": {
+            "CODE": "INFO-000",
+            "MESSAGE": "SUCCESS"
+          }
+        }
+      ]
+    },
+    {
+      "row": [
+        {
+          "HG_NM": "권성동",
+          "HJ_NM": "權性東",
+          "POLY_NM": "국민의힘",
+          "ORIG_NM": "강원 강릉시",
+          "MEMBER_NO": "2200000000017",
+          "POLY_CD": "101210",
+          "ORIG_CD": "100064",
+          "VOTE_DATE": "20250117 141911",
+          "BILL_NO": "2207403",
+          "BILL_NAME": "대통령 관저 이전 관련 감사원에 대한 감사요구안",
+          "BILL_ID": "PRC_D2A5C0V1A0G9Y1S1C3J7I1T6Z3C4M9",
+          "LAW_TITLE": null,
+          "CURR_COMMITTEE": "국회운영위원회",
+          "RESULT_VOTE_MOD": "반대",
+          "DEPT_CD": "9770679",
+          "CURR_COMMITTEE_ID": "9700005",
+          "DISP_ORDER": 0,
+          "BILL_URL": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_D2A5C0V1A0G9Y1S1C3J7I1T6Z3C4M9",
+          "BILL_NAME_URL": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_D2A5C0V1A0G9Y1S1C3J7I1T6Z3C4M9",
+          "SESSION_CD": 421,
+          "CURRENTS_CD": 1,
+          "AGE": 22,
+          "MONA_CD": "GDG1847Z"
+        },
+        {
+          "HG_NM": "윤후덕",
+          "HJ_NM": "尹厚德",
+          "POLY_NM": "더불어민주당",
+          "ORIG_NM": "경기 파주시갑",
+          "MEMBER_NO": "2200000000185",
+          "POLY_CD": "101182",
+          "ORIG_CD": "080169",
+          "VOTE_DATE": "20250117 141911",
+          "BILL_NO": "2207403",
+          "BILL_NAME": "대통령 관저 이전 관련 감사원에 대한 감사요구안",
+          "BILL_ID": "PRC_D2A5C0V1A0G9Y1S1C3J7I1T6Z3C4M9",
+          "LAW_TITLE": null,
+          "CURR_COMMITTEE": "국회운영위원회",
+          "RESULT_VOTE_MOD": "찬성",
+          "DEPT_CD": "9770813",
+          "CURR_COMMITTEE_ID": "9700005",
+          "DISP_ORDER": 0,
+          "BILL_URL": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_D2A5C0V1A0G9Y1S1C3J7I1T6Z3C4M9",
+          "BILL_NAME_URL": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_D2A5C0V1A0G9Y1S1C3J7I1T6Z3C4M9",
+          "SESSION_CD": 421,
+          "CURRENTS_CD": 1,
+          "AGE": 22,
+          "MONA_CD": "O7R5461J"
+        },
+        {
+          "HG_NM": "이상식",
+          "HJ_NM": "李相植",
+          "POLY_NM": "더불어민주당",
+          "ORIG_NM": "경기 용인시갑",
+          "MEMBER_NO": "2200000000194",
+          "POLY_CD": "101182",
+          "ORIG_CD": "080067",
+          "VOTE_DATE": "20250117 141911",
+          "BILL_NO": "2207403",
+          "BILL_NAME": "대통령 관저 이전 관련 감사원에 대한 감사요구안",
+          "BILL_ID": "PRC_D2A5C0V1A0G9Y1S1C3J7I1T6Z3C4M9",
+          "LAW_TITLE": null,
+          "CURR_COMMITTEE": "국회운영위원회",
+          "RESULT_VOTE_MOD": "불참",
+          "DEPT_CD": "9771404",
+          "CURR_COMMITTEE_ID": "9700005",
+          "DISP_ORDER": 0,
+          "BILL_URL": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_D2A5C0V1A0G9Y1S1C3J7I1T6Z3C4M9",
+          "BILL_NAME_URL": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_D2A5C0V1A0G9Y1S1C3J7I1T6Z3C4M9",
+          "SESSION_CD": 421,
+          "CURRENTS_CD": 1,
+          "AGE": 22,
+          "MONA_CD": "W8W95421"
+        },
+        {
+          "HG_NM": "김태선",
+          "HJ_NM": "金台善",
+          "POLY_NM": "더불어민주당",
+          "ORIG_NM": "울산 동구",
+          "MEMBER_NO": "2200000000074",
+          "POLY_CD": "101182",
+          "ORIG_CD": "070005",
+          "VOTE_DATE": "20250117 141911",
+          "BILL_NO": "2207403",
+          "BILL_NAME": "대통령 관저 이전 관련 감사원에 대한 감사요구안",
+          "BILL_ID": "PRC_D2A5C0V1A0G9Y1S1C3J7I1T6Z3C4M9",
+          "LAW_TITLE": null,
+          "CURR_COMMITTEE": "국회운영위원회",
+          "RESULT_VOTE_MOD": "찬성",
+          "DEPT_CD": "9771345",
+          "CURR_COMMITTEE_ID": "9700005",
+          "DISP_ORDER": 0,
+          "BILL_URL": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_D2A5C0V1A0G9Y1S1C3J7I1T6Z3C4M9",
+          "BILL_NAME_URL": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_D2A5C0V1A0G9Y1S1C3J7I1T6Z3C4M9",
+          "SESSION_CD": 421,
+          "CURRENTS_CD": 1,
+          "AGE": 22,
+          "MONA_CD": "6WK3815W"
+        },
+        {
+          "HG_NM": "정동영",
+          "HJ_NM": "鄭東泳",
+          "POLY_NM": "더불어민주당",
+          "ORIG_NM": "전북 전주시병",
+          "MEMBER_NO": "2200000000242",
+          "POLY_CD": "101182",
+          "ORIG_CD": "130074",
+          "VOTE_DATE": "20250117 141911",
+          "BILL_NO": "2207403",
+          "BILL_NAME": "대통령 관저 이전 관련 감사원에 대한 감사요구안",
+          "BILL_ID": "PRC_D2A5C0V1A0G9Y1S1C3J7I1T6Z3C4M9",
+          "LAW_TITLE": null,
+          "CURR_COMMITTEE": "국회운영위원회",
+          "RESULT_VOTE_MOD": "찬성",
+          "DEPT_CD": "9771428",
+          "CURR_COMMITTEE_ID": "9700005",
+          "DISP_ORDER": 0,
+          "BILL_URL": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_D2A5C0V1A0G9Y1S1C3J7I1T6Z3C4M9",
+          "BILL_NAME_URL": "http://likms.assembly.go.kr/bill/billDetail.do?billId=PRC_D2A5C0V1A0G9Y1S1C3J7I1T6Z3C4M9",
+          "SESSION_CD": 421,
+          "CURRENTS_CD": 1,
+          "AGE": 22,
+          "MONA_CD": "ARP89147"
+        }
+      ]
+    }
+  ]
+}
